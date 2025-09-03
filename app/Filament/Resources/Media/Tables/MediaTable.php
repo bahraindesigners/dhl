@@ -27,7 +27,7 @@ class MediaTable
                         }
                         return null;
                     })
-                    ->size(60)
+                    ->imageSize(60)
                     ->circular(false),
                 
                 TextColumn::make('name')

@@ -24,7 +24,7 @@ class BlogResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedDocumentText;
 
-    protected static string|UnitEnum|null $navigationGroup = 'Content Management';
+    protected static string|UnitEnum|null $navigationGroup = 'Blog Management';
 
     protected static ?int $navigationSort = 1;
 

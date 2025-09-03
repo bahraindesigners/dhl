@@ -21,7 +21,7 @@ class EventsTable
                 ImageColumn::make('featured_image')
                     ->label('Image')
                     ->getStateUsing(fn ($record) => $record->getFirstMediaUrl('featured_image'))
-                    ->size(50)
+                    ->imageSize(50)
                     ->defaultImageUrl(url('/logo.svg'))
                     ->extraImgAttributes([
                         'loading' => 'lazy',
@@ -36,7 +36,9 @@ class EventsTable
                     ->limit(40)
                     ->weight('medium'),
 
-                BadgeColumn::make('status')
+                TextColumn::make('status')
+                    ->label('Status')
+                    ->badge()
                     ->colors([
                         'secondary' => 'draft',
                         'success' => 'published',
@@ -50,7 +52,9 @@ class EventsTable
                         'heroicon-o-check-circle' => 'completed',
                     ]),
 
-                BadgeColumn::make('priority')
+                TextColumn::make('priority')
+                    ->label('Priority')
+                    ->badge()
                     ->colors([
                         'gray' => 'low',
                         'warning' => 'medium',

@@ -4,13 +4,13 @@ namespace App\Filament\Resources\EventRegistrations\Tables;
 
 use App\Models\Event;
 use App\Models\EventRegistration;
+use Dom\Text;
 use Filament\Actions\Action;
 use Filament\Actions\BulkAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Notifications\Notification;
-use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Actions\DeleteBulkAction as TableDeleteBulkAction;
 use Filament\Tables\Actions\EditAction as TableEditAction;
 use Filament\Tables\Columns\BadgeColumn;
@@ -21,6 +21,8 @@ use Filament\Tables\Grouping\Group;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Filament\Actions\ActionGroup;
+
 
 class EventRegistrationsTable
 {
@@ -55,7 +57,8 @@ class EventRegistrationsTable
                     ->copyable()
                     ->icon('heroicon-m-phone'),
 
-                BadgeColumn::make('status')
+                TextColumn::make('status')
+                    ->badge()
                     ->label('Status')
                     ->colors([
                         'warning' => 'pending',
@@ -71,8 +74,9 @@ class EventRegistrationsTable
                     ])
                     ->sortable(),
 
-                BadgeColumn::make('payment_status')
+                TextColumn::make('payment_status')
                     ->label('Payment')
+                    ->badge()
                     ->colors([
                         'warning' => 'pending',
                         'success' => 'paid',
@@ -178,7 +182,7 @@ class EventRegistrationsTable
                     ->query(fn (Builder $query): Builder => $query->where('registered_at', '>=', now()->subDays(7))),
             ])
             ->recordActions([
-                Action::make('confirm')
+                ActionGroup::make([Action::make('confirm')
                     ->label('Confirm')
                     ->icon('heroicon-o-check-circle')
                     ->color('success')
@@ -208,9 +212,9 @@ class EventRegistrationsTable
                     }),
 
                 EditAction::make()
-                    ->icon('heroicon-o-pencil'),
+                    ->icon('heroicon-o-pencil'),])
             ])
-            ->bulkActions([
+            ->toolbarActions([
                 BulkActionGroup::make([
                     BulkAction::make('confirm_selected')
                         ->label('Confirm Selected')
@@ -254,6 +258,7 @@ class EventRegistrationsTable
                     DeleteBulkAction::make(),
                 ]),
             ])
+            
             ->emptyStateIcon('heroicon-o-user-group')
             ->emptyStateHeading('No registrations yet')
             ->emptyStateDescription('Once people start registering for events, their details will appear here.')

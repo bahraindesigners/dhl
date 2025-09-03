@@ -21,7 +21,7 @@ class BlogsTable
                 ImageColumn::make('featured_image')
                     ->label('Image')
                     ->getStateUsing(fn ($record) => $record->getFirstMediaUrl('featured_image'))
-                    ->size(50)
+                    ->imageSize(50)
                     
                     ->defaultImageUrl(url('/logo.svg'))
                     ->extraImgAttributes([
@@ -42,7 +42,9 @@ class BlogsTable
                     ->searchable()
                     ->sortable(),
 
-                BadgeColumn::make('status')
+                TextColumn::make('status')
+                    ->label('Status')
+                    ->badge()
                     ->colors([
                         'warning' => 'draft',
                         'success' => 'published',
