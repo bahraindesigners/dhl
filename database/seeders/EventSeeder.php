@@ -44,9 +44,27 @@ class EventSeeder extends Seeder
                 'registration_starts_at' => Carbon::now(),
                 'registration_ends_at' => Carbon::now()->addDays(25),
                 'price' => 299.00,
-                'organizer' => 'Digital Innovation Hub',
-                'author' => 'Admin User',
+                'organizer' => [
+                    'en' => 'Digital Innovation Hub',
+                    'ar' => 'مركز الابتكار الرقمي',
+                ],
+                'author' => [
+                    'en' => 'Marketing Team',
+                    'ar' => 'فريق التسويق',
+                ],
+                'organizer_details' => [
+                    'en' => 'Contact: info@digitalinnovation.kw | Website: www.digitalinnovation.kw | Phone: +965 2222 3333',
+                    'ar' => 'للتواصل: info@digitalinnovation.kw | الموقع: www.digitalinnovation.kw | الهاتف: +965 2222 3333',
+                ],
                 'published_at' => Carbon::now(),
+                'meta_title' => [
+                    'en' => 'Digital Marketing Summit 2025 - Kuwait\'s Premier Marketing Event',
+                    'ar' => 'قمة التسويق الرقمي 2025 - الحدث التسويقي الأول في الكويت',
+                ],
+                'meta_description' => [
+                    'en' => 'Join industry leaders at Kuwait\'s premier digital marketing summit. Learn cutting-edge strategies, network with experts, and transform your marketing approach.',
+                    'ar' => 'انضم إلى قادة الصناعة في قمة التسويق الرقمي الأولى في الكويت. تعلم الاستراتيجيات المتطورة وتواصل مع الخبراء وغير نهجك التسويقي.',
+                ],
             ],
             [
                 'title' => [
@@ -78,9 +96,23 @@ class EventSeeder extends Seeder
                 'registration_starts_at' => Carbon::now(),
                 'registration_ends_at' => Carbon::now()->addDays(40),
                 'price' => 0.00,
-                'organizer' => 'Kuwait Entrepreneurs Network',
-                'author' => 'Admin User',
+                'organizer' => [
+                    'en' => 'Kuwait Entrepreneurs Network',
+                    'ar' => 'شبكة رواد الأعمال الكويتية',
+                ],
+                'author' => [
+                    'en' => 'Startup Community',
+                    'ar' => 'مجتمع الشركات الناشئة',
+                ],
                 'published_at' => Carbon::now(),
+                'meta_title' => [
+                    'en' => 'Startup Pitch Competition Kuwait - Win $50K Funding',
+                    'ar' => 'مسابقة عرض الشركات الناشئة الكويت - اربح تمويل 50 ألف دولار',
+                ],
+                'meta_description' => [
+                    'en' => 'Present your startup to investors at Kuwait\'s biggest pitch competition. Win up to $50,000 funding plus mentorship. Register now!',
+                    'ar' => 'اعرض شركتك الناشئة على المستثمرين في أكبر مسابقة عرض في الكويت. اربح تمويل يصل إلى 50,000 دولار بالإضافة إلى الإرشاد. سجل الآن!',
+                ],
             ],
             [
                 'title' => [
@@ -112,9 +144,23 @@ class EventSeeder extends Seeder
                 'registration_starts_at' => Carbon::now(),
                 'registration_ends_at' => Carbon::now()->addDays(10),
                 'price' => 150.00,
-                'organizer' => 'Tech Education Kuwait',
-                'author' => 'Admin User',
+                'organizer' => [
+                    'en' => 'Tech Education Kuwait',
+                    'ar' => 'التعليم التقني الكويت',
+                ],
+                'author' => [
+                    'en' => 'AI Research Team',
+                    'ar' => 'فريق بحوث الذكاء الاصطناعي',
+                ],
                 'published_at' => Carbon::now(),
+                'meta_title' => [
+                    'en' => 'AI & Machine Learning Workshop Kuwait - Hands-on Training',
+                    'ar' => 'ورشة الذكاء الاصطناعي والتعلم الآلي الكويت - تدريب عملي',
+                ],
+                'meta_description' => [
+                    'en' => 'Master AI and machine learning in our intensive hands-on workshop. Learn from experts, build real projects, and advance your tech career in Kuwait.',
+                    'ar' => 'أتقن الذكاء الاصطناعي والتعلم الآلي في ورشة العمل المكثفة والعملية. تعلم من الخبراء وابني مشاريع حقيقية وطور مسيرتك التقنية في الكويت.',
+                ],
             ],
         ];
 

@@ -94,6 +94,10 @@ class EventForm
                                             ->seconds(false)
                                             ->native(false)
                                             ->after('start_date'),
+                                        DateTimePicker::make('published_at')
+                                            ->label('Publish Date')
+                                            ->seconds(false)
+                                            ->native(false),
 
                                         Select::make('timezone')
                                             ->label('Timezone')
@@ -214,14 +218,19 @@ class EventForm
                             ]),
 
                         Tab::make('Organizer & SEO')
+                            ->icon('heroicon-o-magnifying-glass')
                             ->schema([
                                 Grid::make(2)
                                     ->schema([
                                         TextInput::make('organizer')
-                                            ->label('Event Organizer'),
+                                            ->label('Event Organizer')
+                                            ->placeholder('Organization or company name')
+                                            ->helperText('Use the language switcher to add translations'),
 
                                         TextInput::make('author')
                                             ->label('Content Author')
+                                            ->placeholder('Author or team name')
+                                            ->helperText('Use the language switcher to add translations')
                                             ->default(fn () => \Illuminate\Support\Facades\Auth::user()?->name),
                                     ]),
 
@@ -231,23 +240,24 @@ class EventForm
                                     ->rows(3)
                                     ->columnSpanFull(),
 
-                                Grid::make(2)
+                                Grid::make(1)
                                     ->schema([
                                         TextInput::make('meta_title')
-                                            ->label('SEO Title')
-                                            ->placeholder('Custom title for search engines'),
+                                            ->label('Meta Title')
+                                            ->maxLength(60)
+                                            ->placeholder('Custom title for search engines')
+                                            ->helperText('Recommended: 50-60 characters. Leave empty to use event title.')
+                                            ->columnSpanFull(),
 
-                                        DateTimePicker::make('published_at')
-                                            ->label('Publish Date')
-                                            ->seconds(false)
-                                            ->native(false),
+                                        Textarea::make('meta_description')
+                                            ->label('Meta Description')
+                                            ->placeholder('Description for search engines')
+                                            ->rows(3)
+                                            ->maxLength(160)
+                                            ->helperText('Recommended: 150-160 characters. Leave empty to use event description.')
+                                            ->columnSpanFull(),
+
                                     ]),
-
-                                Textarea::make('meta_description')
-                                    ->label('SEO Description')
-                                    ->placeholder('Description for search engines')
-                                    ->rows(3)
-                                    ->columnSpanFull(),
                             ]),
 
                         Tab::make('Settings')

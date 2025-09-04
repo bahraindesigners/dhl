@@ -1,18 +1,15 @@
 <?php
 
-namespace App\Filament\Resources\Blogs\Pages;
+namespace App\Filament\Resources\FAQS\Pages;
 
-use App\Filament\Resources\Blogs\BlogResource;
+use App\Filament\Resources\FAQS\FAQResource;
 use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
 use LaraZeus\SpatieTranslatable\Actions\LocaleSwitcher;
-use LaraZeus\SpatieTranslatable\Resources\Pages\ListRecords\Concerns\Translatable;
 
-class ListBlogs extends ListRecords
+class ListFAQS extends ListRecords
 {
-    use Translatable;
-
-    protected static string $resource = BlogResource::class;
+    protected static string $resource = FAQResource::class;
 
     protected function getHeaderActions(): array
     {

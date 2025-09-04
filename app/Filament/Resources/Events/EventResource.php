@@ -13,12 +13,13 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Hexters\HexaLite\HasHexaLite;
 use LaraZeus\SpatieTranslatable\Resources\Concerns\Translatable;
 use UnitEnum;
 
 class EventResource extends Resource
 {
-    use Translatable;
+    use Translatable, HasHexaLite;
 
     protected static ?string $model = Event::class;
 
@@ -27,6 +28,25 @@ class EventResource extends Resource
     protected static string|UnitEnum|null $navigationGroup = 'Event Management';
 
     protected static ?int $navigationSort = 2;
+
+    public function defineGates(): array
+    {
+        return [
+            'event.index' => __('Allows viewing the event list'),
+            'event.create' => __('Allows creating a new event'),
+            'event.update' => __('Allows updating events'),
+            'event.delete' => __('Allows deleting events'),
+            'event.restore' => __('Allows restoring deleted events'),
+            'event.replicate' => __('Allows replicating events'),
+            'event.reorder' => __('Allows reordering events'),
+            'event.force_delete' => __('Allows permanently deleting events'),
+        ];
+    }
+
+    public static function canAccess(): bool
+    {
+        return hexa()->can('event.index');
+    }
 
     public static function getTranslatableLocales(): array
     {

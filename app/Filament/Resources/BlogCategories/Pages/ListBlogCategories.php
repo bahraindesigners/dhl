@@ -17,7 +17,7 @@ class ListBlogCategories extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            LocaleSwitcher::make(),
+            // LocaleSwitcher::make(),
             CreateAction::make(),
         ];
     }

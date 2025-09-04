@@ -4,18 +4,15 @@ namespace App\Filament\Resources\EventRegistrations\Schemas;
 
 use App\Models\Event;
 use Filament\Forms\Components\DateTimePicker;
-use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Components\Tabs\Tab;
 use Filament\Schemas\Schema;
-use Illuminate\Support\Facades\Auth;
 
 class EventRegistrationForm
 {
@@ -192,11 +189,9 @@ class EventRegistrationForm
                                                     ->label('Payment Method')
                                                     ->options([
                                                         'cash' => 'Cash',
-                                                        'credit_card' => 'Credit Card',
-                                                        'debit_card' => 'Debit Card',
+                                                        'online' => 'Online Payment',
                                                         'bank_transfer' => 'Bank Transfer',
-                                                        'paypal' => 'PayPal',
-                                                        'stripe' => 'Stripe',
+                                                        'cheque' => 'Cheque',
                                                         'other' => 'Other',
                                                     ])
                                                     ->native(false),
@@ -209,20 +204,20 @@ class EventRegistrationForm
                                     ]),
                             ]),
 
-                        Tab::make('Custom Data')
-                            ->icon('heroicon-o-document-text')
-                            ->schema([
-                                Section::make('Additional Registration Data')
-                                    ->description('Store custom form data or additional information')
-                                    ->schema([
-                                        Textarea::make('registration_data')
-                                            ->label('Custom Registration Data (JSON)')
-                                            ->placeholder('{"custom_field": "value", "additional_info": "data"}')
-                                            ->rows(6)
-                                            ->columnSpanFull()
-                                            ->helperText('Store additional form data as JSON. This field is useful for custom registration forms.'),
-                                    ]),
-                            ]),
+                        // Tab::make('Custom Data')
+                        //     ->icon('heroicon-o-document-text')
+                        //     ->schema([
+                        //         Section::make('Additional Registration Data')
+                        //             ->description('Store custom form data or additional information')
+                        //             ->schema([
+                        //                 Textarea::make('registration_data')
+                        //                     ->label('Custom Registration Data (JSON)')
+                        //                     ->placeholder('{"custom_field": "value", "additional_info": "data"}')
+                        //                     ->rows(6)
+                        //                     ->columnSpanFull()
+                        //                     ->helperText('Store additional form data as JSON. This field is useful for custom registration forms.'),
+                        //             ]),
+                        //     ]),
                     ])
                     ->columnSpanFull()
                     ->persistTabInQueryString(),
