@@ -68,6 +68,16 @@ class PermissionAndRoleSeeder extends Seeder
             'replicate event registrations',
             'reorder event registrations',
 
+            // Home Sliders
+            'view home sliders',
+            'create home sliders',
+            'edit home sliders',
+            'delete home sliders',
+            'restore home sliders',
+            'force delete home sliders',
+            'replicate home sliders',
+            'reorder home sliders',
+
             // Users
             'view users',
             'create users',
@@ -98,6 +108,7 @@ class PermissionAndRoleSeeder extends Seeder
             'view blog categories', 'create blog categories', 'edit blog categories', 'delete blog categories',
             'view faqs', 'create faqs', 'edit faqs', 'delete faqs',
             'view event registrations', 'edit event registrations', 'delete event registrations',
+            'view home sliders', 'create home sliders', 'edit home sliders', 'delete home sliders',
             'view users',
         ]);
 
@@ -107,6 +118,7 @@ class PermissionAndRoleSeeder extends Seeder
             'view blog categories', 'create blog categories', 'edit blog categories',
             'view faqs', 'create faqs', 'edit faqs',
             'view event registrations',
+            'view home sliders', 'create home sliders', 'edit home sliders',
         ]);
 
         // Regular users get minimal permissions (can view public content)

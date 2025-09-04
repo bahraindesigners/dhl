@@ -59,11 +59,11 @@ class PermissionsTable
             ->filters([
                 //
             ])
-            ->actions([
+            ->recordActions([
                 ViewAction::make(),
                 // EditAction::make(),
             ])
-            ->bulkActions([
+            ->toolbarActions([
                 BulkActionGroup::make([
                     // DeleteBulkAction::make(),
                 ]),
