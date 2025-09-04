@@ -15,13 +15,10 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
-use Hexters\HexaLite\HasHexaLite;
 use UnitEnum;
 
 class UserResource extends Resource
 {
-    use HasHexaLite;
-
     protected static ?string $model = User::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedUsers;
@@ -51,20 +48,6 @@ class UserResource extends Resource
     {
         return [
             //
-        ];
-    }
-
-    public static function defineGates(): array
-    {
-        return [
-            'user.index' => 'View Users',
-            'user.create' => 'Create Users',
-            'user.update' => 'Edit Users',
-            'user.delete' => 'Delete Users',
-            'user.restore' => 'Restore Users',
-            'user.replicate' => 'Replicate Users',
-            'user.reorder' => 'Reorder Users',
-            'user.force_delete' => 'Force Delete Users',
         ];
     }
 

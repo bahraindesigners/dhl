@@ -13,13 +13,12 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
-use Hexters\HexaLite\HasHexaLite;
 use LaraZeus\SpatieTranslatable\Resources\Concerns\Translatable;
 use UnitEnum;
 
 class BlogCategoryResource extends Resource
 {
-    use HasHexaLite, Translatable;
+    use Translatable;
 
     protected static ?string $model = BlogCategory::class;
 
@@ -28,25 +27,6 @@ class BlogCategoryResource extends Resource
     protected static string|UnitEnum|null $navigationGroup = 'Blog Management';
 
     protected static ?int $navigationSort = 2;
-
-    public function defineGates(): array
-    {
-        return [
-            'category.index' => __('Allows viewing the category list'),
-            'category.create' => __('Allows creating a new category'),
-            'category.update' => __('Allows updating categories'),
-            'category.delete' => __('Allows deleting categories'),
-            'category.restore' => __('Allows restoring deleted categories'),
-            'category.replicate' => __('Allows replicating categories'),
-            'category.reorder' => __('Allows reordering categories'),
-            'category.force_delete' => __('Allows permanently deleting categories'),
-        ];
-    }
-
-    public static function canAccess(): bool
-    {
-        return hexa()->can('category.index');
-    }
 
     public static function getTranslatableLocales(): array
     {

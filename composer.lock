@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9ce7aa0e6b7d66cdf58849511ac620ee",
+    "content-hash": "2e5ee8ec945c18145f0ed6e6db5eb18a",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -2178,86 +2178,6 @@
                 }
             ],
             "time": "2025-08-22T14:27:06+00:00"
-        },
-        {
-            "name": "hexters/hexa-lite",
-            "version": "3.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/hexters/hexa-lite.git",
-                "reference": "a078af4bffbe768504bb7e9a1f10095065a0d913"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/hexters/hexa-lite/zipball/a078af4bffbe768504bb7e9a1f10095065a0d913",
-                "reference": "a078af4bffbe768504bb7e9a1f10095065a0d913",
-                "shasum": ""
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Hexters\\HexaLite\\HexaLiteServiceProvider"
-                    ]
-                },
-                "branch-alias": {
-                    "dev-main": "2.x-dev"
-                }
-            },
-            "autoload": {
-                "files": [
-                    "src/functions.php"
-                ],
-                "psr-4": {
-                    "Hexters\\HexaLite\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Asep",
-                    "email": "hexters@gmail.com"
-                }
-            ],
-            "description": "Filament Hexa Lite is a effortless role and permission management plugin for Filament",
-            "keywords": [
-                "Filament access control",
-                "Filament integration",
-                "Filament panel",
-                "Filament permission setup",
-                "Filament resource access",
-                "Filament widget permissions",
-                "Hexa Filament",
-                "Hexa installation",
-                "Hexa plugin",
-                "access permissions Filament",
-                "hexters ladmin",
-                "role and permission Filament",
-                "role management Filament",
-                "role management PHP"
-            ],
-            "support": {
-                "issues": "https://github.com/hexters/hexa-lite/issues",
-                "source": "https://github.com/hexters/hexa-lite/tree/3.0.1"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/hexters",
-                    "type": "github"
-                },
-                {
-                    "url": "https://ko-fi.com/hexters",
-                    "type": "ko_fi"
-                },
-                {
-                    "url": "https://www.patreon.com/hexters",
-                    "type": "patreon"
-                }
-            ],
-            "time": "2025-08-22T03:12:17+00:00"
         },
         {
             "name": "inertiajs/inertia-laravel",
@@ -6150,6 +6070,89 @@
                 }
             ],
             "time": "2025-07-17T15:46:43+00:00"
+        },
+        {
+            "name": "spatie/laravel-permission",
+            "version": "6.21.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/laravel-permission.git",
+                "reference": "6a118e8855dfffcd90403aab77bbf35a03db51b3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/laravel-permission/zipball/6a118e8855dfffcd90403aab77bbf35a03db51b3",
+                "reference": "6a118e8855dfffcd90403aab77bbf35a03db51b3",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/auth": "^8.12|^9.0|^10.0|^11.0|^12.0",
+                "illuminate/container": "^8.12|^9.0|^10.0|^11.0|^12.0",
+                "illuminate/contracts": "^8.12|^9.0|^10.0|^11.0|^12.0",
+                "illuminate/database": "^8.12|^9.0|^10.0|^11.0|^12.0",
+                "php": "^8.0"
+            },
+            "require-dev": {
+                "laravel/passport": "^11.0|^12.0",
+                "laravel/pint": "^1.0",
+                "orchestra/testbench": "^6.23|^7.0|^8.0|^9.0|^10.0",
+                "phpunit/phpunit": "^9.4|^10.1|^11.5"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Spatie\\Permission\\PermissionServiceProvider"
+                    ]
+                },
+                "branch-alias": {
+                    "dev-main": "6.x-dev",
+                    "dev-master": "6.x-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/helpers.php"
+                ],
+                "psr-4": {
+                    "Spatie\\Permission\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Permission handling for Laravel 8.0 and up",
+            "homepage": "https://github.com/spatie/laravel-permission",
+            "keywords": [
+                "acl",
+                "laravel",
+                "permission",
+                "permissions",
+                "rbac",
+                "roles",
+                "security",
+                "spatie"
+            ],
+            "support": {
+                "issues": "https://github.com/spatie/laravel-permission/issues",
+                "source": "https://github.com/spatie/laravel-permission/tree/6.21.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/spatie",
+                    "type": "github"
+                }
+            ],
+            "time": "2025-07-23T16:08:05+00:00"
         },
         {
             "name": "spatie/laravel-settings",

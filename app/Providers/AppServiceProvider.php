@@ -20,10 +20,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Implicitly grant "Super Admin" role all permissions with Hexa Lite
-        // This works in the app by using gate-related functions like auth()->user()->can() and @can()
+        // Implicitly grant "Super Admin" role all permissions with Spatie Permission.
+        // This works in the app by using gate-related functions like auth()->user()->can() and @can().
         Gate::before(function ($user, $ability) {
-            return $user->roles()->where('name', 'Super Admin')->exists() ? true : null;
+            if ($user?->hasRole('Super Admin')) {
+                return true;
+            }
+
+            return null;
         });
     }
 }

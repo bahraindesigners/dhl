@@ -22,7 +22,7 @@ class PermissionSeeder extends Seeder
     private function createSuperAdminRole(): void
     {
         HexaRole::updateOrCreate(
-            ['name' => 'Super Admin'],
+            ['name' => 'Superusers'],
             [
                 'guard' => 'web',
                 'access' => [

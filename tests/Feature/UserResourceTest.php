@@ -16,21 +16,21 @@ it('can create users via factory', function () {
         'name' => 'Test User',
         'email' => 'test@example.com',
     ]);
-    
+
     expect($user->name)->toBe('Test User');
     expect($user->email)->toBe('test@example.com');
     expect($user->exists)->toBeTrue();
 });
 
 it('has required fillable fields', function () {
-    $user = new User();
-    
+    $user = new User;
+
     expect($user->getFillable())->toContain('name', 'email', 'password');
 });
 
 it('hides sensitive attributes', function () {
     $user = User::factory()->make();
-    
+
     expect($user->getHidden())->toContain('password', 'remember_token');
 });
 
@@ -38,15 +38,15 @@ it('casts email_verified_at to datetime', function () {
     $user = User::factory()->create([
         'email_verified_at' => now(),
     ]);
-    
+
     expect($user->email_verified_at)->toBeInstanceOf(\Carbon\Carbon::class);
 });
 
-it('uses hexalite role permission trait', function () {
-    $user = new User();
-    
-    // Check that the HexaLiteRolePermission trait is being used
-    expect(class_uses($user))->toContain('Hexters\HexaLite\HexaLiteRolePermission');
+it('uses spatie role permission trait', function () {
+    $user = new User;
+
+    // Check that the HasRoles trait is being used
+    expect(class_uses($user))->toContain('Spatie\Permission\Traits\HasRoles');
 });
 
 it('can access the user resource navigation', function () {

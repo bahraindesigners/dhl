@@ -15,7 +15,7 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         // Get roles
-        $superAdminRole = HexaRole::where('name', 'Super Admin')->first();
+        $superAdminRole = HexaRole::where('name', 'Superusers')->first();
         $adminRole = HexaRole::where('name', 'Admin')->first();
         $editorRole = HexaRole::where('name', 'Editor')->first();
         $userRole = HexaRole::where('name', 'User')->first();
