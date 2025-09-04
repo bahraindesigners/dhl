@@ -1,0 +1,72 @@
+<?php
+
+namespace App\Filament\Resources\RoleResource\Tables;
+
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\ViewAction;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Table;
+
+class RolesTable
+{
+    public static function configure(Table $table): Table
+    {
+        return $table
+            ->columns([
+                TextColumn::make('name')
+                    ->label('Role Name')
+                    ->searchable()
+                    ->sortable()
+                    ->limit(50)
+                    ->weight('bold'),
+
+                TextColumn::make('permissions_count')
+                    ->label('Permissions')
+                    ->counts('permissions')
+                    ->badge()
+                    ->color('primary')
+                    ->sortable(),
+
+                TextColumn::make('users_count')
+                    ->label('Users')
+                    ->counts('users')
+                    ->badge()
+                    ->color('success')
+                    ->sortable(),
+
+                TextColumn::make('guard_name')
+                    ->label('Guard')
+                    ->badge()
+                    ->color('gray')
+                    ->sortable()
+                    ->toggleable(),
+
+                TextColumn::make('created_at')
+                    ->label('Created')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+
+                TextColumn::make('updated_at')
+                    ->label('Updated')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+            ])
+            ->filters([
+                //
+            ])
+            ->actions([
+                ViewAction::make(),
+                EditAction::make(),
+            ])
+            ->bulkActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
+                ]),
+            ])
+            ->defaultSort('name');
+    }
+}
