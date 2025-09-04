@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Hexters\HexaLite\Models\HexaRole;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rules;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -41,6 +43,17 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
+
+        // Assign default User role to new registrations
+        try {
+            $userRole = HexaRole::where('name', 'User')->first();
+            if ($userRole) {
+                $user->roles()->attach($userRole->id);
+            }
+        } catch (\Exception $e) {
+            // Log the error but don't fail the registration
+            Log::warning('Failed to assign default role to user: ' . $e->getMessage());
+        }
 
         event(new Registered($user));
 
