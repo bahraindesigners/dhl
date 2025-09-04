@@ -14,12 +14,13 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Hexters\HexaLite\HasHexaLite;
 use LaraZeus\SpatieTranslatable\Resources\Concerns\Translatable;
 use UnitEnum;
 
 class FAQResource extends Resource
 {
-    use Translatable;
+    use HasHexaLite, Translatable;
 
     protected static ?string $model = FAQ::class;
 
@@ -34,6 +35,25 @@ class FAQResource extends Resource
     protected static ?string $pluralModelLabel = 'FAQs';
 
     protected static ?string $modelLabel = 'FAQ';
+
+    public function defineGates(): array
+    {
+        return [
+            'faq.index' => __('Allows viewing the FAQ list'),
+            'faq.create' => __('Allows creating a new FAQ'),
+            'faq.update' => __('Allows updating FAQs'),
+            'faq.delete' => __('Allows deleting FAQs'),
+            'faq.restore' => __('Allows restoring deleted FAQs'),
+            'faq.replicate' => __('Allows replicating FAQs'),
+            'faq.reorder' => __('Allows reordering FAQs'),
+            'faq.force_delete' => __('Allows permanently deleting FAQs'),
+        ];
+    }
+
+    public static function canAccess(): bool
+    {
+        return hexa()->can('faq.index');
+    }
 
     public static function getTranslatableLocales(): array
     {
