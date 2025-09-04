@@ -78,6 +78,16 @@ class PermissionAndRoleSeeder extends Seeder
             'replicate home sliders',
             'reorder home sliders',
 
+            // Downloads
+            'view downloads',
+            'create downloads',
+            'edit downloads',
+            'delete downloads',
+            'restore downloads',
+            'force delete downloads',
+            'replicate downloads',
+            'reorder downloads',
+
             // Users
             'view users',
             'create users',
