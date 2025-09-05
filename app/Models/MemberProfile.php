@@ -14,9 +14,9 @@ class MemberProfile extends Model implements HasMedia
     use HasFactory, InteractsWithMedia, SoftDeletes;
 
     protected $fillable = [
+        'user_id',
         'cpr_number',
         'staff_number',
-        'full_name',
         'nationality',
         'gender',
         'marital_status',
@@ -31,7 +31,6 @@ class MemberProfile extends Model implements HasMedia
         'home_phone',
         'permanent_address',
         'profile_status',
-        'email',
     ];
 
     protected $casts = [
@@ -110,5 +109,13 @@ class MemberProfile extends Model implements HasMedia
             'PhD' => 'PhD',
             'Other' => 'Other',
         ];
+    }
+
+    /**
+     * Get the user that owns the member profile.
+     */
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 }

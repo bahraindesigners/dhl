@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
-use Hexters\HexaLite\Models\HexaRole;
 use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class PermissionSeeder extends Seeder
 {
@@ -12,7 +13,79 @@ class PermissionSeeder extends Seeder
      */
     public function run(): void
     {
-        // Create roles with Hexa Lite permissions
+        // Reset cached roles and permissions
+        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
+
+        // Create permissions
+        $permissions = [
+            // User management
+            'view users',
+            'create users',
+            'edit users',
+            'delete users',
+
+            // Blog management
+            'view blogs',
+            'create blogs',
+            'edit blogs',
+            'delete blogs',
+
+            // Blog category management
+            'view blog categories',
+            'create blog categories',
+            'edit blog categories',
+            'delete blog categories',
+            'restore blog categories',
+            'force delete blog categories',
+            'replicate blog categories',
+            'reorder blog categories',
+
+            // Event management
+            'view events',
+            'create events',
+            'edit events',
+            'delete events',
+
+            // Event registration management
+            'view event registrations',
+            'create event registrations',
+            'edit event registrations',
+            'delete event registrations',
+            'restore event registrations',
+            'force delete event registrations',
+            'replicate event registrations',
+            'reorder event registrations',
+
+            // Member profile management
+            'view member-profiles',
+            'create member-profiles',
+            'edit member-profiles',
+            'delete member-profiles',
+
+            // FAQ management
+            'view faqs',
+            'create faqs',
+            'edit faqs',
+            'delete faqs',
+
+            // Download management
+            'view downloads',
+            'create downloads',
+            'edit downloads',
+            'delete downloads',
+
+            // Home slider management
+            'view home-sliders',
+            'create home-sliders',
+            'edit home-sliders',
+            'delete home-sliders',
+        ];
+
+        foreach ($permissions as $permission) {
+            Permission::firstOrCreate(['name' => $permission]);
+        }
+
+        // Create roles and assign permissions
         $this->createSuperAdminRole();
         $this->createAdminRole();
         $this->createEditorRole();
@@ -21,250 +94,58 @@ class PermissionSeeder extends Seeder
 
     private function createSuperAdminRole(): void
     {
-        HexaRole::updateOrCreate(
-            ['name' => 'Superusers'],
-            [
-                'guard' => 'web',
-                'access' => [
-                    // User Management
-                    'user.index' => true,
-                    'user.create' => true,
-                    'user.update' => true,
-                    'user.delete' => true,
-                    'user.restore' => true,
-                    'user.replicate' => true,
-                    'user.reorder' => true,
-                    'user.force_delete' => true,
-
-                    // Role Management
-                    'role.index' => true,
-                    'role.create' => true,
-                    'role.update' => true,
-                    'role.delete' => true,
-                    'role.restore' => true,
-                    'role.replicate' => true,
-                    'role.reorder' => true,
-                    'role.force_delete' => true,
-
-                    // Event Management
-                    'event.index' => true,
-                    'event.create' => true,
-                    'event.update' => true,
-                    'event.delete' => true,
-                    'event.restore' => true,
-                    'event.replicate' => true,
-                    'event.reorder' => true,
-                    'event.force_delete' => true,
-
-                    // FAQ Management
-                    'faq.index' => true,
-                    'faq.create' => true,
-                    'faq.update' => true,
-                    'faq.delete' => true,
-                    'faq.restore' => true,
-                    'faq.replicate' => true,
-                    'faq.reorder' => true,
-                    'faq.force_delete' => true,
-
-                    // Blog Management
-                    'blog.index' => true,
-                    'blog.create' => true,
-                    'blog.update' => true,
-                    'blog.delete' => true,
-                    'blog.restore' => true,
-                    'blog.replicate' => true,
-                    'blog.reorder' => true,
-                    'blog.force_delete' => true,
-
-                    // Category Management
-                    'category.index' => true,
-                    'category.create' => true,
-                    'category.update' => true,
-                    'category.delete' => true,
-                    'category.restore' => true,
-                    'category.replicate' => true,
-                    'category.reorder' => true,
-                    'category.force_delete' => true,
-
-                    // Media Management
-                    'media.index' => true,
-                    'media.create' => true,
-                    'media.update' => true,
-                    'media.delete' => true,
-                    'media.restore' => true,
-                    'media.replicate' => true,
-                    'media.reorder' => true,
-                    'media.force_delete' => true,
-
-                    // Dashboard
-                    'dashboard.index' => true,
-
-                    // Settings
-                    'settings.index' => true,
-                    'settings.update' => true,
-                ],
-            ]
-        );
+        $role = Role::firstOrCreate(['name' => 'super_admin']);
+        $role->givePermissionTo(Permission::all());
     }
 
     private function createAdminRole(): void
     {
-        HexaRole::updateOrCreate(
-            ['name' => 'Admin'],
-            [
-                'guard' => 'web',
-                'access' => [
-                    // User Management (limited)
-                    'user.index' => true,
-                    'user.create' => true,
-                    'user.update' => true,
-                    'user.delete' => false,
-                    'user.restore' => false,
-                    'user.replicate' => false,
-                    'user.reorder' => false,
-                    'user.force_delete' => false,
+        $role = Role::firstOrCreate(['name' => 'admin']);
 
-                    // Event Management
-                    'event.index' => true,
-                    'event.create' => true,
-                    'event.update' => true,
-                    'event.delete' => true,
-                    'event.restore' => true,
-                    'event.replicate' => true,
-                    'event.reorder' => true,
-                    'event.force_delete' => false,
+        $permissions = [
+            'view blogs', 'create blogs', 'edit blogs', 'delete blogs',
+            'view blog categories', 'create blog categories', 'edit blog categories', 'delete blog categories',
+            'view events', 'create events', 'edit events', 'delete events',
+            'view event registrations', 'create event registrations', 'edit event registrations', 'delete event registrations',
+            'view member-profiles', 'create member-profiles', 'edit member-profiles', 'delete member-profiles',
+            'view faqs', 'create faqs', 'edit faqs', 'delete faqs',
+            'view downloads', 'create downloads', 'edit downloads', 'delete downloads',
+            'view home-sliders', 'create home-sliders', 'edit home-sliders', 'delete home-sliders',
+        ];
 
-                    // FAQ Management
-                    'faq.index' => true,
-                    'faq.create' => true,
-                    'faq.update' => true,
-                    'faq.delete' => true,
-                    'faq.restore' => true,
-                    'faq.replicate' => true,
-                    'faq.reorder' => true,
-                    'faq.force_delete' => false,
-
-                    // Blog Management
-                    'blog.index' => true,
-                    'blog.create' => true,
-                    'blog.update' => true,
-                    'blog.delete' => true,
-                    'blog.restore' => true,
-                    'blog.replicate' => true,
-                    'blog.reorder' => true,
-                    'blog.force_delete' => false,
-
-                    // Category Management
-                    'category.index' => true,
-                    'category.create' => true,
-                    'category.update' => true,
-                    'category.delete' => true,
-                    'category.restore' => true,
-                    'category.replicate' => true,
-                    'category.reorder' => true,
-                    'category.force_delete' => false,
-
-                    // Media Management
-                    'media.index' => true,
-                    'media.create' => true,
-                    'media.update' => true,
-                    'media.delete' => true,
-                    'media.restore' => true,
-                    'media.replicate' => true,
-                    'media.reorder' => true,
-                    'media.force_delete' => false,
-
-                    // Dashboard
-                    'dashboard.index' => true,
-
-                    // Settings (limited)
-                    'settings.index' => true,
-                    'settings.update' => false,
-                ],
-            ]
-        );
+        $role->givePermissionTo($permissions);
     }
 
     private function createEditorRole(): void
     {
-        HexaRole::updateOrCreate(
-            ['name' => 'Editor'],
-            [
-                'guard' => 'web',
-                'access' => [
-                    // Event Management (limited)
-                    'event.index' => true,
-                    'event.create' => true,
-                    'event.update' => true,
-                    'event.delete' => false,
-                    'event.restore' => false,
-                    'event.replicate' => true,
-                    'event.reorder' => false,
-                    'event.force_delete' => false,
+        $role = Role::firstOrCreate(['name' => 'editor']);
 
-                    // FAQ Management
-                    'faq.index' => true,
-                    'faq.create' => true,
-                    'faq.update' => true,
-                    'faq.delete' => false,
-                    'faq.restore' => false,
-                    'faq.replicate' => true,
-                    'faq.reorder' => false,
-                    'faq.force_delete' => false,
+        $permissions = [
+            'view blogs', 'create blogs', 'edit blogs',
+            'view blog categories', 'create blog categories', 'edit blog categories',
+            'view events', 'create events', 'edit events',
+            'view event registrations', 'create event registrations', 'edit event registrations',
+            'view faqs', 'create faqs', 'edit faqs',
+            'view downloads', 'create downloads', 'edit downloads',
+            'view home-sliders', 'create home-sliders', 'edit home-sliders',
+        ];
 
-                    // Blog Management
-                    'blog.index' => true,
-                    'blog.create' => true,
-                    'blog.update' => true,
-                    'blog.delete' => false,
-                    'blog.restore' => false,
-                    'blog.replicate' => true,
-                    'blog.reorder' => false,
-                    'blog.force_delete' => false,
-
-                    // Category Management (view and create only)
-                    'category.index' => true,
-                    'category.create' => true,
-                    'category.update' => false,
-                    'category.delete' => false,
-                    'category.restore' => false,
-                    'category.replicate' => false,
-                    'category.reorder' => false,
-                    'category.force_delete' => false,
-
-                    // Media Management
-                    'media.index' => true,
-                    'media.create' => true,
-                    'media.update' => true,
-                    'media.delete' => false,
-                    'media.restore' => false,
-                    'media.replicate' => false,
-                    'media.reorder' => false,
-                    'media.force_delete' => false,
-
-                    // Dashboard
-                    'dashboard.index' => true,
-                ],
-            ]
-        );
+        $role->givePermissionTo($permissions);
     }
 
     private function createUserRole(): void
     {
-        HexaRole::updateOrCreate(
-            ['name' => 'User'],
-            [
-                'guard' => 'web',
-                'access' => [
-                    // Dashboard only
-                    'dashboard.index' => true,
+        $role = Role::firstOrCreate(['name' => 'user']);
 
-                    // View only access to some content
-                    'event.index' => true,
-                    'faq.index' => true,
-                    'blog.index' => true,
-                ],
-            ]
-        );
+        $permissions = [
+            'view blogs',
+            'view blog categories',
+            'view events',
+            'view event registrations',
+            'view faqs',
+            'view downloads',
+        ];
+
+        $role->givePermissionTo($permissions);
     }
 }

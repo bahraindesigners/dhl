@@ -35,7 +35,7 @@ class DownloadsTable
                         return null;
                     })
                     ->defaultImageUrl('/images/file-icon.png')
-                    ->size(60)
+                    ->imageSize(60)
                     ->square(),
 
                 TextColumn::make('title')

@@ -37,13 +37,12 @@ class MemberProfileFactory extends Factory
         ];
 
         return [
+            'user_id' => $this->faker->randomElement(\App\Models\User::pluck('id')->toArray()),
             'cpr_number' => $this->faker->numerify('#########'),
             'staff_number' => 'EMP'.$this->faker->unique()->numberBetween(10000, 99999),
-            'full_name' => $this->faker->name(),
             'nationality' => $this->faker->randomElement($nationalities),
             'gender' => $this->faker->randomElement($genders),
             'marital_status' => $this->faker->randomElement($maritalStatuses),
-            'email' => $this->faker->optional(0.8)->safeEmail(),
             'date_of_joining' => $this->faker->dateTimeBetween('-10 years', '-1 month'),
             'position' => $this->faker->randomElement($positions),
             'department' => $this->faker->randomElement($departments),

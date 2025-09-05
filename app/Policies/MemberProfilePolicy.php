@@ -12,7 +12,7 @@ class MemberProfilePolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->hasPermissionTo('view_any_member::profile') || $user->hasRole('super_admin');
+        return $user->hasPermissionTo('view member-profiles') || $user->hasRole('super_admin');
     }
 
     /**
@@ -20,7 +20,7 @@ class MemberProfilePolicy
      */
     public function view(User $user, MemberProfile $memberProfile): bool
     {
-        return $user->hasPermissionTo('view_member::profile') || $user->hasRole('super_admin');
+        return $user->hasPermissionTo('view member-profiles') || $user->hasRole('super_admin');
     }
 
     /**
@@ -28,7 +28,7 @@ class MemberProfilePolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasPermissionTo('create_member::profile') || $user->hasRole('super_admin');
+        return $user->hasPermissionTo('create member-profiles') || $user->hasRole('super_admin');
     }
 
     /**
@@ -36,7 +36,7 @@ class MemberProfilePolicy
      */
     public function update(User $user, MemberProfile $memberProfile): bool
     {
-        return $user->hasPermissionTo('update_member::profile') || $user->hasRole('super_admin');
+        return $user->hasPermissionTo('edit member-profiles') || $user->hasRole('super_admin');
     }
 
     /**
@@ -44,7 +44,7 @@ class MemberProfilePolicy
      */
     public function delete(User $user, MemberProfile $memberProfile): bool
     {
-        return $user->hasPermissionTo('delete_member::profile') || $user->hasRole('super_admin');
+        return $user->hasPermissionTo('delete member-profiles') || $user->hasRole('super_admin');
     }
 
     /**
@@ -52,7 +52,7 @@ class MemberProfilePolicy
      */
     public function restore(User $user, MemberProfile $memberProfile): bool
     {
-        return $user->hasPermissionTo('restore_member::profile') || $user->hasRole('super_admin');
+        return $user->hasPermissionTo('edit member-profiles') || $user->hasRole('super_admin');
     }
 
     /**
@@ -60,6 +60,6 @@ class MemberProfilePolicy
      */
     public function forceDelete(User $user, MemberProfile $memberProfile): bool
     {
-        return $user->hasPermissionTo('force_delete_member::profile') || $user->hasRole('super_admin');
+        return $user->hasPermissionTo('delete member-profiles') || $user->hasRole('super_admin');
     }
 }

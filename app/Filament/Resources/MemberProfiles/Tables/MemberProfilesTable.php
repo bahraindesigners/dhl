@@ -28,7 +28,7 @@ class MemberProfilesTable
                     ->conversion('thumb')
                     ->circular()
                     ->defaultImageUrl('/images/default-avatar.png')
-                    ->size(50),
+                    ->imageSize(50),
 
                 TextColumn::make('staff_number')
                     ->label('Staff #')
@@ -37,11 +37,20 @@ class MemberProfilesTable
                     ->copyable()
                     ->weight('bold'),
 
-                TextColumn::make('full_name')
-                    ->label('Full Name')
-                    ->searchable()
-                    ->sortable()
-                    ->weight('medium'),
+                TextColumn::make('user.name')
+                    ->label('Name')
+                    ->searchable(['users.name'])
+                    ->sortable(['users.name'])
+                    ->weight('medium')
+                    ->placeholder('No user linked'),
+
+                TextColumn::make('user.email')
+                    ->label('Email')
+                    ->searchable(['users.email'])
+                    ->sortable(['users.email'])
+                    ->color('gray')
+                    ->placeholder('No email')
+                    ->toggleable(),
 
                 TextColumn::make('cpr_number')
                     ->label('CPR')
@@ -170,7 +179,7 @@ class MemberProfilesTable
                 ViewAction::make(),
                 EditAction::make(),
             ])
-            ->bulkActions([
+            ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                     ForceDeleteBulkAction::make(),

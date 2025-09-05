@@ -30,7 +30,7 @@ class MemberProfileResource extends Resource
 
     protected static ?string $pluralModelLabel = 'Member Profiles';
 
-    protected static ?string $recordTitleAttribute = 'full_name';
+    protected static ?string $recordTitleAttribute = 'staff_number';
 
     protected static ?int $navigationSort = 3;
 

@@ -11,16 +11,28 @@ class MemberProfileSeeder extends Seeder
      */
     public function run(): void
     {
-        // Create sample member profiles
-        $profiles = [
+        $this->command->info('Seeding member profiles...');
+
+        // Get existing users
+        $users = \App\Models\User::all();
+
+        if ($users->count() < 2) {
+            // Create some additional users if needed
+            $users = $users->merge([
+                \App\Models\User::factory()->create(['name' => 'Ahmed Al-Mahmood', 'email' => 'ahmed.mahmood@dhl.test']),
+                \App\Models\User::factory()->create(['name' => 'Fatima Al-Zahra', 'email' => 'fatima.zahra@dhl.test']),
+            ]);
+        }
+
+        // Create specific profiles for the first two users
+        $specificProfiles = [
             [
+                'user_id' => $users->first()->id,
                 'cpr_number' => '123456789',
                 'staff_number' => 'EMP001',
-                'full_name' => 'Ahmed Al-Mahmood',
                 'nationality' => 'Bahraini',
                 'gender' => 'male',
                 'marital_status' => 'married',
-                'email' => 'ahmed.mahmood@example.com',
                 'date_of_joining' => '2020-01-15',
                 'position' => 'Senior Manager',
                 'department' => 'Human Resources',
@@ -34,13 +46,12 @@ class MemberProfileSeeder extends Seeder
                 'profile_status' => true,
             ],
             [
+                'user_id' => $users->get(1)->id,
                 'cpr_number' => '987654321',
                 'staff_number' => 'EMP002',
-                'full_name' => 'Fatima Al-Zahra',
                 'nationality' => 'Bahraini',
                 'gender' => 'female',
                 'marital_status' => 'single',
-                'email' => 'fatima.zahra@example.com',
                 'date_of_joining' => '2021-03-10',
                 'position' => 'Financial Analyst',
                 'department' => 'Finance',
@@ -54,8 +65,14 @@ class MemberProfileSeeder extends Seeder
             ],
         ];
 
-        foreach ($profiles as $profileData) {
+        foreach ($specificProfiles as $profileData) {
             \App\Models\MemberProfile::create($profileData);
+        }
+
+        // Create additional random profiles using factory
+        $remainingUsers = $users->skip(2);
+        foreach ($remainingUsers->take(8) as $user) {
+            \App\Models\MemberProfile::factory()->create(['user_id' => $user->id]);
         }
 
         $this->command->info('Member profiles seeded successfully!');

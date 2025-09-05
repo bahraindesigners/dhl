@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\MemberProfiles\Schemas;
 
 use App\Models\MemberProfile;
+use App\Models\User;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
@@ -28,6 +29,24 @@ class MemberProfileForm
                             ->schema([
                                 Grid::make(3)
                                     ->schema([
+                                        // User Association Section
+                                        Section::make('User Account')
+                                            ->icon('heroicon-o-user-circle')
+                                            ->description('Select the user account for this profile')
+                                            ->schema([
+                                                Select::make('user_id')
+                                                    ->label('User Account')
+                                                    ->options(User::pluck('name', 'id'))
+                                                    ->searchable()
+                                                    ->preload()
+                                                    ->required()
+                                                    ->prefixIcon('heroicon-o-user')
+                                                    ->helperText('The name and email will be taken from the selected user account')
+                                                    ->columnSpanFull(),
+                                            ])
+                                            ->columnSpanFull()
+                                            ->collapsible(),
+
                                         // Profile Photo Section
                                         Section::make('Profile Photo')
                                             ->icon('heroicon-o-camera')
@@ -72,20 +91,6 @@ class MemberProfileForm
                                                             ->unique(ignoreRecord: true)
                                                             ->prefix('EMP-')
                                                             ->prefixIcon('heroicon-o-tag')
-                                                            ->columnSpan(1),
-
-                                                        TextInput::make('full_name')
-                                                            ->label('Full Name')
-                                                            ->required()
-                                                            ->maxLength(255)
-                                                            ->prefixIcon('heroicon-o-user')
-                                                            ->columnSpan(2),
-
-                                                        TextInput::make('email')
-                                                            ->label('Email Address')
-                                                            ->email()
-                                                            ->maxLength(255)
-                                                            ->prefixIcon('heroicon-o-envelope')
                                                             ->columnSpan(2),
                                                     ]),
                                             ])

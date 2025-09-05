@@ -3,9 +3,9 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use Hexters\HexaLite\Models\HexaRole;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 
 class UserSeeder extends Seeder
 {
@@ -15,10 +15,10 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         // Get roles
-        $superAdminRole = HexaRole::where('name', 'Superusers')->first();
-        $adminRole = HexaRole::where('name', 'Admin')->first();
-        $editorRole = HexaRole::where('name', 'Editor')->first();
-        $userRole = HexaRole::where('name', 'User')->first();
+        $superAdminRole = Role::where('name', 'super_admin')->first();
+        $adminRole = Role::where('name', 'admin')->first();
+        $editorRole = Role::where('name', 'editor')->first();
+        $userRole = Role::where('name', 'user')->first();
 
         // Create admin user and assign Super Admin role
         $adminUser = User::factory()->create([
@@ -27,7 +27,9 @@ class UserSeeder extends Seeder
             'password' => Hash::make('password'),
             'email_verified_at' => now(),
         ]);
-        $adminUser->roles()->attach($superAdminRole->id);
+        if ($superAdminRole) {
+            $adminUser->assignRole($superAdminRole);
+        }
 
         // Create test user and assign User role
         $testUser = User::factory()->create([
@@ -36,7 +38,9 @@ class UserSeeder extends Seeder
             'password' => Hash::make('password'),
             'email_verified_at' => now(),
         ]);
-        $testUser->roles()->attach($userRole->id);
+        if ($userRole) {
+            $testUser->assignRole($userRole);
+        }
 
         // Create event organizer user and assign Admin role
         $organizerUser = User::factory()->create([
@@ -45,7 +49,9 @@ class UserSeeder extends Seeder
             'password' => Hash::make('password'),
             'email_verified_at' => now(),
         ]);
-        $organizerUser->roles()->attach($adminRole->id);
+        if ($adminRole) {
+            $organizerUser->assignRole($adminRole);
+        }
 
         // Create editor user
         $editorUser = User::factory()->create([
@@ -54,7 +60,9 @@ class UserSeeder extends Seeder
             'password' => Hash::make('password'),
             'email_verified_at' => now(),
         ]);
-        $editorUser->roles()->attach($editorRole->id);
+        if ($editorRole) {
+            $editorUser->assignRole($editorRole);
+        }
 
         // Create some additional random users for testing and assign User role
         $randomUsers = User::factory(5)->create([
@@ -62,8 +70,10 @@ class UserSeeder extends Seeder
             'email_verified_at' => now(),
         ]);
 
-        foreach ($randomUsers as $user) {
-            $user->roles()->attach($userRole->id);
+        if ($userRole) {
+            foreach ($randomUsers as $user) {
+                $user->assignRole($userRole);
+            }
         }
 
         $this->command->info('Users seeded successfully!');
