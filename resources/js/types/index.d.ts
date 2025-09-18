@@ -22,6 +22,17 @@ export interface NavItem {
     isActive?: boolean;
 }
 
+export interface HomeSlider {
+    id: number;
+    title: string;
+    subtitle: string;
+    button_text: string;
+    button_url: string;
+    desktop_image: string;
+    mobile_image: string;
+    sort_order: number;
+}
+
 export interface SharedData {
     name: string;
     quote: { message: string; author: string };

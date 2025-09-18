@@ -12,68 +12,68 @@ class HomeSliderSeeder extends Seeder
      */
     public function run(): void
     {
-        // Create sample home slider items
+        // Create sample home slider items based on DHL Trade Union design
         $sliders = [
             [
                 'title' => [
-                    'en' => 'Welcome to Our Platform',
-                    'ar' => 'مرحباً بكم في منصتنا',
+                    'en' => 'Welcome to the DHL Bahraini Trade Union',
+                    'ar' => 'مرحباً بكم في نقابة دي إتش إل البحرينية',
                 ],
                 'subtitle' => [
-                    'en' => 'Discover Amazing Solutions',
-                    'ar' => 'اكتشف حلولاً مذهلة',
+                    'en' => 'Unity • Strength • Progress',
+                    'ar' => 'الوحدة • القوة • التقدم',
                 ],
                 'description' => [
-                    'en' => 'Join thousands of satisfied customers who trust our innovative solutions for their business needs.',
-                    'ar' => 'انضم إلى آلاف العملاء الراضين الذين يثقون في حلولنا المبتكرة لاحتياجات أعمالهم.',
+                    'en' => 'Protecting employee rights, ensuring transparency, and building solidarity since 2005.',
+                    'ar' => 'حماية حقوق الموظفين وضمان الشفافية وبناء التضامن منذ عام 2005.',
                 ],
                 'button_text' => [
-                    'en' => 'Get Started',
-                    'ar' => 'ابدأ الآن',
+                    'en' => 'Submit a Complaint',
+                    'ar' => 'تقديم شكوى',
                 ],
-                'button_url' => '/contact',
+                'button_url' => '/complaints',
                 'is_active' => true,
                 'sort_order' => 1,
             ],
             [
                 'title' => [
-                    'en' => 'Innovative Services',
-                    'ar' => 'خدمات مبتكرة',
+                    'en' => 'Building a Stronger Workplace Together',
+                    'ar' => 'بناء مكان عمل أقوى معاً',
                 ],
                 'subtitle' => [
-                    'en' => 'Tailored for Your Success',
-                    'ar' => 'مصممة خصيصاً لنجاحك',
+                    'en' => 'Your Voice Matters',
+                    'ar' => 'صوتك مهم',
                 ],
                 'description' => [
-                    'en' => 'Experience cutting-edge technology and personalized service that drives results for your organization.',
-                    'ar' => 'اختبر التكنولوجيا المتطورة والخدمة الشخصية التي تحقق النتائج لمؤسستك.',
+                    'en' => 'Join us in creating a fair and supportive work environment where every employee is valued and heard.',
+                    'ar' => 'انضم إلينا في خلق بيئة عمل عادلة وداعمة حيث يُقدر كل موظف ويُسمع صوته.',
                 ],
                 'button_text' => [
-                    'en' => 'Learn More',
-                    'ar' => 'اعرف المزيد',
+                    'en' => 'Contact the Union',
+                    'ar' => 'تواصل مع النقابة',
                 ],
-                'button_url' => '/services',
+                'button_url' => '/contact',
                 'is_active' => true,
                 'sort_order' => 2,
             ],
             [
                 'title' => [
-                    'en' => 'Excellence in Quality',
-                    'ar' => 'التميز في الجودة',
+                    'en' => 'Standing Together for Your Rights',
+                    'ar' => 'نقف معاً من أجل حقوقكم',
                 ],
                 'subtitle' => [
-                    'en' => 'Committed to Your Growth',
-                    'ar' => 'ملتزمون بنموك',
+                    'en' => 'Solidarity in Action',
+                    'ar' => 'التضامن في العمل',
                 ],
                 'description' => [
-                    'en' => 'Our commitment to excellence ensures you receive the highest quality service and support.',
-                    'ar' => 'التزامنا بالتميز يضمن حصولك على أعلى جودة من الخدمة والدعم.',
+                    'en' => 'We advocate for fair wages, safe working conditions, and equal opportunities for all DHL employees.',
+                    'ar' => 'ندافع عن الأجور العادلة وظروف العمل الآمنة والفرص المتكافئة لجميع موظفي دي إتش إل.',
                 ],
                 'button_text' => [
-                    'en' => 'Contact Us',
-                    'ar' => 'تواصل معنا',
+                    'en' => 'Learn More',
+                    'ar' => 'اعرف المزيد',
                 ],
-                'button_url' => '/contact',
+                'button_url' => '/about',
                 'is_active' => true,
                 'sort_order' => 3,
             ],
