@@ -174,6 +174,11 @@ class BlogForm
                                                     ->label('Featured Post')
                                                     ->default(false)
                                                     ->helperText('Featured posts appear prominently on the site'),
+                                                
+                                                Toggle::make('show_as_urgent_news')
+                                                    ->label('Show as Urgent News')
+                                                    ->default(false)
+                                                    ->helperText('Mark this post as urgent news to highlight it'),
                                             ]),
                                         
                                         Section::make('Metadata')

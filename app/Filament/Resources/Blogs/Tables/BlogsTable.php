@@ -58,6 +58,15 @@ class BlogsTable
                     ->label('Featured')
                      ->toggleable(isToggledHiddenByDefault: true),
 
+                IconColumn::make('show_as_urgent_news')
+                    ->boolean()
+                    ->label('Urgent News')
+                    ->trueIcon('heroicon-o-exclamation-triangle')
+                    ->falseIcon('heroicon-o-minus-circle')
+                    ->trueColor('danger')
+                    ->falseColor('gray')
+                    ->toggleable(isToggledHiddenByDefault: true),
+
                 TextColumn::make('author')
                     ->searchable()
                     ->sortable()
@@ -113,6 +122,13 @@ class BlogsTable
                         false => 'Not Featured',
                     ])
                     ->label('Featured Status'),
+                
+                SelectFilter::make('show_as_urgent_news')
+                    ->options([
+                        true => 'Urgent News',
+                        false => 'Regular Posts',
+                    ])
+                    ->label('Urgent News Status'),
             ])
             ->recordActions([
                 EditAction::make(),

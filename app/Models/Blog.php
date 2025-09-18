@@ -24,6 +24,7 @@ class Blog extends Model implements HasMedia
         'author',
         'status',
         'featured',
+        'show_as_urgent_news',
         'published_at',
         'views_count',
         'reading_time',
@@ -33,6 +34,7 @@ class Blog extends Model implements HasMedia
     protected $casts = [
         'published_at' => 'datetime',
         'featured' => 'boolean',
+        'show_as_urgent_news' => 'boolean',
         'views_count' => 'integer',
         'reading_time' => 'integer',
     ];
