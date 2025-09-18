@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -17,6 +18,7 @@ class Event extends Model implements HasMedia
     use InteractsWithMedia;
 
     protected $fillable = [
+        'event_category_id',
         'title',
         'slug',
         'description',
@@ -68,6 +70,11 @@ class Event extends Model implements HasMedia
     ];
 
     // Relationships
+    public function eventCategory(): BelongsTo
+    {
+        return $this->belongsTo(EventCategory::class, 'event_category_id');
+    }
+
     public function registrations(): HasMany
     {
         return $this->hasMany(EventRegistration::class);

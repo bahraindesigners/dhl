@@ -5,7 +5,6 @@ namespace App\Filament\Resources\Events\Tables;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
-use Filament\Tables\Columns\BadgeColumn;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
@@ -67,6 +66,19 @@ class EventsTable
                         'heroicon-o-exclamation-triangle' => 'high',
                         'heroicon-o-bolt' => 'urgent',
                     ]),
+
+                TextColumn::make('eventCategory.name')
+                    ->label('Category')
+                    ->badge()
+                    ->color('info')
+                    ->getStateUsing(function ($record) {
+                        return $record->eventCategory?->getTranslation('name', app()->getLocale())
+                            ?: $record->eventCategory?->getTranslation('name', 'en');
+                    })
+                    ->placeholder('No category')
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(),
 
                 TextColumn::make('start_date')
                     ->label('Start Date')
@@ -156,6 +168,22 @@ class EventsTable
                         'high' => 'High Priority',
                         'urgent' => 'Urgent',
                     ]),
+
+                SelectFilter::make('event_category_id')
+                    ->label('Category')
+                    ->options(function () {
+                        return \App\Models\EventCategory::active()
+                            ->ordered()
+                            ->get()
+                            ->mapWithKeys(function ($category) {
+                                $name = $category->getTranslation('name', app()->getLocale())
+                                    ?: $category->getTranslation('name', 'en');
+
+                                return [$category->id => $name];
+                            });
+                    })
+                    ->searchable()
+                    ->preload(),
 
                 SelectFilter::make('featured')
                     ->options([

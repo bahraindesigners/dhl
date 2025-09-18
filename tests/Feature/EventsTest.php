@@ -61,3 +61,19 @@ it('can check event spots remaining', function () {
 
     expect($event->fresh()->spotsRemaining())->toBe(2);
 });
+
+it('can associate an event with a category', function () {
+    $category = \App\Models\EventCategory::factory()->create([
+        'name' => ['en' => 'Test Category', 'ar' => 'فئة اختبار'],
+        'is_active' => true,
+    ]);
+
+    $event = Event::factory()->create([
+        'event_category_id' => $category->id,
+    ]);
+
+    expect($event->eventCategory)->not->toBeNull();
+    expect($event->eventCategory->id)->toBe($category->id);
+    expect($event->eventCategory->getTranslation('name', 'en'))->toBe('Test Category');
+    expect($category->events()->count())->toBe(1);
+});

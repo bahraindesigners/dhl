@@ -123,6 +123,40 @@ class EventForm
                                             ])
                                             ->default('medium')
                                             ->required(),
+
+                                        Select::make('event_category_id')
+                                            ->label('Event Category')
+                                            ->options(function () {
+                                                return \App\Models\EventCategory::active()
+                                                    ->ordered()
+                                                    ->get()
+                                                    ->mapWithKeys(function ($category) {
+                                                        $name = $category->getTranslation('name', app()->getLocale())
+                                                            ?: $category->getTranslation('name', 'en');
+
+                                                        return [$category->id => $name];
+                                                    });
+                                            })
+                                            ->placeholder('Select a category')
+                                            ->searchable()
+                                            ->preload()
+                                            ->createOptionForm([
+                                                TextInput::make('name.en')
+                                                    ->label('Name (English)')
+                                                    ->required(),
+                                                TextInput::make('name.ar')
+                                                    ->label('Name (Arabic)')
+                                                    ->required(),
+                                                Textarea::make('description.en')
+                                                    ->label('Description (English)'),
+                                                Textarea::make('description.ar')
+                                                    ->label('Description (Arabic)'),
+                                                TextInput::make('receiver_email')
+                                                    ->label('Receiver Email')
+                                                    ->email()
+                                                    ->required(),
+                                            ])
+                                            ->required(),
                                     ]),
 
                                 TextInput::make('location')
