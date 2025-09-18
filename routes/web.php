@@ -1,8 +1,13 @@
 <?php
 
 use App\Http\Controllers\HomePageController;
+use App\Http\Controllers\LanguageController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+
+// Language switching routes
+Route::post('/language/switch', [LanguageController::class, 'switch'])->name('language.switch');
+Route::get('/language/current', [LanguageController::class, 'current'])->name('language.current');
 
 Route::get('/', [HomePageController::class, 'index'])->name('home');
 

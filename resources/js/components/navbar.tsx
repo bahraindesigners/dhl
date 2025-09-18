@@ -19,23 +19,25 @@ import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { cn } from '@/lib/utils';
 import { dashboard, login, register } from '@/routes';
 import { type SharedData } from '@/types';
-import { Link, usePage } from '@inertiajs/react';
-import { 
-    Home, 
-    Info, 
-    Newspaper, 
-    Calendar, 
-    BookOpen, 
-    Phone, 
-    LogOut, 
-    Menu, 
-    Settings, 
+import { Link, usePage, router } from '@inertiajs/react';
+import {
+    Home,
+    Info,
+    Newspaper,
+    Calendar,
+    BookOpen,
+    Phone,
+    LogOut,
+    Menu,
+    Settings,
     User,
     LogIn,
     Globe,
     ChevronDown
 } from "lucide-react";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useLanguageDirection } from '@/hooks/use-language-direction';
 
 interface NavItem {
     title: string;
@@ -44,49 +46,81 @@ interface NavItem {
     icon?: React.ComponentType<{ className?: string }>;
 }
 
-const navigationItems: NavItem[] = [
-    {
-        title: 'Home',
-        href: '/',
-        description: 'Return to homepage',
-        icon: Home,
-    },
-    {
-        title: 'About',
-        href: '/about',
-        description: 'Learn about our organization',
-        icon: Info,
-    },
-    {
-        title: 'News',
-        href: '/news',
-        description: 'Latest news and updates',
-        icon: Newspaper,
-    },
-    {
-        title: 'Events',
-        href: '/events',
-        description: 'Upcoming events and meetings',
-        icon: Calendar,
-    },
-    {
-        title: 'Resources',
-        href: '/resources',
-        description: 'Helpful resources and documents',
-        icon: BookOpen,
-    },
-    {
-        title: 'Contact',
-        href: '/contact',
-        description: 'Get in touch with us',
-        icon: Phone,
-    },
-];
-
 export function Navbar() {
     const page = usePage<SharedData>();
     const { auth } = page.props;
     const [isOpen, setIsOpen] = useState(false);
+    const { t, i18n } = useTranslation();
+    useLanguageDirection(); // This will handle RTL/LTR switching
+
+    // Synchronize sessionStorage with i18n on component mount
+    useEffect(() => {
+        const savedLanguage = sessionStorage.getItem('language');
+        if (savedLanguage && savedLanguage !== i18n.language) {
+            i18n.changeLanguage(savedLanguage);
+        }
+    }, [i18n]);
+
+    // Get current locale from page props for backend content
+    const currentLocale = (page.props as any).locale || 'en';
+
+    const navigationItems: NavItem[] = [
+        {
+            title: t('nav.home'),
+            href: '/',
+            description: 'Return to homepage',
+            icon: Home,
+        },
+        {
+            title: t('nav.about'),
+            href: '/about',
+            description: 'Learn about our organization',
+            icon: Info,
+        },
+        {
+            title: t('nav.news'),
+            href: '/news',
+            description: 'Latest news and updates',
+            icon: Newspaper,
+        },
+        {
+            title: t('nav.events'),
+            href: '/events',
+            description: 'Upcoming events and meetings',
+            icon: Calendar,
+        },
+        {
+            title: t('nav.resources'),
+            href: '/resources',
+            description: 'Helpful resources and documents',
+            icon: BookOpen,
+        },
+        {
+            title: t('nav.contact'),
+            href: '/contact',
+            description: 'Get in touch with us',
+            icon: Phone,
+        },
+    ];
+
+    const changeLanguage = (lng: string) => {
+        // Update frontend i18n
+
+
+        // Also update backend session for dynamic content
+        router.post('/language/switch', { locale: lng }, {
+            preserveScroll: true,
+            onSuccess: () => {
+                // Save to session storage for persistence across page reloads
+                sessionStorage.setItem('language', lng);
+                window.location.reload();
+            },
+            onError: (errors) => {
+                console.error('Failed to update backend language:', errors);
+                // Still keep frontend change even if backend fails
+            }
+        });
+    };
 
     const isActiveRoute = (href: string) => {
         if (href === '/') {
@@ -101,12 +135,12 @@ export function Navbar() {
                 {/* Company Name - Left */}
                 <div className="flex items-center">
                     <Link href="/" className="text-xl font-bold text-foreground hover:text-primary transition-colors">
-                        DHL Bahraini Trade Union
+                        {t('company.name')}
                     </Link>
                 </div>
 
                 {/* Navigation Menu - Center */}
-                <NavigationMenu className="hidden md:flex">
+                <NavigationMenu className="hidden lg:flex">
                     <NavigationMenuList className="gap-1">
                         {navigationItems.map((item) => {
                             const Icon = item.icon;
@@ -118,8 +152,8 @@ export function Navbar() {
                                             navigationMenuTriggerStyle(),
                                             'relative h-9 px-4 py-2 text-sm font-medium transition-all duration-200 hover:text-primary',
                                             'before:absolute before:bottom-0 before:left-1/2 before:h-0.5 before:w-0 before:-translate-x-1/2 before:bg-primary before:transition-all before:duration-300',
-                                            isActiveRoute(item.href) && 
-                                                'text-primary before:w-3/4'
+                                            isActiveRoute(item.href) &&
+                                            'text-primary before:w-3/4'
                                         )}
                                     >
                                         <Link href={item.href} className="flex flex-row items-center gap-2">
@@ -138,75 +172,89 @@ export function Navbar() {
                     {/* Language Switcher */}
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" size="sm" className="h-9 px-3">
-                                <Globe className="h-4 w-4 text-black" />
-                                <ChevronDown className="ml-1 h-3 w-3 text-black" />
-                                <span className="sr-only">Language</span>
+                            <Button variant="ghost" size="sm" >
+                                {
+                                    i18n.language === 'ar' ? (
+                                        <span className="text-sm">🇸🇦 <span className='hidden lg:inline-block'>{t('languages.arabic')}</span></span>
+                                    ) : (
+                                        <span className="text-sm">🇺🇸 <span className='hidden lg:inline-block'>{t('languages.english')}</span></span>
+                                    )
+                                }
+                                <ChevronDown className=" h-3 w-3 text-black" />
+                                <span className="sr-only">{t('common.language')}</span>
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end" className="w-40">
-                            <DropdownMenuItem className="cursor-pointer">
-                                <span className="text-sm">🇺🇸 English</span>
+                            <DropdownMenuItem
+                                className={"cursor-pointer" + (i18n.language === 'en' ? ' font-bold bg-primary/30' : '')}
+                                onClick={() => changeLanguage('en')}
+                            >
+                                <span className="text-sm">🇺🇸 {t('languages.english')}</span>
                             </DropdownMenuItem>
-                            <DropdownMenuItem className="cursor-pointer">
-                                <span className="text-sm">🇸🇦 العربية</span>
+                            <DropdownMenuItem
+                                className={"cursor-pointer" + (i18n.language === 'ar' ? ' font-bold bg-primary/30' : '')}
+                                onClick={() => changeLanguage('ar')}
+                            >
+                                <span className="text-sm">🇸🇦 {t('languages.arabic')}</span>
                             </DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
 
                     {/* Account Menu */}
-                    {auth.user ? (
-                        <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                                <Button variant="ghost" size="sm" className="h-9 w-9 rounded-full p-0">
-                                    <User className="h-4 w-4 text-black" />
-                                    <span className="sr-only">Account</span>
+                    <div className="hidden lg:block">
+                        {auth.user ? (
+                            <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                    <Button variant="ghost" size="sm" className="h-9 w-9 rounded-full p-0">
+                                        <User className="h-4 w-4 text-black" />
+                                        <span className="sr-only">Account</span>
+                                    </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="end" className="w-48">
+                                    <div className="px-3 py-2 border-b">
+                                        <p className="text-sm font-medium">{auth.user.name}</p>
+                                        <p className="text-xs text-muted-foreground">{auth.user.email}</p>
+                                    </div>
+                                    <DropdownMenuItem asChild>
+                                        <Link href={dashboard()}>
+                                            <Settings className="mr-2 h-4 w-4" />
+                                            {t('auth.dashboard')}
+                                        </Link>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuSeparator />
+                                    <DropdownMenuItem asChild>
+                                        <Link href="/logout" method="post">
+                                            <LogOut className="mr-2 h-4 w-4" />
+                                            {t('auth.signOut')}
+                                        </Link>
+                                    </DropdownMenuItem>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                        ) : (
+                            <div className="flex items-center space-x-2">
+                                <Button variant="ghost" size="sm" asChild>
+                                    <Link href={login()}>{t('auth.signIn')}</Link>
                                 </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end" className="w-48">
-                                <div className="px-3 py-2 border-b">
-                                    <p className="text-sm font-medium">{auth.user.name}</p>
-                                    <p className="text-xs text-muted-foreground">{auth.user.email}</p>
-                                </div>
-                                <DropdownMenuItem asChild>
-                                    <Link href={dashboard()}>
-                                        <Settings className="mr-2 h-4 w-4" />
-                                        Dashboard
-                                    </Link>
-                                </DropdownMenuItem>
-                                <DropdownMenuSeparator />
-                                <DropdownMenuItem asChild>
-                                    <Link href="/logout" method="post">
-                                        <LogOut className="mr-2 h-4 w-4" />
-                                        Sign Out
-                                    </Link>
-                                </DropdownMenuItem>
-                            </DropdownMenuContent>
-                        </DropdownMenu>
-                    ) : (
-                        <div className="flex items-center space-x-2">
-                            <Button variant="ghost" size="sm" asChild>
-                                <Link href={login()}>Sign In</Link>
-                            </Button>
-                            <Button size="sm" asChild>
-                                <Link href={register()}>Join</Link>
-                            </Button>
-                        </div>
-                    )}
+                                <Button size="sm" asChild>
+                                    <Link href={register()}>{t('auth.joinUnion')}</Link>
+                                </Button>
+                            </div>
+                        )}
+                    </div>
 
                     {/* Mobile Menu Toggle */}
-                    <Sheet open={isOpen} onOpenChange={setIsOpen}>
+                    <Sheet open={isOpen} onOpenChange={setIsOpen} >
                         <SheetTrigger asChild>
-                            <Button variant="ghost" size="sm" className="md:hidden">
+                            <Button variant="ghost" size="sm" className="lg:hidden">
                                 <Menu className="h-5 w-5 text-black" />
                                 <span className="sr-only">Menu</span>
                             </Button>
                         </SheetTrigger>
-                        <SheetContent side="right" className="w-80">
+                        <SheetContent side={i18n.language === "ar" ? "right" : "left"} className="w-80">
                             <div className="mb-6">
-                                <h2 className="text-lg font-semibold">DHL Bahraini Trade Union</h2>
+                                <h2 className="text-lg font-semibold">{t('company.name')}</h2>
                             </div>
-                            <nav className="flex flex-col space-y-3">
+                            <nav className="flex flex-col space-y-3 p-4">
                                 {navigationItems.map((item) => {
                                     const Icon = item.icon;
                                     return (
@@ -240,7 +288,7 @@ export function Navbar() {
                                             className="flex items-center space-x-3 rounded-lg p-3 text-sm font-medium hover:bg-accent"
                                         >
                                             <Settings className="h-5 w-5 text-black" />
-                                            <span>Dashboard</span>
+                                            <span>{t('auth.dashboard')}</span>
                                         </Link>
                                         <Link
                                             href="/logout"
@@ -249,7 +297,7 @@ export function Navbar() {
                                             className="flex items-center space-x-3 rounded-lg p-3 text-sm font-medium text-red-600 hover:bg-red-50"
                                         >
                                             <LogOut className="h-5 w-5" />
-                                            <span>Sign Out</span>
+                                            <span>{t('auth.signOut')}</span>
                                         </Link>
                                     </div>
                                 ) : (
@@ -257,12 +305,12 @@ export function Navbar() {
                                         <Button asChild variant="ghost" className="w-full justify-start">
                                             <Link href={login()} onClick={() => setIsOpen(false)}>
                                                 <LogIn className="mr-3 h-5 w-5" />
-                                                Sign In
+                                                {t('auth.signIn')}
                                             </Link>
                                         </Button>
                                         <Button asChild className="w-full">
                                             <Link href={register()} onClick={() => setIsOpen(false)}>
-                                                Join Union
+                                                {t('auth.joinUnion')}
                                             </Link>
                                         </Button>
                                     </div>
@@ -270,13 +318,19 @@ export function Navbar() {
 
                                 {/* Mobile Language Switcher */}
                                 <div className="mt-6 border-t pt-6">
-                                    <h3 className="text-sm font-medium mb-3">Language</h3>
+                                    <h3 className="text-sm font-medium mb-3">{t('common.language')}</h3>
                                     <div className="space-y-2">
-                                        <button className="flex items-center space-x-3 w-full p-2 text-sm rounded-lg hover:bg-accent">
-                                            <span>🇺🇸 English</span>
+                                        <button
+                                            className="flex items-center space-x-3 w-full p-2 text-sm rounded-lg hover:bg-accent"
+                                            onClick={() => changeLanguage('en')}
+                                        >
+                                            <span>🇺🇸 {t('languages.english')}</span>
                                         </button>
-                                        <button className="flex items-center space-x-3 w-full p-2 text-sm rounded-lg hover:bg-accent">
-                                            <span>🇸🇦 العربية</span>
+                                        <button
+                                            className="flex items-center space-x-3 w-full p-2 text-sm rounded-lg hover:bg-accent"
+                                            onClick={() => changeLanguage('ar')}
+                                        >
+                                            <span>🇸🇦 {t('languages.arabic')}</span>
                                         </button>
                                     </div>
                                 </div>

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\HomeSlider;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class HomePageController extends Controller
@@ -21,8 +20,9 @@ class HomePageController extends Controller
             ->map(function ($slider) {
                 return [
                     'id' => $slider->id,
-                    'title' => $slider->title,
+                    'title' => $slider->title, // Will use current app locale
                     'subtitle' => $slider->subtitle,
+                    'description' => $slider->description,
                     'button_text' => $slider->button_text,
                     'button_url' => $slider->button_url,
                     'desktop_image' => $slider->getDesktopImageUrl(),
@@ -31,7 +31,7 @@ class HomePageController extends Controller
                 ];
             });
 
-        return Inertia::render('welcome', [
+        return Inertia::render('Home/welcome', [
             'sliders' => $sliders,
         ]);
     }

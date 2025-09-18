@@ -1,0 +1,57 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "news": "News",
+    "events": "Events",
+    "resources": "Resources",
+    "contact": "Contact"
+  },
+  "auth": {
+    "signIn": "Sign In",
+    "signOut": "Sign Out",
+    "joinUnion": "Join Union",
+    "dashboard": "Dashboard",
+    "profile": "Profile"
+  },
+  "common": {
+    "language": "Language",
+    "menu": "Menu",
+    "close": "Close",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success"
+  },
+  "company": {
+    "name": "DHL Bahraini Trade Union",
+    "shortName": "DHL Union",
+    "tagline": "Unity • Strength • Progress"
+  },
+  "languages": {
+    "english": "English",
+    "arabic": "العربية"
+  },
+  "welcome": {
+    "title": "Welcome to DHL Bahraini Trade Union",
+    "subtitle": "Empowering workers, building solidarity",
+    "learnMore": "Learn More",
+    "joinUs": "Join Us"
+  },
+  "home": {
+    "aboutUs": "About Us",
+    "aboutUsDescription": "Learn more about our mission and values.",
+    "memberLogin": "Member Login", 
+    "memberLoginDescription": "Access your account and manage your membership.",
+    "learnMore": "Learn More",
+    "learnMoreDescription": "Discover the benefits of joining our union.",
+    "events": "Events",
+    "eventsDescription": "Stay updated with our upcoming events.",
+    "offersAndDiscounts": "Offers & Discounts",
+    "offersAndDiscountsDescription": "Take advantage of exclusive offers and discounts for our members."
+  },
+  "slider": {
+    "previousSlide": "Previous slide",
+    "nextSlide": "Next slide",
+    "fallbackDescription": "Building a stronger workplace together"
+  }
+}

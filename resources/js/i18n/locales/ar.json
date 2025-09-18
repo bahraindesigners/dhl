@@ -1,0 +1,57 @@
+{
+  "nav": {
+    "home": "الرئيسية",
+    "about": "حول",
+    "news": "الأخبار",
+    "events": "الفعاليات",
+    "resources": "الموارد",
+    "contact": "اتصل بنا"
+  },
+  "auth": {
+    "signIn": "تسجيل الدخول",
+    "signOut": "تسجيل الخروج",
+    "joinUnion": "انضم للنقابة",
+    "dashboard": "لوحة التحكم",
+    "profile": "الملف الشخصي"
+  },
+  "common": {
+    "language": "اللغة",
+    "menu": "القائمة",
+    "close": "إغلاق",
+    "loading": "جارٍ التحميل...",
+    "error": "خطأ",
+    "success": "نجح"
+  },
+  "company": {
+    "name": "نقابة دي إتش إل البحرينية للتجارة",
+    "shortName": "نقابة دي إتش إل",
+    "tagline": "وحدة • قوة • تقدم"
+  },
+  "languages": {
+    "english": "English",
+    "arabic": "العربية"
+  },
+  "welcome": {
+    "title": "مرحباً بكم في نقابة دي إتش إل البحرينية للتجارة",
+    "subtitle": "تمكين العمال، بناء التضامن",
+    "learnMore": "اعرف المزيد",
+    "joinUs": "انضم إلينا"
+  },
+  "home": {
+    "aboutUs": "من نحن",
+    "aboutUsDescription": "تعرف على مهمتنا وقيمنا.",
+    "memberLogin": "تسجيل دخول الأعضاء",
+    "memberLoginDescription": "ادخل إلى حسابك وأدر عضويتك.",
+    "learnMore": "اعرف المزيد", 
+    "learnMoreDescription": "اكتشف فوائد الانضمام إلى نقابتنا.",
+    "events": "الفعاليات",
+    "eventsDescription": "ابقَ على اطلاع بفعالياتنا القادمة.",
+    "offersAndDiscounts": "العروض والخصومات",
+    "offersAndDiscountsDescription": "استفد من العروض والخصومات الحصرية لأعضائنا."
+  },
+  "slider": {
+    "previousSlide": "الشريحة السابقة",
+    "nextSlide": "الشريحة التالية", 
+    "fallbackDescription": "بناء مكان عمل أقوى معاً"
+  }
+}

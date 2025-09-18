@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;500;600;700&family=Instrument+Sans:wght@400;500;600;700&display=swap');
 @import 'tailwindcss';
 @import 'slick-carousel/slick/slick.css';
 @import 'slick-carousel/slick/slick-theme.css';
@@ -6,6 +7,79 @@
 
 @source '../views';
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+
+/* Arabic Font Support */
+.font-arabic {
+    font-family: 'Noto Sans Arabic', ui-sans-serif, system-ui, sans-serif;
+}
+
+.font-english {
+    font-family: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Global font optimization for mixed content */
+body {
+    font-family: 'Noto Sans Arabic', 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
+    font-feature-settings: 'kern' 1, 'liga' 1;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Language-specific font stacks */
+:lang(ar) {
+    font-family: 'Noto Sans Arabic', ui-sans-serif, system-ui, sans-serif;
+    line-height: 1.7; /* Better line height for Arabic */
+}
+
+:lang(en) {
+    font-family: 'Instrument Sans', 'Noto Sans Arabic', ui-sans-serif, system-ui, sans-serif;
+    line-height: 1.6;
+}
+
+/* Arabic typography improvements */
+.text-arabic {
+    font-family: 'Noto Sans Arabic', ui-sans-serif, system-ui, sans-serif;
+    line-height: 1.7;
+    letter-spacing: 0.01em;
+}
+
+/* Button text optimization for both languages */
+.btn-text {
+    font-feature-settings: 'kern' 1, 'liga' 1;
+}
+
+.btn-text:lang(ar) {
+    font-weight: 500; /* Slightly bolder for Arabic */
+}
+
+.btn-text:lang(en) {
+    font-weight: 400;
+}
+
+/* RTL Support */
+.rtl {
+    direction: rtl;
+}
+
+.ltr {
+    direction: ltr;
+}
+
+/* RTL Slider Support */
+.rtl .slick-track {
+    direction: rtl;
+}
+
+.rtl .slick-prev {
+    right: 25px;
+    left: auto;
+}
+
+.rtl .slick-next {
+    left: 25px;
+    right: auto;
+}
 
 /* Custom styles for React Slick slider */
 .custom-dots {
@@ -71,7 +145,7 @@
 
 @theme {
     --font-sans:
-        'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+        'Noto Sans Arabic', 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 
     --radius-lg: var(--radius);
     --radius-md: calc(var(--radius) - 2px);

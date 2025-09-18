@@ -24,9 +24,10 @@ export interface NavItem {
 
 export interface HomeSlider {
     id: number;
-    title: string;
-    subtitle: string;
-    button_text: string;
+    title: string | Record<string, string>;
+    subtitle: string | Record<string, string>;
+    description: string | Record<string, string>;
+    button_text: string | Record<string, string>;
     button_url: string;
     desktop_image: string;
     mobile_image: string;
