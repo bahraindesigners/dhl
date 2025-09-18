@@ -17,6 +17,7 @@ class Download extends Model implements HasMedia
         'title',
         'description',
         'category',
+        'download_category_id',
         'access_level',
         'is_active',
         'sort_order',
@@ -95,6 +96,12 @@ class Download extends Model implements HasMedia
     public function scopeEmployeesOnly($query)
     {
         return $query->where('access_level', 'employees');
+    }
+
+    // Relationships
+    public function downloadCategory()
+    {
+        return $this->belongsTo(DownloadCategory::class);
     }
 
     // Helpers

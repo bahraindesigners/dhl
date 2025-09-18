@@ -46,21 +46,12 @@ class DownloadsTable
                     ->description(fn (Download $record): ?string => $record->description)
                     ->wrap(),
 
-                TextColumn::make('category')
+                TextColumn::make('downloadCategory.name')
                     ->label('Category')
                     ->badge()
-                    ->formatStateUsing(fn (string $state): string => ucfirst($state))
-                    ->colors([
-                        'primary' => 'forms',
-                        'success' => 'policies',
-                        'warning' => 'handbooks',
-                        'info' => 'training',
-                        'secondary' => 'reports',
-                        'gray' => 'guides',
-                        'purple' => 'templates',
-                        'orange' => 'other',
-                    ])
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable()
+                    ->searchable(),
 
                 TextColumn::make('access_level')
                     ->label('Access Level')
@@ -124,17 +115,10 @@ class DownloadsTable
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                SelectFilter::make('category')
-                    ->options([
-                        'forms' => 'Forms & Documents',
-                        'policies' => 'Policies & Procedures',
-                        'handbooks' => 'Employee Handbooks',
-                        'training' => 'Training Materials',
-                        'reports' => 'Reports & Analytics',
-                        'guides' => 'User Guides',
-                        'templates' => 'Templates',
-                        'other' => 'Other Resources',
-                    ]),
+                SelectFilter::make('downloadCategory')
+                    ->relationship('downloadCategory', 'name')
+                    ->searchable()
+                    ->preload(),
 
                 SelectFilter::make('access_level')
                     ->options([

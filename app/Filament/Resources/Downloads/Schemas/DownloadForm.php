@@ -79,20 +79,23 @@ class DownloadForm
                             ->schema([
                                 Grid::make(2)
                                     ->schema([
-                                        Select::make('category')
+                                        Select::make('download_category_id')
                                             ->label('Category')
-                                            ->options([
-                                                'forms' => 'Forms & Documents',
-                                                'policies' => 'Policies & Procedures',
-                                                'handbooks' => 'Employee Handbooks',
-                                                'training' => 'Training Materials',
-                                                'reports' => 'Reports & Analytics',
-                                                'guides' => 'User Guides',
-                                                'templates' => 'Templates',
-                                                'other' => 'Other Resources',
-                                            ])
-                                            ->required()
+                                            ->relationship('downloadCategory', 'name')
                                             ->searchable()
+                                            ->preload()
+                                            ->createOptionForm([
+                                                TextInput::make('name')
+                                                    ->required()
+                                                    ->maxLength(255),
+                                                Textarea::make('description')
+                                                    ->rows(3),
+                                                TextInput::make('slug')
+                                                    ->required()
+                                                    ->maxLength(255),
+                                                Toggle::make('is_active')
+                                                    ->default(true),
+                                            ])
                                             ->placeholder('Select a category')
                                             ->helperText('Choose the most appropriate category'),
 

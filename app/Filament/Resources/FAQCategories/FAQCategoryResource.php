@@ -39,6 +39,11 @@ class FAQCategoryResource extends Resource
         return ['en', 'ar'];
     }
 
+    public static function getTranslatableAttributes(): array
+    {
+        return ['name', 'description'];
+    }
+
     public static function form(Schema $schema): Schema
     {
         return FAQCategoryForm::configure($schema);
