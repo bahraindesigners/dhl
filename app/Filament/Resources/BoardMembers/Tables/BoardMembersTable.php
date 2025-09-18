@@ -25,7 +25,7 @@ class BoardMembersTable
                     ->conversion('thumb')
                     ->circular()
                     ->defaultImageUrl('/images/default-avatar.png')
-                    ->size(50),
+                    ->imageSize(50),
 
                 TextColumn::make('name')
                     ->label('Name')

@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Events\EventRegistrationCreated;
+use App\Listeners\EventRegistrationListener;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
@@ -29,5 +32,11 @@ class AppServiceProvider extends ServiceProvider
 
             return null;
         });
+
+        // Register event listeners
+        Event::listen(
+            EventRegistrationCreated::class,
+            EventRegistrationListener::class
+        );
     }
 }

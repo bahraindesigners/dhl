@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\EventRegistrationCreated;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -37,6 +38,19 @@ class EventRegistration extends Model
         'amount_paid' => 'decimal:2',
         'registration_data' => 'array',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        // Fire event when a new registration is created
+        static::created(function ($registration) {
+            // Load the event and eventCategory relationships before firing the event
+            $registration->load(['event.eventCategory']);
+            
+            EventRegistrationCreated::dispatch($registration);
+        });
+    }
 
     // Relationships
     public function event(): BelongsTo

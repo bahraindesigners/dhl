@@ -42,8 +42,9 @@ class FAQCategoriesTable
                     ->copyable()
                     ->toggleable(isToggledHiddenByDefault: true),
 
-                BadgeColumn::make('is_active')
+                TextColumn::make('is_active')
                     ->label('Status')
+                    ->badge(fn ($state) => $state ? 'Active' : 'Inactive')
                     ->formatStateUsing(fn ($state) => $state ? 'Active' : 'Inactive')
                     ->colors([
                         'success' => true,
