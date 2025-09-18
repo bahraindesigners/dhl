@@ -53,7 +53,7 @@ export default function HomeSlider({
                 {sliders.length > 1 && (
                     <button
                         onClick={goToPrevSlide}
-                        className="flex-shrink-0 rounded-full  p-2 text-gray-700 shadow-lg transition-all duration-200 hover:bg-gray-50 hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-gray-400/50 sm:p-3"
+                        className="flex-shrink-0 hidden md:block rounded-full  p-2 text-gray-700 shadow-lg transition-all duration-200 hover:bg-gray-50 hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-gray-400/50 sm:p-3"
                         aria-label="Previous slide"
                     >
                         <ChevronLeft className="h-5 w-5 sm:h-6 sm:w-6" />
@@ -61,19 +61,19 @@ export default function HomeSlider({
                 )}
 
                 {/* Slider Container */}
-                <div className="relative flex-1 h-[500px] md:h-[450px] lg:h-[500px] xl:h-[600px] overflow-hidden rounded-lg">
+                <div className="relative flex-1 h-[500px]  overflow-hidden rounded-lg">
                     <Slider ref={sliderRef} {...settings}>
                         {sliders.map((slider) => (
                             <div key={slider.id}>
                                 {/* Split Layout Container */}
-                                <div className="flex h-[500px] md:h-[450px] lg:h-[500px] xl:h-[600px] flex-col lg:flex-row">
+                                <div className="flex h-[500px] flex-col lg:flex-row">
                                     {/* Content Section - Left Side */}
                                     <div className="flex flex-1 items-center justify-center  px-6 py-10 sm:px-8 sm:py-12 md:px-12 lg:px-16 xl:px-20 lg:rounded-l-lg">
                                         <div className="w-full max-w-xl lg:max-w-2xl">
-                                            <h1 className="mb-4 text-2xl font-bold text-gray-900 sm:mb-6 sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl">
+                                            <h1 className="mb-4 text-2xl font-bold text-gray-900 sm:mb-6 sm:text-3xl md:text-4xl ">
                                                 {slider.title}
                                             </h1>
-                                            <p className="mb-6 text-base text-gray-600 sm:mb-8 sm:text-lg md:text-xl lg:text-2xl">
+                                            <p className="mb-6 text-base text-gray-600 sm:mb-8 sm:text-lg md:text-xl">
                                                 {slider.subtitle}
                                             </p>
 
@@ -81,7 +81,7 @@ export default function HomeSlider({
                                             {slider.button_text && slider.button_url && (
                                                 <Link
                                                     href={slider.button_url}
-                                                    className="inline-flex items-center justify-center rounded-lg bg-primary px-6 py-3 text-base font-semibold text-primary-foreground shadow-lg transition-all duration-200 hover:bg-primary/90 hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-primary/50 sm:px-8 sm:py-4 sm:text-lg"
+                                                    className="inline-flex items-center justify-center rounded-lg bg-primary px-6 py-3 text-base font-semibold text-primary-foreground shadow-lg transition-all duration-200 hover:bg-primary/90 hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-primary/50 sm:px-6 sm:py-2 sm:text-lg"
                                                 >
                                                     {slider.button_text}
                                                 </Link>
@@ -90,7 +90,7 @@ export default function HomeSlider({
                                     </div>
 
                                     {/* Image Section - Right Side */}
-                                    <div className="relative h-[200px] flex-1 overflow-hidden rounded-lg lg:h-full">
+                                    <div className="relative h-full flex-1 overflow-hidden rounded-lg lg:h-full">
                                         {(slider.desktop_image || slider.mobile_image) ? (
                                             <>
                                                 <picture>
@@ -138,7 +138,7 @@ export default function HomeSlider({
                 {sliders.length > 1 && (
                     <button
                         onClick={goToNextSlide}
-                        className="flex-shrink-0 rounded-full  p-2 text-gray-700 shadow-lg transition-all duration-200 hover:bg-gray-50 hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-gray-400/50 sm:p-3"
+                        className="flex-shrink-0 hidden md:block rounded-full  p-2 text-gray-700 shadow-lg transition-all duration-200 hover:bg-gray-50 hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-gray-400/50 sm:p-3"
                         aria-label="Next slide"
                     >
                         <ChevronRight className="h-5 w-5 sm:h-6 sm:w-6" />
