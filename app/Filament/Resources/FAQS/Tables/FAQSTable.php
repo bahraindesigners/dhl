@@ -27,21 +27,18 @@ class FAQSTable
                     ->wrap()
                     ->limit(60),
 
-                TextColumn::make('category')
+                TextColumn::make('faqCategory.name')
+                    ->label('Category')
                     ->badge()
+                    ->color('info')
+                    ->getStateUsing(function ($record) {
+                        return $record->faqCategory?->getTranslation('name', app()->getLocale())
+                            ?: $record->faqCategory?->getTranslation('name', 'en')
+                            ?: $record->category; // Fallback to legacy category
+                    })
+                    ->placeholder('No category')
                     ->searchable()
-                    ->sortable()
-                    ->color(fn (string $state): string => match ($state) {
-                        'general' => 'gray',
-                        'account' => 'blue',
-                        'billing' => 'green',
-                        'technical' => 'red',
-                        'events' => 'purple',
-                        'registration' => 'orange',
-                        'payment' => 'yellow',
-                        'support' => 'indigo',
-                        default => 'gray',
-                    }),
+                    ->sortable(),
 
                 TextColumn::make('status')
                     ->badge()
@@ -73,17 +70,21 @@ class FAQSTable
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                SelectFilter::make('category')
-                    ->options([
-                        'general' => 'General',
-                        'account' => 'Account',
-                        'billing' => 'Billing',
-                        'technical' => 'Technical',
-                        'events' => 'Events',
-                        'registration' => 'Registration',
-                        'payment' => 'Payment',
-                        'support' => 'Support',
-                    ]),
+                SelectFilter::make('faq_category_id')
+                    ->label('Category')
+                    ->options(function () {
+                        return \App\Models\FAQCategory::active()
+                            ->ordered()
+                            ->get()
+                            ->mapWithKeys(function ($category) {
+                                $name = $category->getTranslation('name', app()->getLocale())
+                                    ?: $category->getTranslation('name', 'en');
+
+                                return [$category->id => $name];
+                            });
+                    })
+                    ->searchable()
+                    ->preload(),
 
                 SelectFilter::make('status')
                     ->options([

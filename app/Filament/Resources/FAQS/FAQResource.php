@@ -27,7 +27,7 @@ class FAQResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'question';
 
-    protected static string|UnitEnum|null $navigationGroup = 'Content Management';
+    protected static string|UnitEnum|null $navigationGroup = 'FAQ Management';
 
     protected static ?int $navigationSort = 4;
 

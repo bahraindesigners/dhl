@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\Translatable\HasTranslations;
 
 class FAQ extends Model
@@ -15,7 +16,8 @@ class FAQ extends Model
     protected $fillable = [
         'question',
         'answer',
-        'category',
+        'faq_category_id',
+        'category', // Keep for backward compatibility
         'sort_order',
         'is_featured',
         'status',
@@ -62,6 +64,12 @@ class FAQ extends Model
     public function scopeOrdered(Builder $query): Builder
     {
         return $query->orderBy('sort_order')->orderBy('created_at');
+    }
+
+    // Relationships
+    public function faqCategory(): BelongsTo
+    {
+        return $this->belongsTo(FAQCategory::class, 'faq_category_id');
     }
 
     // Accessors

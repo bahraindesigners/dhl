@@ -4,14 +4,12 @@ namespace App\Filament\Resources\FAQS\Schemas;
 
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Hidden;
-use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Grid;
-use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Components\Tabs\Tab;
 use Filament\Schemas\Schema;
@@ -75,8 +73,36 @@ class FAQForm
                             ->schema([
                                 Grid::make(2)
                                     ->schema([
-                                        Select::make('category')
+                                        Select::make('faq_category_id')
                                             ->label('Category')
+                                            ->options(function () {
+                                                return \App\Models\FAQCategory::active()
+                                                    ->ordered()
+                                                    ->get()
+                                                    ->mapWithKeys(function ($category) {
+                                                        $name = $category->getTranslation('name', app()->getLocale())
+                                                            ?: $category->getTranslation('name', 'en');
+
+                                                        return [$category->id => $name];
+                                                    });
+                                            })
+                                            ->required()
+                                            ->searchable()
+                                            ->placeholder('Select a category')
+                                            ->helperText('Choose the most relevant category for this FAQ')
+                                            ->createOptionForm([
+                                                TextInput::make('name')
+                                                    ->label('Category Name')
+                                                    ->required(),
+                                                Textarea::make('description')
+                                                    ->label('Description'),
+                                                TextInput::make('slug')
+                                                    ->label('Slug')
+                                                    ->required(),
+                                            ]),
+
+                                        Select::make('category')
+                                            ->label('Legacy Category (Deprecated)')
                                             ->options([
                                                 'general' => 'General Information',
                                                 'account' => 'Account Management',
@@ -87,10 +113,11 @@ class FAQForm
                                                 'billing' => 'Billing & Invoices',
                                                 'support' => 'Customer Support',
                                             ])
-                                            ->required()
                                             ->searchable()
-                                            ->placeholder('Select a category')
-                                            ->helperText('Choose the most relevant category for this FAQ'),
+                                            ->placeholder('Select a legacy category (if needed)')
+                                            ->helperText('Kept for backward compatibility')
+                                            ->dehydrated(false)
+                                            ->visible(fn () => app()->environment('local')),
 
                                         TextInput::make('sort_order')
                                             ->label('Display Order')
@@ -102,7 +129,6 @@ class FAQForm
                                             ->helperText('Lower numbers appear first (0 = highest priority)'),
                                     ]),
 
-                                
                             ]),
 
                         Tab::make('Visibility')
@@ -134,7 +160,6 @@ class FAQForm
                                     ->helperText('Schedule when this FAQ becomes visible to users')
                                     ->columnSpanFull(),
 
-                                
                             ]),
 
                         Tab::make('SEO')
@@ -165,7 +190,6 @@ class FAQForm
                                     })
                                     ->columnSpanFull(),
 
-                                
                             ]),
                     ])
                     ->columnSpanFull()
