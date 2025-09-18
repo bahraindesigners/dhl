@@ -26,7 +26,7 @@ class DownloadResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'title';
 
-    protected static string|UnitEnum|null $navigationGroup = 'Content Management';
+    protected static string|UnitEnum|null $navigationGroup = 'Downloads Management';
 
     protected static ?int $navigationSort = 6;
 

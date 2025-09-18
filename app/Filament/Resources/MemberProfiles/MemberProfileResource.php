@@ -17,9 +17,12 @@ use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use UnitEnum;
 
 class MemberProfileResource extends Resource
 {
+    protected static string|UnitEnum|null $navigationGroup = 'Members Management';
+
     protected static ?string $model = MemberProfile::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedUsers;
@@ -31,6 +34,7 @@ class MemberProfileResource extends Resource
     protected static ?string $pluralModelLabel = 'Member Profiles';
 
     protected static ?string $recordTitleAttribute = 'staff_number';
+
 
     protected static ?int $navigationSort = 3;
 

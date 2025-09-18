@@ -23,7 +23,7 @@ class AboutResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedInformationCircle;
 
-    protected static string|UnitEnum|null $navigationGroup = 'Content Management';
+    protected static string|UnitEnum|null $navigationGroup = 'About Management';
 
     protected static ?int $navigationSort = 5;
 
