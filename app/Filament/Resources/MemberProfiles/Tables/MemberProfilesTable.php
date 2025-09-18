@@ -30,6 +30,14 @@ class MemberProfilesTable
                     ->defaultImageUrl('/images/default-avatar.png')
                     ->imageSize(50),
 
+                SpatieMediaLibraryImageColumn::make('signature')
+                    ->label('Signature')
+                    ->collection('signature')
+                    ->conversion('signature_thumb')
+                    ->imageHeight(30)
+                    ->imageWidth(60)
+                    ->toggleable(isToggledHiddenByDefault: true),
+
                 TextColumn::make('staff_number')
                     ->label('Staff #')
                     ->searchable()

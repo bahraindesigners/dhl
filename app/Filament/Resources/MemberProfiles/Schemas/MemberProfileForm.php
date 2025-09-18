@@ -27,7 +27,7 @@ class MemberProfileForm
                         Tab::make('Personal Information')
                             ->icon('heroicon-o-user')
                             ->schema([
-                                Grid::make(3)
+                                Grid::make(4)
                                     ->schema([
                                         // User Association Section
                                         Section::make('User Account')
@@ -61,6 +61,25 @@ class MemberProfileForm
                                                     ->maxSize(2048)
                                                     ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
                                                     ->avatar()
+                                                    ->columnSpanFull(),
+                                            ])
+                                            ->columnSpan(1)
+                                            ->collapsible(),
+
+                                        // Signature Section
+                                        Section::make('Digital Signature')
+                                            ->icon('heroicon-o-pencil')
+                                            ->description('Upload member signature for forms')
+                                            ->schema([
+                                                SpatieMediaLibraryFileUpload::make('signature')
+                                                    ->label('Signature Image')
+                                                    ->collection('signature')
+                                                    ->image()
+                                                    ->imageEditor()
+                                                    ->imageEditorAspectRatios(['2:1'])
+                                                    ->maxSize(1024)
+                                                    ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                                                    ->helperText('Upload a clear signature image for use in forms and documents')
                                                     ->columnSpanFull(),
                                             ])
                                             ->columnSpan(1)

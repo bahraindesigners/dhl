@@ -22,8 +22,8 @@ test('new users can register', function () {
 
 test('new users get default user role upon registration', function () {
     // Ensure the User role exists (seed the database)
-    $this->seed(\Database\Seeders\HexaPermissionSeeder::class);
-    
+    $this->seed(\Database\Seeders\PermissionAndRoleSeeder::class);
+
     $response = $this->post(route('register.store'), [
         'name' => 'Test User',
         'email' => 'test@example.com',
@@ -32,7 +32,7 @@ test('new users get default user role upon registration', function () {
     ]);
 
     $response->assertRedirect(route('dashboard', absolute: false));
-    
+
     // Verify the user exists and has the default "User" role
     $user = \App\Models\User::where('email', 'test@example.com')->first();
     expect($user)->not->toBeNull();

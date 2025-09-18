@@ -5,7 +5,7 @@ namespace App\Filament\Resources\MemberProfiles\Pages;
 use App\Filament\Resources\MemberProfiles\MemberProfileResource;
 use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
-use Illuminate\Database\Eloquent\Builder;
+use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ListMemberProfiles extends ListRecords
@@ -19,12 +19,14 @@ class ListMemberProfiles extends ListRecords
         ];
     }
 
-    protected function getTableQuery(): Builder
+    public function table(Table $table): Table
     {
-        return parent::getTableQuery()
-            ->withoutGlobalScopes([
-                SoftDeletingScope::class,
-            ])
-            ->with('user');
+        return parent::table($table)
+            ->modifyQueryUsing(fn ($query) => $query
+                ->withoutGlobalScopes([
+                    SoftDeletingScope::class,
+                ])
+                ->with('user')
+            );
     }
 }

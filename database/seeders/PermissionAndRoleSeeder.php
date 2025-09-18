@@ -88,6 +88,16 @@ class PermissionAndRoleSeeder extends Seeder
             'replicate downloads',
             'reorder downloads',
 
+            // Board Members
+            'view board members',
+            'create board members',
+            'edit board members',
+            'delete board members',
+            'restore board members',
+            'force delete board members',
+            'replicate board members',
+            'reorder board members',
+
             // Users
             'view users',
             'create users',
@@ -119,6 +129,7 @@ class PermissionAndRoleSeeder extends Seeder
             'view faqs', 'create faqs', 'edit faqs', 'delete faqs',
             'view event registrations', 'edit event registrations', 'delete event registrations',
             'view home sliders', 'create home sliders', 'edit home sliders', 'delete home sliders',
+            'view board members', 'create board members', 'edit board members', 'delete board members',
             'view users',
         ]);
 
@@ -129,6 +140,7 @@ class PermissionAndRoleSeeder extends Seeder
             'view faqs', 'create faqs', 'edit faqs',
             'view event registrations',
             'view home sliders', 'create home sliders', 'edit home sliders',
+            'view board members', 'create board members', 'edit board members',
         ]);
 
         // Regular users get minimal permissions (can view public content)
