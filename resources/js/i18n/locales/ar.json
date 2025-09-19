@@ -7,7 +7,9 @@
     "offers": "العروض",
     "resources": "الموارد",
     "contact": "اتصل بنا",
-    "membership": "العضوية"
+    "membership": "العضوية",
+    "membershipDescription": "انضم إلى مجتمعنا المتنامي وكن جزءاً من شيء أعظم",
+    "offersDescription": "عروض وخصومات حصرية للأعضاء"
   },
   "navigation": {
     "home": "الرئيسية",

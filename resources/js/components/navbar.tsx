@@ -13,6 +13,8 @@ import {
     NavigationMenuItem,
     NavigationMenuLink,
     NavigationMenuList,
+    NavigationMenuContent,
+    NavigationMenuTrigger,
     navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
@@ -34,7 +36,8 @@ import {
     User,
     LogIn,
     Globe,
-    ChevronDown
+    ChevronDown,
+    Users
 } from "lucide-react";
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -42,9 +45,10 @@ import { useLanguageDirection } from '@/hooks/use-language-direction';
 
 interface NavItem {
     title: string;
-    href: string;
+    href?: string;
     description?: string;
     icon?: React.ComponentType<{ className?: string }>;
+    children?: Omit<NavItem, 'children'>[];
 }
 
 export function Navbar() {
@@ -91,10 +95,23 @@ export function Navbar() {
             icon: Calendar,
         },
         {
-            title: t('nav.offers'),
-            href: '/offers',
-            description: 'Special offers and discounts',
-            icon: Gift,
+            title: t('nav.membership'),
+            icon: Users,
+            description: 'Membership services and benefits',
+            children: [
+                {
+                    title: t('nav.membership'),
+                    href: '/membership',
+                    description: t('nav.membershipDescription'),
+                    icon: Users,
+                },
+                {
+                    title: t('nav.offers'),
+                    href: '/offers',
+                    description: t('nav.offersDescription'),
+                    icon: Gift,
+                },
+            ]
         },
         {
             title: t('nav.resources'),
@@ -151,6 +168,55 @@ export function Navbar() {
                     <NavigationMenuList className="gap-1">
                         {navigationItems.map((item) => {
                             const Icon = item.icon;
+                            
+                            // If item has children, render as dropdown
+                            if (item.children) {
+                                return (
+                                    <NavigationMenuItem key={item.title}>
+                                        <NavigationMenuTrigger className={cn(
+                                            'bg-transparent relative h-9 px-4 py-2 text-sm font-medium transition-all duration-200 hover:text-primary',
+                                            'before:absolute before:bottom-0 before:left-1/2 before:h-0.5 before:w-0 before:-translate-x-1/2 before:bg-primary before:transition-all before:duration-300',
+                                            (item.children.some(child => child.href && isActiveRoute(child.href))) &&
+                                            'text-primary before:w-3/4'
+                                        )}>
+                                            <div className="flex flex-row items-center gap-2">
+                                                {Icon && <Icon className="h-4 w-4" />}
+                                                <span>{item.title}</span>
+                                            </div>
+                                        </NavigationMenuTrigger>
+                                        <NavigationMenuContent>
+                                            <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
+                                                {item.children.map((child) => {
+                                                    const ChildIcon = child.icon;
+                                                    return (
+                                                        <li key={child.href}>
+                                                            <NavigationMenuLink asChild>
+                                                                <Link
+                                                                    href={child.href!}
+                                                                    className={cn(
+                                                                        "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+                                                                        child.href && isActiveRoute(child.href) && 'bg-accent text-primary'
+                                                                    )}
+                                                                >
+                                                                    <div className="flex items-center gap-2 text-sm font-medium leading-none">
+                                                                        {ChildIcon && <ChildIcon className="h-4 w-4" />}
+                                                                        {child.title}
+                                                                    </div>
+                                                                    <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                                                                        {child.description}
+                                                                    </p>
+                                                                </Link>
+                                                            </NavigationMenuLink>
+                                                        </li>
+                                                    );
+                                                })}
+                                            </ul>
+                                        </NavigationMenuContent>
+                                    </NavigationMenuItem>
+                                );
+                            }
+                            
+                            // Regular navigation item
                             return (
                                 <NavigationMenuItem key={item.href}>
                                     <NavigationMenuLink
@@ -159,12 +225,12 @@ export function Navbar() {
                                             navigationMenuTriggerStyle(),
                                             'bg-transparent relative h-9 px-4 py-2 text-sm font-medium transition-all duration-200 hover:text-primary',
                                             'before:absolute before:bottom-0 before:left-1/2 before:h-0.5 before:w-0 before:-translate-x-1/2 before:bg-primary before:transition-all before:duration-300',
-                                            isActiveRoute(item.href) &&
+                                            item.href && isActiveRoute(item.href) &&
                                             'text-primary before:w-3/4'
                                         )}
                                     >
-                                        <Link href={item.href} className="flex flex-row items-center gap-2">
-                                            {Icon && <Icon className="h-2 w-2 text-black" />}
+                                        <Link href={item.href!} className="flex flex-row items-center gap-2">
+                                            {Icon && <Icon className="h-4 w-4" />}
                                             <span>{item.title}</span>
                                         </Link>
                                     </NavigationMenuLink>
@@ -264,14 +330,47 @@ export function Navbar() {
                             <nav className="flex flex-col space-y-3 p-4">
                                 {navigationItems.map((item) => {
                                     const Icon = item.icon;
+                                    
+                                    // If item has children, render children directly in mobile
+                                    if (item.children) {
+                                        return (
+                                            <div key={item.title} className="space-y-2">
+                                                <div className="px-3 py-2 text-sm font-semibold text-muted-foreground border-b">
+                                                    <div className="flex items-center space-x-3">
+                                                        {Icon && <Icon className="h-5 w-5" />}
+                                                        <span>{item.title}</span>
+                                                    </div>
+                                                </div>
+                                                {item.children.map((child) => {
+                                                    const ChildIcon = child.icon;
+                                                    return (
+                                                        <Link
+                                                            key={child.href}
+                                                            href={child.href!}
+                                                            onClick={() => setIsOpen(false)}
+                                                            className={cn(
+                                                                'flex items-center space-x-3 rounded-lg p-3 ml-6 text-sm font-medium transition-colors hover:bg-accent',
+                                                                child.href && isActiveRoute(child.href) && 'bg-accent text-primary'
+                                                            )}
+                                                        >
+                                                            {ChildIcon && <ChildIcon className="h-5 w-5 text-black" />}
+                                                            <span>{child.title}</span>
+                                                        </Link>
+                                                    );
+                                                })}
+                                            </div>
+                                        );
+                                    }
+                                    
+                                    // Regular navigation item
                                     return (
                                         <Link
                                             key={item.href}
-                                            href={item.href}
+                                            href={item.href!}
                                             onClick={() => setIsOpen(false)}
                                             className={cn(
                                                 'flex items-center space-x-3 rounded-lg p-3 text-sm font-medium transition-colors hover:bg-accent',
-                                                isActiveRoute(item.href) && 'bg-accent text-primary'
+                                                item.href && isActiveRoute(item.href) && 'bg-accent text-primary'
                                             )}
                                         >
                                             {Icon && <Icon className="h-5 w-5 text-black" />}

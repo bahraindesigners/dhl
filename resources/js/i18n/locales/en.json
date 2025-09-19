@@ -7,7 +7,9 @@
     "offers": "Offers",
     "resources": "Resources",
     "contact": "Contact",
-    "membership": "Membership"
+    "membership": "Membership",
+    "membershipDescription": "Join our growing community and become part of something greater",
+    "offersDescription": "Exclusive deals and discounts for members"
   },
   "navigation": {
     "home": "Home",
