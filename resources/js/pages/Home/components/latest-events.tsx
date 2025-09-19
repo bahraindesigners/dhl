@@ -50,14 +50,17 @@ export default function LatestEvents({ events }: LatestEventsProps) {
         <section className={`py-12 sm:py-16 bg-gray-50 ${isRTL ? 'rtl' : ''}`}>
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 {/* Section Header */}
-                <div className="mb-12 text-center">
-                    <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-primary/20 to-primary/10">
-                        <Calendar className="h-6 w-6 text-primary" />
+                <div className="mb-12 text-start">
+
+                    <div className={`flex items-center gap-3 mb-4 `}>
+                    <div className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-lg bg-primary text-white">
+                        <Calendar className="h-6 w-6 text-white" />
                     </div>
-                    <h2 className={`text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl ${isRTL ? 'font-arabic' : ''}`}>
+                    <h3 className={`text-xl sm:text-2xl font-bold text-foreground ${isRTL ? 'font-arabic' : ''}`}>
                         {t('events.latestEvents') || 'Latest Events'}
-                    </h2>
-                    <p className={`mx-auto mt-2 max-w-2xl text-gray-600 ${isRTL ? 'font-arabic' : ''}`}>
+                    </h3>
+                </div>
+                    <p className={`mx-auto mt-2  text-gray-600 ${isRTL ? 'font-arabic' : ''}`}>
                         {t('events.latestEventsDescription') || 'Stay updated with our upcoming events and activities'}
                     </p>
                 </div>

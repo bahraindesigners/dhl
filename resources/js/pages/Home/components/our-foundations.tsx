@@ -8,7 +8,7 @@ export default function OurFoundations() {
             {/* Section Header */}
             <div className="text-start mb-12">
                 <h2 className={`text-3xl font-bold text-foreground mb-4 ${isRTL ? 'font-arabic' : ''}`}>{t('home.ourFoundation')}</h2>
-                <p className={`text-muted-foreground max-w-2xl mx-auto ${isRTL ? 'font-arabic' : ''}`}>{t('home.foundationDescription')}</p>
+                <p className={`text-muted-foreground  mx-auto ${isRTL ? 'font-arabic' : ''}`}>{t('home.foundationDescription')}</p>
             </div>
 
             {/* Vision & Mission - Side by Side */}

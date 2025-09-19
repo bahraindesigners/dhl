@@ -198,5 +198,19 @@
     "clickToEnlarge": "Click on any image to view in full size.",
     "noResults": "No results found.",
     "noResultsDescription": "Try adjusting your search or filter to find what you're looking for."
+  },
+  "resources": {
+    "memberProfileRequired": "Some resources require a complete member profile to access. Complete your profile to unlock all resources.",
+    "noResources": "No resources available at this time.",
+    "publicAccess": "Public",
+    "membersOnly": "Members Only",
+    "download": "Download",
+    "restricted": "Restricted",
+    "accessDenied": "Access Denied",
+    "fileNotFound": "File not found",
+    "downloadStarted": "Download started",
+    "membershipRequired": "You need a member profile to access this resource.",
+    "downloads": "downloads",
+    "view": "View"
   }
 }

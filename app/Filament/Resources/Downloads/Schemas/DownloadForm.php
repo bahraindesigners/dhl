@@ -103,12 +103,10 @@ class DownloadForm
                                             ->label('Access Level')
                                             ->options([
                                                 'public' => 'Public Access',
-                                                'employees' => 'Employees Only',
-                                                'managers' => 'Managers Only',
-                                                'admin' => 'Admin Only',
+                                                'members' => 'Members Only',
                                             ])
                                             ->required()
-                                            ->default('employees')
+                                            ->default('members')
                                             ->helperText('Who can access this download'),
 
                                         TextInput::make('sort_order')

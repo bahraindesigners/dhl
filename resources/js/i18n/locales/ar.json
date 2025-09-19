@@ -198,5 +198,19 @@
     "clickToEnlarge": "انقر على أي صورة لعرضها بالحجم الكامل.",
     "noResults": "لا توجد نتائج.",
     "noResultsDescription": "حاول تعديل بحثك أو فلتر النتائج للعثور على ما تبحث عنه."
+  },
+  "resources": {
+    "memberProfileRequired": "تتطلب بعض الموارد ملف عضوية كامل للوصول إليها. أكمل ملفك الشخصي لفتح جميع الموارد.",
+    "noResources": "لا توجد موارد متاحة في هذا الوقت.",
+    "publicAccess": "عام",
+    "membersOnly": "للأعضاء فقط",
+    "download": "تحميل",
+    "restricted": "مقيد",
+    "accessDenied": "تم رفض الوصول",
+    "fileNotFound": "الملف غير موجود",
+    "downloadStarted": "بدأ التحميل",
+    "membershipRequired": "تحتاج إلى ملف عضوية للوصول إلى هذا المورد.",
+    "downloads": "تنزيلات",
+    "view": "عرض"
   }
 }

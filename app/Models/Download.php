@@ -93,9 +93,9 @@ class Download extends Model implements HasMedia
         return $query->where('access_level', 'public');
     }
 
-    public function scopeEmployeesOnly($query)
+    public function scopeMembersOnly($query)
     {
-        return $query->where('access_level', 'employees');
+        return $query->where('access_level', 'members');
     }
 
     // Relationships
@@ -114,7 +114,17 @@ class Download extends Model implements HasMedia
     {
         $media = $this->getFirstMedia('downloads');
 
-        return $media?->name;
+        if (! $media) {
+            return null;
+        }
+
+        // Return name with extension for better user experience
+        if ($media->name && $media->extension) {
+            return $media->name.'.'.$media->extension;
+        }
+
+        // Fallback to file_name if name is not available
+        return $media->file_name;
     }
 
     public function getFileExtension(): ?string
@@ -170,9 +180,7 @@ class Download extends Model implements HasMedia
     {
         $levels = [
             'public' => 'Public Access',
-            'employees' => 'Employees Only',
-            'managers' => 'Managers Only',
-            'admin' => 'Admin Only',
+            'members' => 'Members Only',
         ];
 
         return $levels[$this->access_level] ?? ucfirst($this->access_level);

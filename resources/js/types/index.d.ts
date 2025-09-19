@@ -176,3 +176,38 @@ export interface UserData {
     is_registered?: boolean;
     member_profile?: MemberProfile;
 }
+
+export interface Download {
+    id: number;
+    title: string | Record<string, string>;
+    description?: string | Record<string, string>;
+    category: string;
+    download_category_id?: number;
+    access_level: 'public' | 'members';
+    is_active: boolean;
+    sort_order: number;
+    download_count: number;
+    file_size?: number;
+    file_type?: string;
+    file_url?: string;
+    file_name?: string;
+    file_extension?: string;
+    file_size_formatted?: string;
+    category_label: string;
+    access_level_label: string;
+    has_file: boolean;
+    created_at: string;
+    updated_at: string;
+}
+
+export interface DownloadCategory {
+    id: number;
+    name: string | Record<string, string>;
+    description?: string | Record<string, string>;
+    slug: string;
+    is_active: boolean;
+    sort_order: number;
+    downloads: Download[];
+    created_at: string;
+    updated_at: string;
+}

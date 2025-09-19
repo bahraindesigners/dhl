@@ -7,6 +7,7 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\EventRegistrationController;
 use App\Http\Controllers\HomePageController;
 use App\Http\Controllers\LanguageController;
+use App\Http\Controllers\ResourceController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -35,9 +36,10 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/events/{event}/registration/{registration}', [EventRegistrationController::class, 'destroy'])->name('events.registration.cancel');
 });
 
-Route::get('/resources', function () {
-    return Inertia::render('resources');
-})->name('resources');
+// Resources routes
+Route::get('/resources', [ResourceController::class, 'index'])->name('resources');
+Route::get('/resources/{download}/view', [ResourceController::class, 'view'])->name('resources.view');
+Route::get('/resources/{download}/download', [ResourceController::class, 'download'])->name('resources.download');
 
 Route::get('/contact', function () {
     return Inertia::render('contact');
