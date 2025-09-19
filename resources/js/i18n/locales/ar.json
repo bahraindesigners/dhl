@@ -46,6 +46,18 @@
     "learnMore": "اعرف المزيد",
     "joinUs": "انضم إلينا"
   },
+  "events": {
+    "viewAllEvents": "عرض جميع الفعاليات",
+    "latestEvents": "أحدث الفعاليات",
+    "latestEventsDescription": "ابقَ على اطلاع بأحدث فعالياتنا وأنشطتنا.",
+    "upcomingEvents": "الفعاليات القادمة",
+    "upcomingEventsDescription": "لا تفوت فعالياتنا وأنشطتنا القادمة.",
+    "pastEvents": "الفعاليات السابقة",
+    "pastEventsDescription": "استكشف فعالياتنا وأنشطتنا السابقة.",
+    "registered": "مسجل",
+    "spotsLeft": "المقاعد المتبقية",
+    "viewDetails": "عرض التفاصيل"
+  },
   "home": {
     "aboutUs": "من نحن",
     "aboutUsDescription": "تعرف على مهمتنا وقيمنا.",

@@ -46,6 +46,18 @@
     "learnMore": "Learn More",
     "joinUs": "Join Us"
   },
+  "events": {
+    "viewAllEvents": "View All Events",
+    "latestEvents": "Latest Events",
+    "latestEventsDescription": "Stay updated with our latest events and activities.",
+    "upcomingEvents": "Upcoming Events",
+    "upcomingEventsDescription": "Don't miss our upcoming events and activities.",
+    "pastEvents": "Past Events",
+    "pastEventsDescription": "Explore our previous events and activities.",
+    "registered": "Registered",
+    "spotsLeft": "Spots Left",
+    "viewDetails": "View Details"
+  },
   "home": {
     "aboutUs": "About Us",
     "aboutUsDescription": "Learn more about our mission and values.",

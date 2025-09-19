@@ -3,6 +3,7 @@ import { Head, Link, usePage } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 import { type SharedData, About as AboutType, BoardMember } from '@/types';
 import { Users, Mail, ArrowRight, ArrowLeft } from 'lucide-react';
+import OurFoundations from './components/our-foundations';
 
 interface AboutPageProps {
     about: AboutType;
@@ -130,6 +131,10 @@ export default function About() {
                     </div>
                 </div>
             </section>
+
+            <div className="my-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+                <OurFoundations />
+            </div>
 
             {/* Board Members Section */}
             {about.show_board_section && boardMembers.length > 0 && (

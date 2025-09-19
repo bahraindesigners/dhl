@@ -54,6 +54,37 @@ export interface Blog {
     };
 }
 
+export interface Event {
+    id: number;
+    title: string | Record<string, string>;
+    slug: string | Record<string, string>;
+    description: string | Record<string, string>;
+    content: string | Record<string, string>;
+    start_date: string;
+    end_date: string;
+    timezone: string;
+    status: string;
+    priority: string;
+    featured: boolean;
+    location?: string;
+    location_details?: string | Record<string, string>;
+    capacity?: number;
+    registered_count: number;
+    registration_enabled: boolean;
+    registration_starts_at?: string;
+    registration_ends_at?: string;
+    price?: number;
+    organizer?: string | Record<string, string>;
+    organizer_details?: string | Record<string, string>;
+    published_at?: string;
+    author?: string | Record<string, string>;
+    featured_image?: string;
+    event_category?: {
+        id: number;
+        name: string | Record<string, string>;
+    };
+}
+
 export interface SharedData {
     name: string;
     quote: { message: string; author: string };
