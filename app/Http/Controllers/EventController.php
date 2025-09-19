@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Event;
 use App\Models\EventCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class EventController extends Controller
@@ -24,9 +25,9 @@ class EventController extends Controller
             $search = $request->get('search');
             $query->where(function ($q) use ($search) {
                 $q->where('title->en', 'like', "%{$search}%")
-                  ->orWhere('title->ar', 'like', "%{$search}%")
-                  ->orWhere('description->en', 'like', "%{$search}%")
-                  ->orWhere('description->ar', 'like', "%{$search}%");
+                    ->orWhere('title->ar', 'like', "%{$search}%")
+                    ->orWhere('description->en', 'like', "%{$search}%")
+                    ->orWhere('description->ar', 'like', "%{$search}%");
             });
         }
 
@@ -70,7 +71,7 @@ class EventController extends Controller
                 break;
             case 'featured':
                 $query->orderBy('featured', 'desc')
-                      ->orderBy('start_date', 'asc');
+                    ->orderBy('start_date', 'asc');
                 break;
         }
 
@@ -191,7 +192,7 @@ class EventController extends Controller
             'gallery' => $event->getMedia('gallery')->map(function ($media) {
                 $width = 1200;
                 $height = 800;
-                
+
                 // Try to get actual image dimensions
                 if (in_array($media->mime_type, ['image/jpeg', 'image/png', 'image/gif', 'image/webp'])) {
                     $imagePath = $media->getPath();
@@ -203,7 +204,7 @@ class EventController extends Controller
                         }
                     }
                 }
-                
+
                 return [
                     'id' => $media->id,
                     'url' => $media->getUrl(),
@@ -220,9 +221,36 @@ class EventController extends Controller
             ] : null,
         ];
 
+        // Get user data for pre-filling registration form
+        $userData = null;
+        $isRegistered = false;
+        if (Auth::check()) {
+            $user = Auth::user();
+            $memberProfile = $user->memberProfile;
+
+            // Check if user is already registered for this event
+            $isRegistered = $event->registrations()
+                ->where('user_id', $user->id)
+                ->where('status', '!=', 'cancelled')
+                ->exists();
+
+            $userData = [
+                'id' => $user->id,
+                'name' => $user->name,
+                'email' => $user->email,
+                'has_member_profile' => $memberProfile !== null,
+                'is_registered' => $isRegistered,
+                'member_profile' => $memberProfile ? [
+                    'mobile_number' => $memberProfile->mobile_number,
+                    'home_phone' => $memberProfile->home_phone,
+                ] : null,
+            ];
+        }
+
         return Inertia::render('Event/show', [
             'event' => $eventData,
             'relatedEvents' => $relatedEvents,
+            'user' => $userData,
         ]);
     }
 }

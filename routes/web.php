@@ -4,6 +4,7 @@ use App\Http\Controllers\AboutController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\BoardMemberController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\EventRegistrationController;
 use App\Http\Controllers\HomePageController;
 use App\Http\Controllers\LanguageController;
 use Illuminate\Support\Facades\Route;
@@ -26,6 +27,13 @@ Route::get('/news/{blog}', [BlogController::class, 'show'])->name('blog.show');
 // Event routes
 Route::get('/events', [EventController::class, 'index'])->name('events.index');
 Route::get('/events/{event}', [EventController::class, 'show'])->name('events.show');
+
+// Event registration routes (require authentication)
+Route::middleware(['auth'])->group(function () {
+    Route::post('/events/{event}/register', [EventRegistrationController::class, 'store'])->name('events.register');
+    Route::get('/events/{event}/registration/{registration}', [EventRegistrationController::class, 'show'])->name('events.registration.show');
+    Route::delete('/events/{event}/registration/{registration}', [EventRegistrationController::class, 'destroy'])->name('events.registration.cancel');
+});
 
 Route::get('/resources', function () {
     return Inertia::render('resources');

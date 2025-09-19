@@ -1,24 +1,32 @@
 import NavbarLayout from '@/layouts/navbar-layout';
 import { Head, Link, usePage } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { type SharedData, Event } from '@/types';
+import { type SharedData, Event, UserData } from '@/types';
 import { Calendar, MapPin, Clock, Users, User, DollarSign, Eye, CheckCircle, AlertCircle, XCircle } from 'lucide-react';
 import PhotoSwipeLightbox from 'photoswipe/lightbox';
 import 'photoswipe/style.css';
 import { useState, useEffect, useRef } from 'react';
 import EventCard from '../Home/components/EventCard';
 import { formatEventDate, formatEventTime, getEventStatus, getDaysUntil } from './utils/eventUtils';
+import EventRegistrationModal from './components/EventRegistrationModal';
 
 interface EventShowProps {
     event: Event;
     relatedEvents: Event[];
+    user: UserData | null;
 }
 
 export default function EventShow() {
-    const { event, relatedEvents } = usePage<SharedData & EventShowProps>().props;
+    const { event, relatedEvents, user } = usePage<SharedData & EventShowProps>().props;
     const { t, i18n } = useTranslation();
     const isRTL = i18n.language === 'ar';
     const galleryRef = useRef<HTMLDivElement>(null);
+    
+    // Registration modal state
+    const [isRegistrationModalOpen, setIsRegistrationModalOpen] = useState(false);
+
+    const openRegistrationModal = () => setIsRegistrationModalOpen(true);
+    const closeRegistrationModal = () => setIsRegistrationModalOpen(false);
 
     // Helper function to render content - handles both HTML strings and TipTap JSON
     const tiptapToHtml = (tiptapJson: any): string => {
@@ -400,9 +408,47 @@ export default function EventShow() {
                     {/* Registration Button */}
                     {event.can_register && event.registration_enabled && eventStatus === 'upcoming' && (
                         <div className="mt-8">
-                            <button className="bg-primary text-white px-6 py-3 rounded-lg font-medium hover:bg-primary/90 transition-colors">
-                                {t('events.register') || 'Register Now'}
-                            </button>
+                            {user ? (
+                                user.is_registered ? (
+                                    <div className="text-center">
+                                        <div className="inline-flex items-center gap-2 bg-green-50 text-green-700 px-6 py-3 rounded-lg font-medium">
+                                            <CheckCircle className="h-5 w-5" />
+                                            {t('events.alreadyRegistered') || 'You are already registered for this event'}
+                                        </div>
+                                    </div>
+                                ) : user.has_member_profile ? (
+                                    <button 
+                                        onClick={openRegistrationModal}
+                                        className="bg-primary text-white px-6 py-3 rounded-lg font-medium hover:bg-primary/90 transition-colors"
+                                    >
+                                        {t('events.register') || 'Register Now'}
+                                    </button>
+                                ) : (
+                                    <div className="text-center">
+                                        <p className={`text-amber-600 mb-3 ${isRTL ? 'font-arabic' : ''}`}>
+                                            {t('events.memberProfileRequired') || 'You need to complete your member profile to register for events.'}
+                                        </p>
+                                        <a 
+                                            href="/profile"
+                                            className="bg-amber-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-amber-700 transition-colors"
+                                        >
+                                            {t('events.completeProfile') || 'Complete Profile'}
+                                        </a>
+                                    </div>
+                                )
+                            ) : (
+                                <div className="text-center">
+                                    <p className={`text-blue-600 mb-3 ${isRTL ? 'font-arabic' : ''}`}>
+                                        {t('events.loginRequired') || 'You need to login to register for events.'}
+                                    </p>
+                                    <a 
+                                        href="/login"
+                                        className="bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors"
+                                    >
+                                        {t('auth.signIn') || 'Sign In'}
+                                    </a>
+                                </div>
+                            )}
                         </div>
                     )}
                 </div>
@@ -515,6 +561,14 @@ export default function EventShow() {
                     </div>
                 )}
             </div>
+
+            {/* Registration Modal */}
+            <EventRegistrationModal
+                event={event}
+                user={user}
+                isOpen={isRegistrationModalOpen}
+                onClose={closeRegistrationModal}
+            />
         </NavbarLayout>
     );
 }

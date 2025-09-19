@@ -29,7 +29,9 @@
     "loading": "Loading...",
     "error": "Error",
     "success": "Success",
-    "back": "Back"
+    "back": "Back",
+    "cancel": "Cancel",
+    "optional": "Optional"
   },
   "company": {
     "name": "DHL Bahraini Trade Union",
@@ -86,7 +88,27 @@
     "sortByDateAsc": "Lastest",
     "sortAlphabetical": "Alphabetical",
     "sortFeatured": "Featured",
-    "resultsCount": "{{count}} Results"
+    "resultsCount": "{{count}} Results",
+    "registerForEvent": "Register for Event",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "email": "Email Address",
+    "phone": "Phone Number",
+    "specialRequirements": "Special Requirements",
+    "firstNamePlaceholder": "Enter your first name",
+    "lastNamePlaceholder": "Enter your last name",
+    "emailPlaceholder": "Enter your email address",
+    "phonePlaceholder": "Enter your phone number",
+    "specialRequirementsPlaceholder": "Any dietary restrictions, accessibility needs, or other requirements...",
+    "eventDetails": "Event Details",
+    "spotsRemaining": "Spots Remaining",
+    "registerNow": "Register Now",
+    "registering": "Registering...",
+    "memberProfileRequired": "You need to complete your member profile to register for events.",
+    "completeProfile": "Complete Profile",
+    "loginRequired": "You need to login to register for events.",
+    "alreadyRegistered": "You are already registered for this event",
+    "congratulationsMessage": "Congratulations! You have been successfully registered for this event. We look forward to seeing you there!"
   },
   "home": {
     "aboutUs": "About Us",

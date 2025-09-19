@@ -162,3 +162,17 @@ export interface User {
     updated_at: string;
     [key: string]: unknown; // This allows for additional properties...
 }
+
+export interface MemberProfile {
+    mobile_number?: string;
+    home_phone?: string;
+}
+
+export interface UserData {
+    id: number;
+    name: string;
+    email: string;
+    has_member_profile: boolean;
+    is_registered?: boolean;
+    member_profile?: MemberProfile;
+}
