@@ -7,6 +7,14 @@
     "resources": "Resources",
     "contact": "Contact"
   },
+  "navigation": {
+    "home": "Home",
+    "about": "About",
+    "news": "News",
+    "events": "Events",
+    "resources": "Resources",
+    "contact": "Contact"
+  },
   "auth": {
     "signIn": "Sign In",
     "signOut": "Sign Out",
@@ -20,7 +28,8 @@
     "close": "Close",
     "loading": "Loading...",
     "error": "Error",
-    "success": "Success"
+    "success": "Success",
+    "back": "Back"
   },
   "company": {
     "name": "DHL Bahraini Trade Union",
@@ -86,6 +95,13 @@
     "contactMember": "Contact",
     "readBio": "Read Bio",
     "backToAbout": "Back to About"
+  },
+  "boardMember": {
+    "contactInfo": "Contact Information",
+    "biography": "Biography",
+    "overview": "Overview",
+    "otherMembers": "Other Board Members",
+    "noContactInfo": "No contact information available"
   },
   "slider": {
     "previousSlide": "Previous slide",

@@ -77,6 +77,7 @@ export interface BoardMember {
     position: string | Record<string, string>;
     description?: string | Record<string, string>;
     sort_order: number;
+    is_active?: boolean;
     avatar_url?: string;
     avatar_thumb_url?: string;
     avatar_medium_url?: string;

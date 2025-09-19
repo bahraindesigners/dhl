@@ -282,6 +282,11 @@ body {
     width: 100% !important;
 }
 
+/* Preserve line breaks in content */
+.prose-content {
+    white-space: pre-line; /* Preserve line breaks but collapse spaces */
+}
+
 .prose [class~="lead"] {
     color: #6b7280;
     font-size: 1.25em;

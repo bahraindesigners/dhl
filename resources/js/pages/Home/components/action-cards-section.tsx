@@ -9,7 +9,7 @@ export default function ActionCardsSection() {
     return (
         <div className="mt-20">
             {/* Section Header */}
-            <div className="text-center mb-12">
+            <div className="text-start mb-12">
                 <h2 className={`text-3xl font-bold text-foreground mb-4 ${isRTL ? 'font-arabic' : ''}`}>{t('home.actionCards')}</h2>
             </div>
 

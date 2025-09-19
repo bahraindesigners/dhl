@@ -46,7 +46,7 @@ export default function LatestNews({ news = [] }: LatestNewsProps) {
         <div className="mt-16 sm:mt-20">
             {/* Section Header - Simplified */}
             <div className="mb-8 sm:mb-12">
-                <div className={`flex items-center gap-3 mb-4 ${isRTL ? 'flex-row-reverse' : ''}`}>
+                <div className={`flex items-center gap-3 mb-4 `}>
                     <div className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-lg bg-primary text-white">
                         <svg className="h-5 w-5 sm:h-6 sm:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3v8m4-4h-4m-4-4h4m-4 4h4" />

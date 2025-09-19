@@ -75,6 +75,7 @@ class EventForm
                                         'alignEnd',
                                         'alignJustify',
                                     ])
+                                    ->json()
                                     ->columnSpanFull(),
                             ]),
 

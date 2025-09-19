@@ -39,7 +39,8 @@ class AboutForm
                                 'underline',
                                 'undo',
                             ])
-                            ->columnSpanFull(),
+                            ->columnSpanFull()
+                            ->json(),
 
                         Toggle::make('is_active')
                             ->label('Active')
@@ -76,6 +77,7 @@ class AboutForm
                                 'underline',
                                 'undo',
                             ])
+                            ->json()
                             ->columnSpanFull(),
                     ])
                     ->columns(2),

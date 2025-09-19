@@ -65,6 +65,7 @@ class FAQForm
                                         'undo',
                                         'redo',
                                     ])
+                                    ->json()
                                     ->columnSpanFull(),
                             ]),
 

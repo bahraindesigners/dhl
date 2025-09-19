@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AboutController;
+use App\Http\Controllers\BoardMemberController;
 use App\Http\Controllers\HomePageController;
 use App\Http\Controllers\LanguageController;
 use Illuminate\Support\Facades\Route;
@@ -14,6 +15,7 @@ Route::get('/', [HomePageController::class, 'index'])->name('home');
 
 // Public pages
 Route::get('/about', [AboutController::class, 'index'])->name('about');
+Route::get('/board-member/{boardMember}', [BoardMemberController::class, 'show'])->name('board-member.show');
 
 Route::get('/news', function () {
     return Inertia::render('news');

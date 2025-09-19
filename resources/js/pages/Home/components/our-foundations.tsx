@@ -6,7 +6,7 @@ export default function OurFoundations() {
     return (
          <div className="mt-16 space-y-16">
             {/* Section Header */}
-            <div className="text-center mb-12">
+            <div className="text-start mb-12">
                 <h2 className={`text-3xl font-bold text-foreground mb-4 ${isRTL ? 'font-arabic' : ''}`}>{t('home.ourFoundation')}</h2>
                 <p className={`text-muted-foreground max-w-2xl mx-auto ${isRTL ? 'font-arabic' : ''}`}>{t('home.foundationDescription')}</p>
             </div>
@@ -49,7 +49,7 @@ export default function OurFoundations() {
 
             {/* Objectives - Separate Section */}
             <div className="mt-18">
-                <div className={`flex items-center justify-center mb-6 `}>
+                <div className={`flex items-center justify-start mb-6 `}>
                     <div className="flex h-16 w-16 items-center justify-center rounded-xl bg-primary text-white">
                         <svg className="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v6a2 2 0 002 2h2m6 0h2a2 2 0 002-2V7a2 2 0 00-2-2h-2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />

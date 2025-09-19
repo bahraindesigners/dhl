@@ -104,6 +104,7 @@ class BoardMemberForm
                                 'underline',
                                 'undo',
                             ])
+                            ->json()
                             ->columnSpanFull(),
                     ])
                     ->columnSpan([

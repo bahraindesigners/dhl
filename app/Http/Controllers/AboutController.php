@@ -21,16 +21,17 @@ class AboutController extends Controller
             $about = About::getSingleInstance();
         }
 
-        // Format about data for frontend
+        // Format about data for frontend - Spatie Translatable will automatically
+        // return content in current locale (set by SetLocale middleware)
         $aboutData = [
             'id' => $about->id,
-            'title' => $about->title,
-            'content' => $about->content,
+            'title' => $about->title, // Automatically translated by Spatie
+            'content' => $about->content, // Automatically translated by Spatie
             'show_board_section' => $about->show_board_section,
-            'board_section_title' => $about->board_section_title,
-            'board_section_description' => $about->board_section_description,
+            'board_section_title' => $about->board_section_title, // Automatically translated by Spatie
+            'board_section_description' => $about->board_section_description, // Automatically translated by Spatie
         ];
-
+        
         // Get board members if board section is enabled
         $boardMembers = [];
         if ($about->show_board_section) {
@@ -41,9 +42,9 @@ class AboutController extends Controller
                 ->map(function ($member) {
                     return [
                         'id' => $member->id,
-                        'name' => $member->name,
-                        'position' => $member->position,
-                        'description' => $member->description,
+                        'name' => $member->name, // Automatically translated by Spatie
+                        'position' => $member->position, // Automatically translated by Spatie
+                        'description' => $member->description, // Automatically translated by Spatie
                         'sort_order' => $member->sort_order,
                         'avatar_url' => $member->getFirstMediaUrl('avatar'),
                         'avatar_thumb_url' => $member->getFirstMediaUrl('avatar', 'thumb'),

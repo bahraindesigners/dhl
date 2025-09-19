@@ -60,6 +60,7 @@ class OfferForm
                                 'underline',
                                 'undo',
                             ])
+                            ->json()
                             ->columnSpanFull(),
                     ])
                     ->columns(2),

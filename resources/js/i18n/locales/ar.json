@@ -7,6 +7,14 @@
     "resources": "الموارد",
     "contact": "اتصل بنا"
   },
+  "navigation": {
+    "home": "الرئيسية",
+    "about": "حول",
+    "news": "الأخبار",
+    "events": "الفعاليات",
+    "resources": "الموارد",
+    "contact": "اتصل بنا"
+  },
   "auth": {
     "signIn": "تسجيل الدخول",
     "signOut": "تسجيل الخروج",
@@ -20,7 +28,8 @@
     "close": "إغلاق",
     "loading": "جارٍ التحميل...",
     "error": "خطأ",
-    "success": "نجح"
+    "success": "نجح",
+    "back": "رجوع"
   },
   "company": {
     "name": "نقابة عمال DHL البحرينية",
@@ -86,6 +95,13 @@
     "contactMember": "تواصل",
     "readBio": "اقرأ السيرة",
     "backToAbout": "العودة إلى معلومات عنا"
+  },
+  "boardMember": {
+    "contactInfo": "معلومات التواصل",
+    "biography": "السيرة الذاتية",
+    "overview": "نظرة عامة",
+    "otherMembers": "أعضاء مجلس الإدارة الآخرون",
+    "noContactInfo": "لا توجد معلومات تواصل متاحة"
   },
   "slider": {
     "previousSlide": "الشريحة السابقة",

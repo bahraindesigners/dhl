@@ -1,5 +1,5 @@
 import NavbarLayout from '@/layouts/navbar-layout';
-import { Head, usePage } from '@inertiajs/react';
+import { Head, Link, usePage } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 import { type SharedData, About as AboutType, BoardMember } from '@/types';
 import { Users, Mail, ArrowRight, ArrowLeft } from 'lucide-react';
@@ -14,21 +14,77 @@ export default function About() {
     const { t, i18n } = useTranslation();
     const isRTL = i18n.language === 'ar';
 
-    // Helper function to get content - works with both old and new format
-    const getContent = (content: string | Record<string, string>): string => {
+    // Helper function to convert TipTap JSON to HTML
+    const tiptapToHtml = (tiptapJson: any): string => {
+        if (typeof tiptapJson === 'string') {
+            return tiptapJson;
+        }
+
+        if (!tiptapJson || !tiptapJson.content) {
+            return '';
+        }
+
+        const processNode = (node: any): string => {
+            if (node.type === 'paragraph') {
+                const content = node.content ? node.content.map(processNode).join('') : '<br />';
+                return `<p>${content}</p>`;
+            }
+            
+            if (node.type === 'text') {
+                return node.text || '';
+            }
+            
+            if (node.type === 'heading') {
+                const level = node.attrs?.level || 1;
+                const content = node.content ? node.content.map(processNode).join('') : '';
+                return `<h${level}>${content}</h${level}>`;
+            }
+
+            if (node.type === 'bulletList') {
+                const content = node.content ? node.content.map(processNode).join('') : '';
+                return `<ul>${content}</ul>`;
+            }
+
+            if (node.type === 'orderedList') {
+                const content = node.content ? node.content.map(processNode).join('') : '';
+                return `<ol>${content}</ol>`;
+            }
+
+            if (node.type === 'listItem') {
+                const content = node.content ? node.content.map(processNode).join('') : '';
+                return `<li>${content}</li>`;
+            }
+
+            if (node.type === 'blockquote') {
+                const content = node.content ? node.content.map(processNode).join('') : '';
+                return `<blockquote>${content}</blockquote>`;
+            }
+
+            // Handle other node types as needed
+            if (node.content) {
+                return node.content.map(processNode).join('');
+            }
+
+            return '';
+        };
+
+        return tiptapJson.content.map(processNode).join('');
+    };
+
+    // Helper function to render content - handles both HTML strings and TipTap JSON
+    const renderContent = (content: any): string => {
+        // If content is already a string (HTML), return it directly
         if (typeof content === 'string') {
             return content;
         }
         
-        if (typeof content === 'object' && content !== null) {
-            const currentLocale = i18n.language || 'en';
-            return content[currentLocale] || 
-                   content['en'] || 
-                   Object.values(content)[0] || 
-                   '';
+        // If content is TipTap JSON, convert it to HTML
+        if (content && typeof content === 'object' && content.type === 'doc') {
+            return tiptapToHtml(content);
         }
         
-        return '';
+        // Fallback for any other format
+        return String(content || '');
     };
 
     return (
@@ -48,12 +104,12 @@ export default function About() {
 
                         {/* Title with animation */}
                         <h1 className={`mb-6 text-3xl font-bold text-gray-900 sm:text-4xl lg:text-5xl transition-all duration-700 hover:text-primary ${isRTL ? 'font-arabic text-center' : 'text-center'}`}>
-                            {getContent(about.title)}
+                            {renderContent(about.title)}
                         </h1>
 
                         {/* Content */}
                         <div 
-                            className={`w-full max-w-5xl mx-auto transition-all duration-500 ${isRTL ? 'font-arabic' : ''} prose prose-lg prose-gray 
+                            className={`w-full max-w-5xl mx-auto transition-all duration-500 ${isRTL ? 'font-arabic' : ''} prose prose-lg prose-gray prose-content
                                 prose-headings:text-gray-900 prose-headings:font-bold
                                 prose-h1:text-3xl prose-h1:mb-6 prose-h1:mt-8
                                 prose-h2:text-2xl prose-h2:mb-4 prose-h2:mt-6 prose-h2:text-primary
@@ -69,7 +125,7 @@ export default function About() {
                                 [&>*]:text-left [&>*.text-center]:text-center [&>*.text-right]:text-right [&>*.text-justify]:text-justify
                                 ${isRTL ? '[&>*]:text-right [&>*.text-left]:text-left [&>*.text-center]:text-center [&>*.text-justify]:text-justify' : ''}
                             `}
-                            dangerouslySetInnerHTML={{ __html: getContent(about.content) }}
+                            dangerouslySetInnerHTML={{ __html: renderContent(about.content) }}
                         />
                     </div>
                 </div>
@@ -86,7 +142,7 @@ export default function About() {
                                     <Users className="h-6 w-6" />
                                 </div>
                                 <h2 className={`text-2xl sm:text-3xl font-bold text-gray-900 ${isRTL ? 'font-arabic' : ''}`}>
-                                    {about.board_section_title ? getContent(about.board_section_title) : t('about.ourLeadership')}
+                                    {about.board_section_title ? renderContent(about.board_section_title) : t('about.ourLeadership')}
                                 </h2>
                             </div>
                             
@@ -102,7 +158,7 @@ export default function About() {
                                         [&>*]:text-center [&>*.text-left]:text-left [&>*.text-right]:text-right [&>*.text-justify]:text-justify
                                         ${isRTL ? '[&>*]:text-center [&>*.text-left]:text-left [&>*.text-right]:text-right [&>*.text-justify]:text-justify' : ''}
                                     `}
-                                    dangerouslySetInnerHTML={{ __html: getContent(about.board_section_description) }}
+                                    dangerouslySetInnerHTML={{ __html: renderContent(about.board_section_description) }}
                                 />
                             )}
                         </div>
@@ -110,9 +166,10 @@ export default function About() {
                         {/* Board Members Grid */}
                         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
                             {boardMembers.map((member, index) => (
-                                <div 
+                                <Link
                                     key={member.id}
-                                    className="group bg-white rounded-2xl border border-gray-100 p-6 text-center transition-all duration-500 hover:shadow-xl hover:shadow-primary/10 hover:-translate-y-2 hover:border-primary/20 opacity-0 animate-fade-in-up"
+                                    href={`/board-member/${member.id}`}
+                                    className="group bg-white rounded-2xl border border-gray-100 p-6 text-center transition-all duration-500 hover:shadow-xl hover:shadow-primary/10 hover:-translate-y-2 hover:border-primary/20 opacity-0 animate-fade-in-up block"
                                     style={{
                                         animationDelay: `${index * 150}ms`,
                                         animationFillMode: 'forwards'
@@ -123,7 +180,7 @@ export default function About() {
                                         {member.avatar_medium_url ? (
                                             <img
                                                 src={member.avatar_medium_url}
-                                                alt={getContent(member.name)}
+                                                alt={renderContent(member.name)}
                                                 className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                                                 loading="lazy"
                                             />
@@ -136,29 +193,30 @@ export default function About() {
 
                                     {/* Name */}
                                     <h3 className={`mb-2 text-xl font-semibold text-gray-900 transition-colors duration-300 group-hover:text-primary ${isRTL ? 'font-arabic' : ''}`}>
-                                        {getContent(member.name)}
+                                        {renderContent(member.name)}
                                     </h3>
 
                                     {/* Position */}
                                     <p className={`mb-4 text-sm font-medium text-primary ${isRTL ? 'font-arabic' : ''}`}>
-                                        {getContent(member.position)}
+                                        {renderContent(member.position)}
                                     </p>
 
                                     {/* Description */}
                                     {member.description && (
-                                        <p className={`text-sm text-gray-600 leading-relaxed line-clamp-3 ${isRTL ? 'font-arabic text-right' : ''}`}>
-                                            {getContent(member.description)}
-                                        </p>
+                                        <div 
+                                            className={`text-sm text-gray-600 leading-relaxed line-clamp-2 prose prose-sm max-w-none prose-p:m-0 prose-p:text-sm prose-p:text-gray-600 ${isRTL ? 'font-arabic text-right' : ''}`}
+                                            dangerouslySetInnerHTML={{ __html: renderContent(member.description) }}
+                                        />
                                     )}
 
                                     {/* Contact Button */}
                                     <div className="mt-6">
-                                        <button className={`inline-flex items-center gap-2 rounded-lg bg-primary/10 px-4 py-2 text-sm font-medium text-primary transition-all duration-300 hover:bg-primary hover:text-white hover:scale-105 ${isRTL ? 'flex-row-reverse font-arabic' : ''}`}>
+                                        <span className={`inline-flex items-center gap-2 rounded-lg bg-primary/10 px-4 py-2 text-sm font-medium text-primary transition-all duration-300 group-hover:bg-primary group-hover:text-white group-hover:scale-105 ${isRTL ? 'flex-row-reverse font-arabic' : ''}`}>
                                             <Mail className="h-4 w-4" />
-                                            <span>{t('about.contactMember')}</span>
-                                        </button>
+                                            <span>{t('about.readBio')}</span>
+                                        </span>
                                     </div>
-                                </div>
+                                </Link>
                             ))}
                         </div>
                     </div>

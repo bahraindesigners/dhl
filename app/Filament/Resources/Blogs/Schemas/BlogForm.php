@@ -79,7 +79,8 @@ class BlogForm
                                         'strike',
                                         'underline',
                                         'undo',
-                                    ]),
+                                    ])
+                                    ->json(),
                             ]),
                         
                         Tab::make('Media')
