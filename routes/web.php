@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AboutController;
 use App\Http\Controllers\HomePageController;
 use App\Http\Controllers\LanguageController;
 use Illuminate\Support\Facades\Route;
@@ -12,9 +13,7 @@ Route::get('/language/current', [LanguageController::class, 'current'])->name('l
 Route::get('/', [HomePageController::class, 'index'])->name('home');
 
 // Public pages
-Route::get('/about', function () {
-    return Inertia::render('about');
-})->name('about');
+Route::get('/about', [AboutController::class, 'index'])->name('about');
 
 Route::get('/news', function () {
     return Inertia::render('news');

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\HomeSlider;
+use App\Models\Blog;
 use Inertia\Inertia;
 
 class HomePageController extends Controller
@@ -31,8 +32,37 @@ class HomePageController extends Controller
                 ];
             });
 
+        // Fetch latest published blogs for the news section
+        $news = Blog::published()
+            ->with(['category', 'media'])
+            ->latest('published_at')
+            ->limit(6)
+            ->get()
+            ->map(function ($blog) {
+                return [
+                    'id' => $blog->id,
+                    'title' => $blog->title,
+                    'slug' => $blog->slug,
+                    'excerpt' => $blog->excerpt,
+                    'content' => $blog->content,
+                    'author' => $blog->author,
+                    'status' => $blog->status,
+                    'featured' => $blog->featured,
+                    'show_as_urgent_news' => $blog->show_as_urgent_news,
+                    'published_at' => $blog->published_at?->toISOString(),
+                    'views_count' => $blog->views_count ?? 0,
+                    'reading_time' => $blog->reading_time ?? 5,
+                    'featured_image' => $blog->getFeaturedImageUrl(),
+                    'blog_category' => $blog->category ? [
+                        'id' => $blog->category->id,
+                        'name' => $blog->category->name,
+                    ] : null,
+                ];
+            });
+
         return Inertia::render('Home/welcome', [
             'sliders' => $sliders,
+            'news' => $news,
         ]);
     }
 }

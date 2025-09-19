@@ -34,12 +34,52 @@ export interface HomeSlider {
     sort_order: number;
 }
 
+export interface Blog {
+    id: number;
+    title: string | Record<string, string>;
+    slug: string | Record<string, string>;
+    excerpt: string | Record<string, string>;
+    content: string | Record<string, string>;
+    author: string;
+    status: string;
+    featured: boolean;
+    show_as_urgent_news: boolean;
+    published_at: string;
+    views_count: number;
+    reading_time: number;
+    featured_image?: string;
+    blog_category?: {
+        id: number;
+        name: string | Record<string, string>;
+    };
+}
+
 export interface SharedData {
     name: string;
     quote: { message: string; author: string };
     auth: Auth;
     sidebarOpen: boolean;
     [key: string]: unknown;
+}
+
+export interface About {
+    id: number;
+    title: string | Record<string, string>;
+    content: string | Record<string, string>;
+    show_board_section: boolean;
+    board_section_title?: string | Record<string, string>;
+    board_section_description?: string | Record<string, string>;
+}
+
+export interface BoardMember {
+    id: number;
+    name: string | Record<string, string>;
+    position: string | Record<string, string>;
+    description?: string | Record<string, string>;
+    sort_order: number;
+    avatar_url?: string;
+    avatar_thumb_url?: string;
+    avatar_medium_url?: string;
 }
 
 export interface User {
