@@ -18,7 +18,7 @@ export default function EventCard({ event, index, renderContent, formatDate, for
             formatDate={formatDate}
             formatTime={formatTime}
             type="event"
-            href={`/events/${event.slug}`}
+            href={`/events/${event.id}`}
         />
     );
 }

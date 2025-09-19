@@ -3,6 +3,7 @@
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\BoardMemberController;
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\HomePageController;
 use App\Http\Controllers\LanguageController;
 use Illuminate\Support\Facades\Route;
@@ -22,9 +23,9 @@ Route::get('/board-member/{boardMember}', [BoardMemberController::class, 'show']
 Route::get('/news', [BlogController::class, 'index'])->name('blog.index');
 Route::get('/news/{blog}', [BlogController::class, 'show'])->name('blog.show');
 
-Route::get('/events', function () {
-    return Inertia::render('events');
-})->name('events');
+// Event routes
+Route::get('/events', [EventController::class, 'index'])->name('events.index');
+Route::get('/events/{event}', [EventController::class, 'show'])->name('events.show');
 
 Route::get('/resources', function () {
     return Inertia::render('resources');

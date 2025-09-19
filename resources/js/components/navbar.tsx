@@ -150,7 +150,7 @@ export function Navbar() {
                                         asChild
                                         className={cn(
                                             navigationMenuTriggerStyle(),
-                                            'relative h-9 px-4 py-2 text-sm font-medium transition-all duration-200 hover:text-primary',
+                                            'bg-transparent relative h-9 px-4 py-2 text-sm font-medium transition-all duration-200 hover:text-primary',
                                             'before:absolute before:bottom-0 before:left-1/2 before:h-0.5 before:w-0 before:-translate-x-1/2 before:bg-primary before:transition-all before:duration-300',
                                             isActiveRoute(item.href) &&
                                             'text-primary before:w-3/4'

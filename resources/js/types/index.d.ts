@@ -78,12 +78,27 @@ export interface Event {
     registration_enabled: boolean;
     registration_starts_at?: string;
     registration_ends_at?: string;
-    price?: number;
+    price?: string;
     organizer?: string | Record<string, string>;
     organizer_details?: string | Record<string, string>;
     published_at?: string;
     author?: string | Record<string, string>;
     featured_image?: string;
+    can_register?: boolean;
+    spots_remaining?: number;
+    is_upcoming?: boolean;
+    is_ongoing?: boolean;
+    is_past?: boolean;
+    duration_in_hours?: number;
+    duration_in_days?: number;
+    gallery?: Array<{
+        id: number;
+        url: string;
+        thumb?: string;
+        alt?: string;
+        width?: number;
+        height?: number;
+    }>;
     event_category?: EventCategory;
 }
 
