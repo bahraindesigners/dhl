@@ -59,7 +59,7 @@ class ResourceController extends Controller
             'categories_data' => $categories->toArray(),
         ]);
 
-        return Inertia::render('resources', [
+        return Inertia::render('ResourcesPage/index', [
             'categories' => $categories->values()->toArray(),
             'hasProfile' => $hasProfile,
             'user' => $user ? [

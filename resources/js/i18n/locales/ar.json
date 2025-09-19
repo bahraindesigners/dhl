@@ -211,6 +211,23 @@
     "downloadStarted": "بدأ التحميل",
     "membershipRequired": "تحتاج إلى ملف عضوية للوصول إلى هذا المورد.",
     "downloads": "تنزيلات",
-    "view": "عرض"
+    "view": "عرض",
+    "searchPlaceholder": "البحث في الموارد...",
+    "allCategories": "جميع الفئات",
+    "allAccess": "جميع مستويات الوصول",
+    "allFileTypes": "جميع أنواع الملفات",
+    "filterBy": "تصفية حسب",
+    "category": "الفئة",
+    "accessLevel": "مستوى الوصول",
+    "fileType": "نوع الملف",
+    "clearFilters": "مسح المرشحات",
+    "resultsCount": "{{count}} نتيجة",
+    "noResultsFound": "لم يتم العثور على موارد",
+    "noResultsDescription": "حاول تعديل البحث أو المرشحات للعثور على ما تبحث عنه.",
+    "sortBy": "ترتيب حسب",
+    "sortNewest": "الأحدث أولاً",
+    "sortOldest": "الأقدم أولاً",
+    "sortAlphabetical": "أبجدياً",
+    "sortMostDownloads": "الأكثر تحميلاً"
   }
 }

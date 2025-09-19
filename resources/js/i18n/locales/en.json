@@ -211,6 +211,23 @@
     "downloadStarted": "Download started",
     "membershipRequired": "You need a member profile to access this resource.",
     "downloads": "downloads",
-    "view": "View"
+    "view": "View",
+    "searchPlaceholder": "Search resources...",
+    "allCategories": "All Categories",
+    "allAccess": "All Access Levels",
+    "allFileTypes": "All File Types",
+    "filterBy": "Filter by",
+    "category": "Category",
+    "accessLevel": "Access Level",
+    "fileType": "File Type",
+    "clearFilters": "Clear Filters",
+    "resultsCount": "{{count}} Results",
+    "noResultsFound": "No resources found",
+    "noResultsDescription": "Try adjusting your search or filters to find what you're looking for.",
+    "sortBy": "Sort by",
+    "sortNewest": "Newest First",
+    "sortOldest": "Oldest First",
+    "sortAlphabetical": "Alphabetical",
+    "sortMostDownloads": "Most Downloads"
   }
 }
