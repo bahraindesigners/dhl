@@ -172,13 +172,13 @@ export default function EventShow() {
     const getStatusText = () => {
         switch (eventStatus) {
             case 'upcoming':
-                return daysUntil > 0 ? `${daysUntil} days until event` : 'Event starts today';
+                return daysUntil > 0 ? `${daysUntil} ${t('events.daysUntil')}` : t('events.startsToday');
             case 'ongoing':
-                return 'Event is happening now';
+                return `${t('events.happeningNow')}`;
             case 'past':
-                return 'Event has ended';
+                return `${t('events.hasEnded')}`;
             default:
-                return 'Event';
+                return `${t('events.event')}`;
         }
     };
 
@@ -358,11 +358,11 @@ export default function EventShow() {
                                                 {t('events.capacity') || 'Capacity'}
                                             </div>
                                             <div className={`text-sm text-slate-700 font-medium mb-1 ${isRTL ? 'font-arabic' : ''}`}>
-                                                {event.registered_count}{event.capacity ? ` / ${event.capacity}` : ''} registered
+                                                {event.registered_count}{event.capacity ? ` / ${event.capacity}` : ''} {t('events.registered') || 'registered'}
                                             </div>
                                             {event.spots_remaining && (
                                                 <div className={`text-sm text-green-600 font-medium ${isRTL ? 'font-arabic' : ''}`}>
-                                                    {event.spots_remaining} spots left
+                                                    {event.spots_remaining} {t('events.spotsLeft') || 'spots left'}
                                                 </div>
                                             )}
                                         </div>
@@ -385,7 +385,7 @@ export default function EventShow() {
                                             </div>
                                             <div className={`text-lg text-slate-700 font-bold ${isRTL ? 'font-arabic' : ''}`}>
                                                 {event.price === "0.00" ? (
-                                                    <span className="text-green-600">Free</span>
+                                                    <span className="text-green-600">{t('events.free') || 'Free'}</span>
                                                 ) : (
                                                     <span className="text-slate-900">BHD {event.price}</span>
                                                 )}
