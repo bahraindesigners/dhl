@@ -32,5 +32,8 @@ class DatabaseSeeder extends Seeder
 
         // Seed home sliders
         $this->call(HomeSliderSeeder::class);
+
+        // Seed contact settings
+        $this->call(ContactSettingSeeder::class);
     }
 }

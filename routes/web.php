@@ -3,10 +3,12 @@
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\BoardMemberController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\EventRegistrationController;
 use App\Http\Controllers\HomePageController;
 use App\Http\Controllers\LanguageController;
+use App\Http\Controllers\MembershipController;
 use App\Http\Controllers\ResourceController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -19,6 +21,8 @@ Route::get('/', [HomePageController::class, 'index'])->name('home');
 
 // Public pages
 Route::get('/about', [AboutController::class, 'index'])->name('about');
+Route::get('/membership', [MembershipController::class, 'index'])->name('membership')->middleware('auth');
+Route::post('/membership', [MembershipController::class, 'store'])->name('membership.store')->middleware('auth');
 Route::get('/board-member/{boardMember}', [BoardMemberController::class, 'show'])->name('board-member.show');
 
 // Blog routes
@@ -41,9 +45,8 @@ Route::get('/resources', [ResourceController::class, 'index'])->name('resources'
 Route::get('/resources/{download}/view', [ResourceController::class, 'view'])->name('resources.view');
 Route::get('/resources/{download}/download', [ResourceController::class, 'download'])->name('resources.download');
 
-Route::get('/contact', function () {
-    return Inertia::render('contact');
-})->name('contact');
+Route::get('/contact', [ContactController::class, 'index'])->name('contact');
+Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', function () {
