@@ -61,7 +61,7 @@
   "home": {
     "aboutUs": "About Us",
     "aboutUsDescription": "Learn more about our mission and values.",
-    "memberLogin": "Member Login", 
+    "memberLogin": "Member Login",
     "memberLoginDescription": "Access your account and manage your membership.",
     "learnMore": "Learn More",
     "learnMoreDescription": "Discover the benefits of joining our union.",
@@ -119,5 +119,30 @@
     "previousSlide": "Previous slide",
     "nextSlide": "Next slide",
     "fallbackDescription": "Building a stronger workplace together"
+  },
+  "blog": {
+    "pageTitle": "News & Updates",
+    "pageDescription": "Stay informed with the latest news, updates, and articles from DHL Bahraini Trade Union.",
+    "sortLatest": "Latest",
+    "sortOldest": "Oldest",
+    "sortPopular": "Most Popular",
+    "sortAlphabetical": "Alphabetical",
+    "featuredOnly": "Featured Only",
+    "allCategories": "All Categories",
+    "searchPlaceholder": "Search articles...",
+    "featured": "Featured",
+    "urgent": "Urgent",
+    "minRead": "min read",
+    "readMore": "Read More",
+    "viewAllNews": "View All News",
+    "views": "Views",
+    "linkCopied": "Link copied to clipboard!",
+    "share": "Share",
+    "relatedArticles": "Related Articles",
+    "viewAllArticles": "View All Articles",
+    "backToBlog": "Back to Articles",
+    "resultsCount": "{{count}} Results",
+    "gallery": "Photo Gallery",
+    "clickToEnlarge": "Click on any image to view in full size."
   }
 }

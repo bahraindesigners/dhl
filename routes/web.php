@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AboutController;
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\BoardMemberController;
 use App\Http\Controllers\HomePageController;
 use App\Http\Controllers\LanguageController;
@@ -17,9 +18,9 @@ Route::get('/', [HomePageController::class, 'index'])->name('home');
 Route::get('/about', [AboutController::class, 'index'])->name('about');
 Route::get('/board-member/{boardMember}', [BoardMemberController::class, 'show'])->name('board-member.show');
 
-Route::get('/news', function () {
-    return Inertia::render('news');
-})->name('news');
+// Blog routes
+Route::get('/news', [BlogController::class, 'index'])->name('blog.index');
+Route::get('/news/{blog}', [BlogController::class, 'show'])->name('blog.show');
 
 Route::get('/events', function () {
     return Inertia::render('events');

@@ -57,6 +57,7 @@ class HomePageController extends Controller
                     'blog_category' => $blog->category ? [
                         'id' => $blog->category->id,
                         'name' => $blog->category->name,
+                        'color' => $blog->category->color,
                     ] : null,
                 ];
             });

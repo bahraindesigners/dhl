@@ -17,6 +17,7 @@ class EventCategory extends Model
     protected $fillable = [
         'name',
         'description',
+        'color',
         'receiver_email',
         'is_active',
         'sort_order',

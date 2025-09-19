@@ -63,7 +63,7 @@
     "aboutUsDescription": "تعرف على مهمتنا وقيمنا.",
     "memberLogin": "تسجيل دخول الأعضاء",
     "memberLoginDescription": "ادخل إلى حسابك وأدر عضويتك.",
-    "learnMore": "اعرف المزيد", 
+    "learnMore": "اعرف المزيد",
     "learnMoreDescription": "اكتشف فوائد الانضمام إلى نقابتنا.",
     "events": "الفعاليات",
     "eventsDescription": "ابقَ على اطلاع بفعالياتنا القادمة.",
@@ -117,7 +117,32 @@
   },
   "slider": {
     "previousSlide": "الشريحة السابقة",
-    "nextSlide": "الشريحة التالية", 
+    "nextSlide": "الشريحة التالية",
     "fallbackDescription": "بناء مكان عمل أقوى معاً"
+  },
+  "blog": {
+    "pageTitle": "الأخبار والتحديثات",
+    "pageDescription": "ابقَ على اطلاع بأحدث الأخبار والتحديثات والمقالات من نقابة موظفي DHL البحرين.",
+    "sortLatest": "الأحدث",
+    "sortOldest": "الأقدم",
+    "sortPopular": "الأكثر شعبية",
+    "sortAlphabetical": "أبجدي",
+    "featuredOnly": "مميز فقط",
+    "allCategories": "جميع الفئات",
+    "searchPlaceholder": "ابحث في المقالات...",
+    "featured": "مميز",
+    "urgent": "عاجل",
+    "minRead": "دقيقة قراءة",
+    "readMore": "اقرأ المزيد",
+    "viewAllNews": "عرض جميع الأخبار",
+    "views": "مشاهدات",
+    "linkCopied": "تم نسخ الرابط إلى الحافظة!",
+    "share": "مشاركة",
+    "relatedArticles": "مقالات ذات صلة",
+    "viewAllArticles": "عرض جميع المقالات",
+    "backToBlog": "العودة إلى المقالات",
+    "resultsCount": "{{count}} نتائج",
+    "gallery": "معرض الصور",
+    "clickToEnlarge": "انقر على أي صورة لعرضها بالحجم الكامل."
   }
 }

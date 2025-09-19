@@ -48,10 +48,15 @@ export interface Blog {
     views_count: number;
     reading_time: number;
     featured_image?: string;
-    blog_category?: {
+    gallery?: Array<{
         id: number;
-        name: string | Record<string, string>;
-    };
+        url: string;
+        thumb: string;
+        alt: string;
+        width: number;
+        height: number;
+    }>;
+    blog_category?: BlogCategory;
 }
 
 export interface Event {
@@ -79,10 +84,28 @@ export interface Event {
     published_at?: string;
     author?: string | Record<string, string>;
     featured_image?: string;
-    event_category?: {
-        id: number;
-        name: string | Record<string, string>;
-    };
+    event_category?: EventCategory;
+}
+
+export interface BlogCategory {
+    id: number;
+    name: string | Record<string, string>;
+    slug: string | Record<string, string>;
+    description?: string | Record<string, string>;
+    color?: string;
+    icon?: string;
+    sort_order: number;
+    status: string;
+}
+
+export interface EventCategory {
+    id: number;
+    name: string | Record<string, string>;
+    description?: string | Record<string, string>;
+    color?: string;
+    receiver_email?: string;
+    is_active: boolean;
+    sort_order: number;
 }
 
 export interface SharedData {

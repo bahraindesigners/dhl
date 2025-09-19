@@ -44,10 +44,10 @@ class BlogCategoryForm
                                     ->label('Category Color')
                                     ->default('#3B82F6'),
                                 
-                                TextInput::make('icon')
-                                    ->label('Icon (Heroicon name)')
-                                    ->placeholder('document-text')
-                                    ->helperText('Enter a Heroicon name without the prefix'),
+                                // TextInput::make('icon')
+                                //     ->label('Icon (Heroicon name)')
+                                //     ->placeholder('document-text')
+                                //     ->helperText('Enter a Heroicon name without the prefix'),
                                 
                                 TextInput::make('sort_order')
                                     ->label('Sort Order')
