@@ -211,3 +211,16 @@ export interface DownloadCategory {
     created_at: string;
     updated_at: string;
 }
+
+export interface Offer {
+    id: number;
+    title: string | Record<string, string>;
+    description: string | Record<string, string>;
+    company_name: string | Record<string, string>;
+    discount: string;
+    offer_description: string | Record<string, string>;
+    is_active: boolean;
+    sort_order: number;
+    created_at: string;
+    updated_at: string;
+}

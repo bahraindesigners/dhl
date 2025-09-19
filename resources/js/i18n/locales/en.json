@@ -4,6 +4,7 @@
     "about": "About",
     "news": "News",
     "events": "Events",
+    "offers": "Offers",
     "resources": "Resources",
     "contact": "Contact",
     "membership": "Membership"
@@ -13,6 +14,7 @@
     "about": "About",
     "news": "News",
     "events": "Events",
+    "offers": "Offers",
     "resources": "Resources",
     "contact": "Contact"
   },
@@ -322,5 +324,28 @@
     "sortOldest": "Oldest First",
     "sortAlphabetical": "Alphabetical",
     "sortMostDownloads": "Most Downloads"
+  },
+  "offers": {
+    "pageTitle": "Special Offers",
+    "pageSubtitle": "Discover exclusive deals and discounts from our partner companies",
+    "noOffers": "No offers available",
+    "noOffersDescription": "There are currently no active offers. Please check back later for new deals.",
+    "viewOffer": "View Offer",
+    "discountLabel": "Discount",
+    "companyLabel": "Company",
+    "availableOffers": "Available Offers",
+    "offerDetails": "Offer Details",
+    "backToOffers": "Back to Offers",
+    "newOffer": "New",
+    "limitedTime": "Limited Time",
+    "searchPlaceholder": "Search offers...",
+    "allCompanies": "All Companies",
+    "filterBy": "Filter by",
+    "clearFilters": "Clear Filters",
+    "sortBy": "Sort by",
+    "sortNewest": "Newest First",
+    "sortOldest": "Oldest First",
+    "sortCompany": "Company Name",
+    "sortDiscount": "Discount Amount"
   }
 }

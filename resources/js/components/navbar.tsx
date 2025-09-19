@@ -25,6 +25,7 @@ import {
     Info,
     Newspaper,
     Calendar,
+    Gift,
     BookOpen,
     Phone,
     LogOut,
@@ -88,6 +89,12 @@ export function Navbar() {
             href: '/events',
             description: 'Upcoming events and meetings',
             icon: Calendar,
+        },
+        {
+            title: t('nav.offers'),
+            href: '/offers',
+            description: 'Special offers and discounts',
+            icon: Gift,
         },
         {
             title: t('nav.resources'),

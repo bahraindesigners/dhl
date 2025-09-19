@@ -9,6 +9,7 @@ use App\Http\Controllers\EventRegistrationController;
 use App\Http\Controllers\HomePageController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\MembershipController;
+use App\Http\Controllers\OfferController;
 use App\Http\Controllers\ResourceController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -32,6 +33,10 @@ Route::get('/news/{blog}', [BlogController::class, 'show'])->name('blog.show');
 // Event routes
 Route::get('/events', [EventController::class, 'index'])->name('events.index');
 Route::get('/events/{event}', [EventController::class, 'show'])->name('events.show');
+
+// Offer routes
+Route::get('/offers', [OfferController::class, 'index'])->name('offers.index');
+Route::get('/offers/{offer}', [OfferController::class, 'show'])->name('offers.show');
 
 // Event registration routes (require authentication)
 Route::middleware(['auth'])->group(function () {
