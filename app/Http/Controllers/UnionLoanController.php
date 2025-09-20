@@ -72,7 +72,7 @@ class UnionLoanController extends Controller
         $settings = UnionLoanSettings::getActiveSettings();
 
         if (! $settings || ! $settings->is_active) {
-            return response()->json(['error' => 'Loan applications are currently disabled.'], 403);
+            return back()->withErrors(['error' => 'Loan applications are currently disabled.']);
         }
 
         $validated = $request->validate([
@@ -92,17 +92,7 @@ class UnionLoanController extends Controller
         // TODO: Send notification to receivers
         // $this->sendLoanApplicationNotification($loan, $settings->receivers);
 
-        return response()->json([
-            'message' => 'Loan application submitted successfully.',
-            'loan' => [
-                'id' => $loan->id,
-                'amount' => $loan->amount,
-                'months' => $loan->months,
-                'status' => $loan->status->value,
-                'status_label' => $loan->status->label(),
-                'created_at' => $loan->created_at->format('Y-m-d H:i:s'),
-            ],
-        ]);
+        return redirect()->route('loans.index')->with('success', 'Loan application submitted successfully.');
     }
 
     public function show(UnionLoan $loan): Response
@@ -112,19 +102,30 @@ class UnionLoanController extends Controller
             abort(403);
         }
 
+        // Load the relationships
+        $loan->load(['user', 'memberProfile']);
+
         return Inertia::render('loans/show', [
             'loan' => [
                 'id' => $loan->id,
                 'amount' => $loan->amount,
                 'months' => $loan->months,
                 'status' => $loan->status->value,
-                'status_label' => $loan->status->label(),
                 'note' => $loan->note,
                 'rejected_reason' => $loan->rejected_reason,
                 'created_at' => $loan->created_at->format('Y-m-d H:i:s'),
-                'created_at_human' => $loan->created_at->diffForHumans(),
                 'updated_at' => $loan->updated_at->format('Y-m-d H:i:s'),
-                'updated_at_human' => $loan->updated_at->diffForHumans(),
+                'user' => [
+                    'id' => $loan->user->id,
+                    'name' => $loan->user->name,
+                    'email' => $loan->user->email,
+                ],
+                'member_profile' => $loan->memberProfile ? [
+                    'id' => $loan->memberProfile->id,
+                    'member_number' => $loan->memberProfile->member_number,
+                    'full_name' => $loan->memberProfile->full_name,
+                    'phone' => $loan->memberProfile->phone,
+                ] : null,
             ],
         ]);
     }

@@ -1,10 +1,11 @@
-import { Head, Link } from '@inertiajs/react';
+import { Head, Link, usePage } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 import NavbarLayout from '@/layouts/navbar-layout';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import { 
     Plus,
     Banknote,
@@ -47,6 +48,7 @@ interface LoansIndexProps {
 
 export default function LoansIndex({ loans, settings, memberProfile }: LoansIndexProps) {
     const { t } = useTranslation();
+    const { flash } = usePage<{ flash: { success?: string; error?: string } }>().props;
 
     const getStatusIcon = (status: string) => {
         switch (status) {
@@ -79,6 +81,21 @@ export default function LoansIndex({ loans, settings, memberProfile }: LoansInde
             <Head title={t('loans.title')} />
             
             <div className="container mx-auto px-4 py-8 space-y-8">
+                {/* Flash Messages */}
+                {flash?.success && (
+                    <Alert className="bg-green-50 border-green-200 text-green-800">
+                        <CheckCircle2 className="h-4 w-4" />
+                        <AlertDescription>{flash.success}</AlertDescription>
+                    </Alert>
+                )}
+                
+                {flash?.error && (
+                    <Alert className="bg-red-50 border-red-200 text-red-800">
+                        <XCircle className="h-4 w-4" />
+                        <AlertDescription>{flash.error}</AlertDescription>
+                    </Alert>
+                )}
+
                 {/* Header Section */}
                 <div className="space-y-4">
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
@@ -169,7 +186,7 @@ export default function LoansIndex({ loans, settings, memberProfile }: LoansInde
                                                 className={getStatusColor(loan.status)}
                                             >
                                                 {getStatusIcon(loan.status)}
-                                                <span className="ml-1">{loan.status_label}</span>
+                                                <span className="ml-1">{t(`loans.statuses.${loan.status.toLowerCase()}`)}</span>
                                             </Badge>
                                         </div>
                                         <CardDescription>

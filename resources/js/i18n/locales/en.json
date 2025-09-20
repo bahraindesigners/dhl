@@ -396,6 +396,7 @@
     "sortDiscount": "Discount Amount"
   },
   "loans": {
+    "viewDetails": "View Details",
     "title": "Union Loans",
     "description": "Apply for and manage your union loan applications",
     "apply_new": "Apply for New Loan",

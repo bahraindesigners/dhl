@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\UnionLoans\Tables;
 
+use App\LoanStatus;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -32,18 +33,8 @@ class UnionLoansTable
                 TextColumn::make('status')
                     ->label('Status')
                     ->badge()
-                    ->color(fn (string $state): string => match ($state) {
-                        'pending' => 'warning',
-                        'approved' => 'success',
-                        'rejected' => 'danger',
-                        default => 'gray',
-                    })
-                    ->formatStateUsing(fn (string $state): string => match ($state) {
-                        'pending' => 'Pending',
-                        'approved' => 'Approved',
-                        'rejected' => 'Rejected',
-                        default => $state,
-                    })
+                    ->color(fn (LoanStatus $state): string => $state->color())
+                    ->formatStateUsing(fn (LoanStatus $state): string => $state->label())
                     ->sortable(),
                 TextColumn::make('created_at')
                     ->label('Applied On')
@@ -57,9 +48,9 @@ class UnionLoansTable
             ->filters([
                 SelectFilter::make('status')
                     ->options([
-                        'pending' => 'Pending',
-                        'approved' => 'Approved',
-                        'rejected' => 'Rejected',
+                        LoanStatus::Pending->value => LoanStatus::Pending->label(),
+                        LoanStatus::Approved->value => LoanStatus::Approved->label(),
+                        LoanStatus::Rejected->value => LoanStatus::Rejected->label(),
                     ]),
             ])
             ->defaultSort('created_at', 'desc')
