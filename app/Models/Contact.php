@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\ContactMessageCreated;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -21,6 +22,13 @@ class Contact extends Model
         'is_read',
         'read_at',
     ];
+
+    protected static function booted(): void
+    {
+        static::created(function (Contact $contact) {
+            ContactMessageCreated::dispatch($contact);
+        });
+    }
 
     protected function casts(): array
     {

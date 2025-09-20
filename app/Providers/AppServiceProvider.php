@@ -2,8 +2,14 @@
 
 namespace App\Providers;
 
+use App\Events\ContactMessageCreated;
 use App\Events\EventRegistrationCreated;
+use App\Events\UnionLoanCreated;
+use App\Events\UnionLoanUpdated;
 use App\Listeners\EventRegistrationListener;
+use App\Listeners\SendContactMessageNotification;
+use App\Listeners\SendNewUnionLoanNotification;
+use App\Listeners\SendUnionLoanStatusUpdate;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
@@ -37,6 +43,21 @@ class AppServiceProvider extends ServiceProvider
         Event::listen(
             EventRegistrationCreated::class,
             EventRegistrationListener::class
+        );
+
+        Event::listen(
+            UnionLoanCreated::class,
+            SendNewUnionLoanNotification::class
+        );
+
+        Event::listen(
+            UnionLoanUpdated::class,
+            SendUnionLoanStatusUpdate::class
+        );
+
+        Event::listen(
+            ContactMessageCreated::class,
+            SendContactMessageNotification::class
         );
     }
 }

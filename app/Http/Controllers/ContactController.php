@@ -3,11 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ContactFormRequest;
-use App\Mail\NewContactMessage;
 use App\Models\Contact;
 use App\Models\ContactSetting;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -55,16 +52,9 @@ class ContactController extends Controller
             'user_agent' => $request->userAgent(),
         ]);
 
-        // Send notification email to admin
-        $settings = ContactSetting::getSingleton();
-        if ($settings->notification_email) {
-            try {
-                Mail::to($settings->notification_email)->send(new NewContactMessage($contact));
-            } catch (\Exception $e) {
-                // Log the error but don't fail the contact submission
-                Log::error('Failed to send contact notification email: '.$e->getMessage());
-            }
-        }
+        // The ContactMessageCreated event will be automatically dispatched
+        // by the Contact model's booted() method, which will trigger
+        // the SendContactMessageNotification listener
 
         return back()->with('success', 'Thank you for your message! We will get back to you soon.');
     }

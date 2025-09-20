@@ -2,13 +2,18 @@
 
 namespace App\Models;
 
+use App\Events\UnionLoanCreated;
+use App\Events\UnionLoanUpdated;
 use App\LoanStatus;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
 class UnionLoan extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'user_id',
         'amount',
@@ -17,6 +22,20 @@ class UnionLoan extends Model
         'note',
         'rejected_reason',
     ];
+
+    protected static function booted(): void
+    {
+        static::created(function (UnionLoan $unionLoan) {
+            UnionLoanCreated::dispatch($unionLoan);
+        });
+
+        static::updated(function (UnionLoan $unionLoan) {
+            // Only fire the event if the status was actually changed
+            if ($unionLoan->wasChanged('status')) {
+                UnionLoanUpdated::dispatch($unionLoan);
+            }
+        });
+    }
 
     protected function casts(): array
     {
