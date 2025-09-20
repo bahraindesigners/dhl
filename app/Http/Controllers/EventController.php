@@ -226,7 +226,7 @@ class EventController extends Controller
         $isRegistered = false;
         if (Auth::check()) {
             $user = Auth::user();
-            $memberProfile = $user->memberProfile;
+            $memberProfile = $user->activeMemberProfile; // Only get approved profile
 
             // Check if user is already registered for this event
             $isRegistered = $event->registrations()

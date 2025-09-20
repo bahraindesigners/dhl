@@ -16,7 +16,7 @@ class ResourceController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $hasProfile = $user && $user->memberProfile;
+        $hasProfile = $user && $user->activeMemberProfile;
 
         // Get active categories
         $categories = DownloadCategory::active()
@@ -83,7 +83,7 @@ class ResourceController extends Controller
         ]);
 
         $user = Auth::user();
-        $hasProfile = $user && $user->memberProfile;
+        $hasProfile = $user && $user->activeMemberProfile;
 
         // Check access permissions
         if ($download->access_level === 'members' && ! $hasProfile) {
@@ -151,7 +151,7 @@ class ResourceController extends Controller
         ]);
 
         $user = Auth::user();
-        $hasProfile = $user && $user->memberProfile;
+        $hasProfile = $user && $user->activeMemberProfile;
 
         // Check access permissions
         if ($download->access_level === 'members' && ! $hasProfile) {

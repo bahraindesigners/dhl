@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\MemberProfileCreated;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -128,5 +129,15 @@ class MemberProfile extends Model implements HasMedia
     public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Boot the model to register event listeners.
+     */
+    protected static function booted(): void
+    {
+        static::created(function (MemberProfile $memberProfile) {
+            MemberProfileCreated::dispatch($memberProfile);
+        });
     }
 }

@@ -4,10 +4,12 @@ namespace App\Providers;
 
 use App\Events\ContactMessageCreated;
 use App\Events\EventRegistrationCreated;
+use App\Events\MemberProfileCreated;
 use App\Events\UnionLoanCreated;
 use App\Events\UnionLoanUpdated;
 use App\Listeners\EventRegistrationListener;
 use App\Listeners\SendContactMessageNotification;
+use App\Listeners\SendMemberProfileNotification;
 use App\Listeners\SendNewUnionLoanNotification;
 use App\Listeners\SendUnionLoanStatusUpdate;
 use Illuminate\Support\Facades\Event;
@@ -58,6 +60,11 @@ class AppServiceProvider extends ServiceProvider
         Event::listen(
             ContactMessageCreated::class,
             SendContactMessageNotification::class
+        );
+
+        Event::listen(
+            MemberProfileCreated::class,
+            SendMemberProfileNotification::class
         );
     }
 }

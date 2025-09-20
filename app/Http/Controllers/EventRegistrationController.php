@@ -19,7 +19,7 @@ class EventRegistrationController extends Controller
         $user = Auth::user();
 
         // Check if user has a member profile
-        if (! $user->memberProfile) {
+        if (! $user->activeMemberProfile) {
             return back()->with('error', 'You must have a complete member profile to register for events. Please update your profile first.');
         }
 

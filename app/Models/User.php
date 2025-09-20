@@ -54,4 +54,8 @@ class User extends Authenticatable
     {
         return $this->hasOne(MemberProfile::class);
     }
+    public function activeMemberProfile(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(MemberProfile::class)->where('profile_status', true);
+    }
 }

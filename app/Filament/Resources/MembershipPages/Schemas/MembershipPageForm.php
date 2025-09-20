@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\MembershipPages\Schemas;
 
 use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
@@ -64,6 +65,13 @@ class MembershipPageForm
                             ->label('Enable Member Profile Form')
                             ->helperText('When enabled, users can submit their profile to join the union')
                             ->default(true),
+
+                        TextInput::make('notification_email')
+                            ->label('Notification Email')
+                            ->email()
+                            ->placeholder('admin@example.com')
+                            ->helperText('Email address to receive notifications when new members submit their profiles')
+                            ->maxLength(255),
                     ])
                     ->columns(1),
             ]);

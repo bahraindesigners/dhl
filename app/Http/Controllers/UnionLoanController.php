@@ -15,7 +15,7 @@ class UnionLoanController extends Controller
     public function index(): Response
     {
         $user = Auth::user();
-        $memberProfile = $user->memberProfile;
+        $memberProfile = $user->activeMemberProfile;
 
         // Get user's loan history
         $loans = UnionLoan::where('user_id', $user->id)

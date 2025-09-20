@@ -246,6 +246,8 @@
     "noResultsDescription": "Try adjusting your search or filter to find what you're looking for."
   },
   "membership": {
+    "alreadyMemberTitle": "You are already a member",
+    "alreadyMemberMessage": "Thank you for being a valued member of DHL Bahraini Trade Union. If you need to update your membership information or have any questions, please contact us.",
     "pageTitle": "Membership",
     "pageSubtitle": "Join our growing community and become part of something greater",
     "howToJoin": "How to Join",

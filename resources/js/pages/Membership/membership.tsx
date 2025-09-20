@@ -62,7 +62,7 @@ export default function Membership() {
             id: 'personal',
             title: t('membership.form.personalInformation'),
             component: (
-                <PersonalInformation 
+                <PersonalInformation
                     data={data}
                     setData={setData}
                     errors={errors}
@@ -72,10 +72,10 @@ export default function Membership() {
             ),
             validate: () => {
                 return !!(
-                    data.mobile_number && 
-                    data.cpr_number && 
-                    data.nationality && 
-                    data.gender && 
+                    data.mobile_number &&
+                    data.cpr_number &&
+                    data.nationality &&
+                    data.gender &&
                     data.marital_status
                 );
             }
@@ -84,7 +84,7 @@ export default function Membership() {
             id: 'employment',
             title: t('membership.form.employmentInformation'),
             component: (
-                <EmploymentInformation 
+                <EmploymentInformation
                     data={data}
                     setData={setData}
                     errors={errors}
@@ -93,9 +93,9 @@ export default function Membership() {
             ),
             validate: () => {
                 return !!(
-                    data.staff_number && 
-                    data.date_of_joining && 
-                    data.position && 
+                    data.staff_number &&
+                    data.date_of_joining &&
+                    data.position &&
                     data.department &&
                     data.section
                 );
@@ -105,7 +105,7 @@ export default function Membership() {
             id: 'contact',
             title: t('membership.form.contactInformation'),
             component: (
-                <ContactInformation 
+                <ContactInformation
                     data={data}
                     setData={setData}
                     errors={errors}
@@ -121,13 +121,13 @@ export default function Membership() {
             title: t('membership.form.signature'),
             component: (
                 <div className="space-y-8">
-                    <SignatureSection 
+                    <SignatureSection
                         data={data}
                         setData={setData}
                         errors={errors}
                         isRTL={isRTL}
                     />
-                    <Attachments 
+                    <Attachments
                         data={data}
                         setData={setData}
                         errors={errors}
@@ -154,11 +154,11 @@ export default function Membership() {
                 const content = node.content ? node.content.map(processNode).join('') : '<br />';
                 return `<p>${content}</p>`;
             }
-            
+
             if (node.type === 'text') {
                 return node.text || '';
             }
-            
+
             if (node.type === 'heading') {
                 const level = node.attrs?.level || 1;
                 const content = node.content ? node.content.map(processNode).join('') : '';
@@ -202,12 +202,12 @@ export default function Membership() {
         if (typeof content === 'string') {
             return content;
         }
-        
+
         // If content is TipTap JSON, convert it to HTML
         if (content && typeof content === 'object' && content.type === 'doc') {
             return tiptapToHtml(content);
         }
-        
+
         // Fallback for any other format
         return String(content || '');
     };
@@ -220,11 +220,11 @@ export default function Membership() {
     return (
         <NavbarLayout>
             <Head title={`${t('membership.pageTitle')} - ${t('company.name')}`} />
-            
+
             {/* Hero Section */}
             <section className={`relative bg-gradient-to-br from-primary/5 via-white to-primary/10 py-16 sm:py-24 ${isRTL ? 'rtl' : ''}`}>
                 <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-from)_0%,_transparent_50%)] from-primary/20"></div>
-                
+
                 <div className="relative w-full px-4 sm:px-6 lg:px-8">
                     <div className="w-full">
                         {/* Animated Icon */}
@@ -312,7 +312,7 @@ export default function Membership() {
                             </h2>
                         </div>
 
-                        <div 
+                        <div
                             className={`transition-all duration-500 ${isRTL ? 'font-arabic' : ''} prose prose-lg prose-gray prose-content max-w-none
                                 prose-headings:text-gray-900 prose-headings:font-bold
                                 prose-h1:text-3xl prose-h1:mb-6 prose-h1:mt-8
@@ -344,7 +344,7 @@ export default function Membership() {
                             </h2>
                         </div>
 
-                        <div 
+                        <div
                             className={`transition-all duration-500 ${isRTL ? 'font-arabic' : ''} prose prose-lg prose-gray prose-content max-w-none
                                 prose-headings:text-gray-900 prose-headings:font-bold
                                 prose-h1:text-3xl prose-h1:mb-6 prose-h1:mt-8
@@ -377,19 +377,29 @@ export default function Membership() {
                                 {auth.user ? t('membership.fillOutForm') : t('membership.loginRequired')}
                             </p>
                         </div>
-
                         {auth.user ? (
-                            /* Multi-Step Member Registration Form */
-                            <form onSubmit={(e) => e.preventDefault()}>
-                                <MultiStepForm 
-                                    steps={formSteps}
-                                    onSubmit={submit}
-                                    isSubmitting={processing}
-                                    isRTL={isRTL}
-                                    data={data}
-                                    errors={errors}
-                                />
-                            </form>
+                            auth.memberProfile ? (
+                                <div className={`max-w-3xl mx-auto p-6 bg-green-50 border border-green-200 rounded-lg text-center ${isRTL ? 'font-arabic' : ''}`}>
+                                    <h3 className="text-xl font-semibold text-green-800 mb-2">
+                                        {t('membership.alreadyMemberTitle')}
+                                    </h3>
+                                    <p className="text-green-700">
+                                        {t('membership.alreadyMemberMessage')}
+                                    </p>
+                                </div>
+                            ) : (
+                                /* Multi-Step Member Registration Form */
+                                <form onSubmit={(e) => e.preventDefault()}>
+                                    <MultiStepForm
+                                        steps={formSteps}
+                                        onSubmit={submit}
+                                        isSubmitting={processing}
+                                        isRTL={isRTL}
+                                        data={data}
+                                        errors={errors}
+                                    />
+                                </form>
+                            )
                         ) : (
                             /* Login Required Section */
                             <div className="max-w-md mx-auto">
@@ -397,15 +407,15 @@ export default function Membership() {
                                     <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-primary text-white">
                                         <LogIn className="h-8 w-8" />
                                     </div>
-                                    
+
                                     <h3 className={`text-xl font-bold text-gray-900 mb-4 ${isRTL ? 'font-arabic' : ''}`}>
                                         {t('membership.authRequired')}
                                     </h3>
-                                    
+
                                     <p className={`text-gray-600 mb-6 ${isRTL ? 'font-arabic' : ''}`}>
                                         {t('membership.authRequiredDesc')}
                                     </p>
-                                    
+
                                     <Link
                                         href={login()}
                                         className={`inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 text-sm font-medium text-white transition-all duration-200 hover:bg-primary/90 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 shadow-lg hover:shadow-xl ${isRTL ? 'flex-row-reverse font-arabic' : ''}`}

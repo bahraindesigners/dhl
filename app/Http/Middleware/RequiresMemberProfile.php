@@ -21,7 +21,7 @@ class RequiresMemberProfile
             $user = Auth::user();
 
             // Check if user has a member profile
-            if (! $user->memberProfile) {
+            if (! $user->memberProfile || ! $user->memberProfile->is_approved) {
                 // If the user is already on the membership page, allow access
                 if ($request->routeIs('membership')) {
                     return $next($request);

@@ -11,7 +11,7 @@ class ProfileController extends Controller
     public function index(): Response
     {
         $user = Auth::user();
-        $memberProfile = $user->memberProfile;
+        $memberProfile = $user->activeMemberProfile; // Only get approved profile
 
         return Inertia::render('profile', [
             'user' => [
