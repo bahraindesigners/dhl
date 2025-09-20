@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::table('member_profiles', function (Blueprint $table) {
             // Add only the missing fields (user_id and other fields already exist)
-            $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending')->after('signature');
-            $table->timestamp('registered_at')->nullable()->after('status');
+            $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
+            $table->timestamp('registered_at')->nullable();
         });
     }
 

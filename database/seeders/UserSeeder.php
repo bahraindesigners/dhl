@@ -14,8 +14,14 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        // Get roles
-        $superAdminRole = Role::where('name', 'Super Admin')->first();
+        // Ensure roles exist first
+        $superAdminRole = Role::where('name', 'super_admin')->first();
+        
+        if (!$superAdminRole) {
+            $this->command->error('Super admin role not found! Please run PermissionSeeder first:');
+            $this->command->error('php artisan db:seed --class=PermissionSeeder');
+            return;
+        }
 
         // Create admin user and assign Super Admin role
         $adminUser = User::factory()->create([
@@ -24,11 +30,12 @@ class UserSeeder extends Seeder
             'password' => Hash::make('password'),
             'email_verified_at' => now(),
         ]);
-        if ($superAdminRole) {
-            $adminUser->assignRole($superAdminRole);
-        }
+        
+        $adminUser->assignRole($superAdminRole);
+        
         $this->command->info('Users seeded successfully!');
         $this->command->info('Login credentials:');
         $this->command->info('Super Admin: admin@dhl.test / password');
+        $this->command->info('Roles assigned: ' . $adminUser->getRoleNames()->implode(', '));
     }
 }
