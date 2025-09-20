@@ -17,7 +17,7 @@ test('new users can register', function () {
     ]);
 
     $this->assertAuthenticated();
-    $response->assertRedirect(route('dashboard', absolute: false));
+    $response->assertRedirect(route('profile', absolute: false));
 });
 
 test('new users get default user role upon registration', function () {
@@ -31,7 +31,7 @@ test('new users get default user role upon registration', function () {
         'password_confirmation' => 'password',
     ]);
 
-    $response->assertRedirect(route('dashboard', absolute: false));
+    $response->assertRedirect(route('profile', absolute: false));
 
     // Verify the user exists and has the default "User" role
     $user = \App\Models\User::where('email', 'test@example.com')->first();

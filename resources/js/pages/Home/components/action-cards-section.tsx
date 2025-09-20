@@ -29,7 +29,7 @@ export default function ActionCardsSection() {
                 <HomeActionCard
                     title={t('home.downloadResources')}
                     description={t('home.downloadResourcesDescription')}
-                    link={"/dashboard"}
+                    link={"/resources"}
                 />
                 {
                     auth.user && (
@@ -37,17 +37,17 @@ export default function ActionCardsSection() {
                             <HomeActionCard
                                 title={t('home.membersServices')}
                                 description={t('home.membersServicesDescription')}
-                                link={"/about"}
+                                link={"/"}
                             />
                             <HomeActionCard
                                 title={t('home.complaints')}
                                 description={t('home.complaintsDescription')}
-                                link={"/events"}
+                                link={"/"}
                             />
                             <HomeActionCard
                                 title={t('home.offersAndDiscounts')}
                                 description={t('home.offersAndDiscountsDescription')}
-                                link={"/dashboard"}
+                                link={"/offers"}
                             />
                         </>
                     )

@@ -19,7 +19,7 @@ import {
 } from '@/components/ui/navigation-menu';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { cn } from '@/lib/utils';
-import { dashboard, login, register } from '@/routes';
+import { login, register } from '@/routes';
 import { type SharedData } from '@/types';
 import { Link, usePage, router } from '@inertiajs/react';
 import {
@@ -32,7 +32,6 @@ import {
     Phone,
     LogOut,
     Menu,
-    Settings,
     User,
     LogIn,
     Globe,
@@ -111,13 +110,19 @@ export function Navbar() {
                     description: t('nav.offersDescription'),
                     icon: Gift,
                 },
+                {
+                    title: t('nav.resources'),
+                    href: '/resources',
+                    description: t('nav.resourcesDescription'),
+                    icon: BookOpen,
+                },
+                {
+                    title: t('loans.title'),
+                    href: '/loans',
+                    description: t('loans.description'),
+                    icon: BookOpen,
+                },
             ]
-        },
-        {
-            title: t('nav.resources'),
-            href: '/resources',
-            description: 'Helpful resources and documents',
-            icon: BookOpen,
         },
         {
             title: t('nav.contact'),
@@ -289,12 +294,11 @@ export function Navbar() {
                                         <p className="text-xs text-muted-foreground">{auth.user.email}</p>
                                     </div>
                                     <DropdownMenuItem asChild>
-                                        <Link href={dashboard()}>
-                                            <Settings className="mr-2 h-4 w-4" />
-                                            {t('auth.dashboard')}
+                                        <Link href="/profile">
+                                            <User className="mr-2 h-4 w-4" />
+                                            {t('profile.title')}
                                         </Link>
                                     </DropdownMenuItem>
-                                    <DropdownMenuSeparator />
                                     <DropdownMenuItem asChild>
                                         <Link href="/logout" method="post">
                                             <LogOut className="mr-2 h-4 w-4" />
@@ -389,12 +393,12 @@ export function Navbar() {
                                             <p className="text-xs text-muted-foreground">{auth.user.email}</p>
                                         </div>
                                         <Link
-                                            href={dashboard()}
+                                            href="/profile"
                                             onClick={() => setIsOpen(false)}
                                             className="flex items-center space-x-3 rounded-lg p-3 text-sm font-medium hover:bg-accent"
                                         >
-                                            <Settings className="h-5 w-5 text-black" />
-                                            <span>{t('auth.dashboard')}</span>
+                                            <User className="h-5 w-5 text-black" />
+                                            <span>{t('profile.title')}</span>
                                         </Link>
                                         <Link
                                             href="/logout"

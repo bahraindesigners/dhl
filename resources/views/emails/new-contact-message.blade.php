@@ -60,7 +60,7 @@
     <div class="container">
         <div class="header">
             <h1 style="margin: 0;">New Contact Message</h1>
-            <p style="margin: 10px 0 0 0; opacity: 0.9;">DHL Bahraini Trade Union</p>
+            <p style="margin: 10px 0 0 0; opacity: 0.9;">DHL Bahraini Union</p>
         </div>
         
         <div class="content">

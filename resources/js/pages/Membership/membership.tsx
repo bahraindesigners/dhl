@@ -1,8 +1,8 @@
 import React from 'react';
-import { Head, Form, usePage, useForm } from '@inertiajs/react';
+import { Head, Form, usePage, useForm, Link } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 import { type SharedData } from '@/types';
-import { Users, UserPlus, Star } from 'lucide-react';
+import { Users, UserPlus, Star, LogIn, ArrowRight } from 'lucide-react';
 import NavbarLayout from '@/layouts/navbar-layout';
 import PersonalInformation from './components/PersonalInformation';
 import EmploymentInformation from './components/EmploymentInformation';
@@ -10,6 +10,7 @@ import ContactInformation from './components/ContactInformation';
 import SignatureSection from './components/SignatureSection';
 import Attachments from './components/Attachments';
 import MultiStepForm from './components/MultiStepForm';
+import { login } from '@/routes';
 
 interface MembershipPageProps {
     page: {
@@ -20,7 +21,7 @@ interface MembershipPageProps {
 }
 
 export default function Membership() {
-    const { page, auth, flash } = usePage<SharedData & MembershipPageProps & { flash: { success?: string; error?: string } }>().props;
+    const { page, auth, flash } = usePage<SharedData & MembershipPageProps & { flash: { success?: string; error?: string; info?: string } }>().props;
     const { t, i18n } = useTranslation();
     const isRTL = i18n.language === 'ar';
 
@@ -245,7 +246,7 @@ export default function Membership() {
             </section>
 
             {/* Flash Messages */}
-            {(flash?.success || flash?.error) && (
+            {(flash?.success || flash?.error || flash?.info) && (
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
                     {flash?.success && (
                         <div className={`rounded-md bg-green-50 p-4 ${isRTL ? 'font-arabic' : ''}`}>
@@ -258,6 +259,22 @@ export default function Membership() {
                                 <div className="ml-3">
                                     <p className="text-sm font-medium text-green-800">
                                         {flash.success}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                    {flash?.info && (
+                        <div className={`rounded-md bg-blue-50 p-4 ${isRTL ? 'font-arabic' : ''}`}>
+                            <div className="flex">
+                                <div className="flex-shrink-0">
+                                    <svg className="h-5 w-5 text-blue-400" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+                                    </svg>
+                                </div>
+                                <div className="ml-3">
+                                    <p className="text-sm font-medium text-blue-800">
+                                        {flash.info}
                                     </p>
                                 </div>
                             </div>
@@ -286,7 +303,7 @@ export default function Membership() {
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
                     {/* How to Join Section */}
                     <div className="space-y-8">
-                        <div className={`flex items-center gap-4 ${isRTL ? 'flex-row-reverse' : ''}`}>
+                        <div className={`flex items-center gap-4 `}>
                             <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary text-white">
                                 <UserPlus className="h-6 w-6" />
                             </div>
@@ -318,7 +335,7 @@ export default function Membership() {
 
                     {/* Union Benefits Section */}
                     <div className="space-y-8">
-                        <div className={`flex items-center gap-4 ${isRTL ? 'flex-row-reverse' : ''}`}>
+                        <div className={`flex items-center gap-4 `}>
                             <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary text-white">
                                 <Star className="h-6 w-6" />
                             </div>
@@ -357,21 +374,49 @@ export default function Membership() {
                                 {t('membership.joinToday')}
                             </h2>
                             <p className={`text-lg text-gray-600 max-w-2xl mx-auto ${isRTL ? 'font-arabic' : ''}`}>
-                                {t('membership.fillOutForm')}
+                                {auth.user ? t('membership.fillOutForm') : t('membership.loginRequired')}
                             </p>
                         </div>
 
-                        {/* Multi-Step Member Registration Form */}
-                        <form onSubmit={(e) => e.preventDefault()}>
-                            <MultiStepForm 
-                                steps={formSteps}
-                                onSubmit={submit}
-                                isSubmitting={processing}
-                                isRTL={isRTL}
-                                data={data}
-                                errors={errors}
-                            />
-                        </form>
+                        {auth.user ? (
+                            /* Multi-Step Member Registration Form */
+                            <form onSubmit={(e) => e.preventDefault()}>
+                                <MultiStepForm 
+                                    steps={formSteps}
+                                    onSubmit={submit}
+                                    isSubmitting={processing}
+                                    isRTL={isRTL}
+                                    data={data}
+                                    errors={errors}
+                                />
+                            </form>
+                        ) : (
+                            /* Login Required Section */
+                            <div className="max-w-md mx-auto">
+                                <div className="bg-gradient-to-br from-primary/5 via-white to-primary/10 rounded-2xl p-8 text-center border border-primary/10 shadow-lg">
+                                    <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-primary text-white">
+                                        <LogIn className="h-8 w-8" />
+                                    </div>
+                                    
+                                    <h3 className={`text-xl font-bold text-gray-900 mb-4 ${isRTL ? 'font-arabic' : ''}`}>
+                                        {t('membership.authRequired')}
+                                    </h3>
+                                    
+                                    <p className={`text-gray-600 mb-6 ${isRTL ? 'font-arabic' : ''}`}>
+                                        {t('membership.authRequiredDesc')}
+                                    </p>
+                                    
+                                    <Link
+                                        href={login()}
+                                        className={`inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 text-sm font-medium text-white transition-all duration-200 hover:bg-primary/90 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 shadow-lg hover:shadow-xl ${isRTL ? 'flex-row-reverse font-arabic' : ''}`}
+                                    >
+                                        <LogIn className="h-4 w-4" />
+                                        <span>{t('auth.login')}</span>
+                                        <ArrowRight className={`h-4 w-4 ${isRTL ? 'rotate-180' : ''}`} />
+                                    </Link>
+                                </div>
+                            </div>
+                        )}
                     </div>
                 )}
             </div>

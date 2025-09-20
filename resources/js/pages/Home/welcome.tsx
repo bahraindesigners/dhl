@@ -1,4 +1,4 @@
-import { dashboard, login, register } from '@/routes';
+import { login, register } from '@/routes';
 import { type SharedData, HomeSlider as SliderType, Blog, Event } from '@/types';
 import { Head, Link, usePage } from '@inertiajs/react';
 import HomeSlider from '@/pages/Home/components/home-slider';

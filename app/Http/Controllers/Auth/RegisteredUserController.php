@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use Spatie\Permission\Models\Role;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -14,6 +13,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rules;
 use Inertia\Inertia;
 use Inertia\Response;
+use Spatie\Permission\Models\Role;
 
 class RegisteredUserController extends Controller
 {
@@ -52,13 +52,13 @@ class RegisteredUserController extends Controller
             }
         } catch (\Exception $e) {
             // Log the error but don't fail the registration
-            Log::warning('Failed to assign default role to user: ' . $e->getMessage());
+            Log::warning('Failed to assign default role to user: '.$e->getMessage());
         }
 
         event(new Registered($user));
 
         Auth::login($user);
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        return redirect()->intended(route('profile', absolute: false));
     }
 }

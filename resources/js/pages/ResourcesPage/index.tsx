@@ -221,10 +221,10 @@ export default function Resources() {
                                         </p>
                                     </div>
                                     <Link
-                                        href="/profile"
+                                        href="/membership"
                                         className="bg-amber-600 hover:bg-amber-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors whitespace-nowrap"
                                     >
-                                        {t('profile.completeProfile') || 'Complete Profile'}
+                                        {t('resources.completeProfile') || 'Complete Profile'}
                                     </Link>
                                 </div>
                             </div>

@@ -2,44 +2,42 @@ import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
-import { dashboard } from '@/routes';
 import { type NavItem } from '@/types';
-import { Link } from '@inertiajs/react';
-import { BookOpen, Folder, LayoutGrid } from 'lucide-react';
+import { Link, usePage } from '@inertiajs/react';
+import { BookOpen, Folder, LayoutGrid, Banknote } from 'lucide-react';
 import AppLogo from './app-logo';
 import { useTranslation } from 'react-i18next';
 
-const mainNavItems: NavItem[] = [
-    {
-        title: 'Dashboard',
-        href: dashboard(),
-        icon: LayoutGrid,
-    },
-];
-
-// const footerNavItems: NavItem[] = [
-//     {
-//         title: 'Repository',
-//         href: 'https://github.com/laravel/react-starter-kit',
-//         icon: Folder,
-//     },
-//     {
-//         title: 'Documentation',
-//         href: 'https://laravel.com/docs/starter-kits#react',
-//         icon: BookOpen,
-//     },
-// ];
-
 export function AppSidebar() {
-    const { i18n } = useTranslation();
+    const { i18n, t } = useTranslation();
+    const { auth } = usePage().props as any;
     const n = i18n.dir() === 'ltr' ? 'left' : 'right';
+    
+    // Build navigation items based on user permissions
+    const mainNavItems: NavItem[] = [
+        {
+            title: t('profile.title'),
+            href: '/profile',
+            icon: LayoutGrid,
+        },
+    ];
+
+    // Add Union Loans if user has member profile
+    if (auth.user && auth.user.memberProfile) {
+        mainNavItems.push({
+            title: t('loans.title'),
+            href: '/loans',
+            icon: Banknote,
+        });
+    }
+    
     return (
         <Sidebar collapsible="icon" variant="inset" side={n}>
             <SidebarHeader>
                 <SidebarMenu>
                     <SidebarMenuItem>
                         <SidebarMenuButton size="lg" asChild>
-                            <Link href={dashboard()} prefetch>
+                            <Link href="/profile" prefetch>
                                 <AppLogo />
                             </Link>
                         </SidebarMenuButton>

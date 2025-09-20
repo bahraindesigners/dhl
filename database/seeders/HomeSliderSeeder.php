@@ -16,8 +16,8 @@ class HomeSliderSeeder extends Seeder
         $sliders = [
             [
                 'title' => [
-                    'en' => 'Welcome to the DHL Bahraini Trade Union',
-                    'ar' => 'مرحباً بكم في نقابة دي إتش إل البحرينية',
+                    'en' => 'Welcome to the DHL Union',
+                    'ar' => 'مرحباً بكم في نقابة DHL البحرينية',
                 ],
                 'subtitle' => [
                     'en' => 'Unity • Strength • Progress',

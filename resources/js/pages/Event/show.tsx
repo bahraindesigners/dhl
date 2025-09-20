@@ -21,7 +21,7 @@ export default function EventShow() {
     const { t, i18n } = useTranslation();
     const isRTL = i18n.language === 'ar';
     const galleryRef = useRef<HTMLDivElement>(null);
-    
+
     // Registration modal state
     const [isRegistrationModalOpen, setIsRegistrationModalOpen] = useState(false);
 
@@ -417,7 +417,7 @@ export default function EventShow() {
                                         </div>
                                     </div>
                                 ) : user.has_member_profile ? (
-                                    <button 
+                                    <button
                                         onClick={openRegistrationModal}
                                         className="bg-primary text-white px-6 py-3 rounded-lg font-medium hover:bg-primary/90 transition-colors"
                                     >
@@ -428,11 +428,11 @@ export default function EventShow() {
                                         <p className={`text-amber-600 mb-3 ${isRTL ? 'font-arabic' : ''}`}>
                                             {t('events.memberProfileRequired') || 'You need to complete your member profile to register for events.'}
                                         </p>
-                                        <a 
-                                            href="/profile"
+                                        <a
+                                            href="/membership"
                                             className="bg-amber-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-amber-700 transition-colors"
                                         >
-                                            {t('events.completeProfile') || 'Complete Profile'}
+                                            {t('resources.completeProfile') || 'Complete Profile'}
                                         </a>
                                     </div>
                                 )
@@ -441,7 +441,7 @@ export default function EventShow() {
                                     <p className={`text-blue-600 mb-3 ${isRTL ? 'font-arabic' : ''}`}>
                                         {t('events.loginRequired') || 'You need to login to register for events.'}
                                     </p>
-                                    <a 
+                                    <a
                                         href="/login"
                                         className="bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors"
                                     >
