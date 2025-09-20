@@ -19,21 +19,21 @@ class DatabaseSeeder extends Seeder
         $this->call(UserSeeder::class);
 
         // Seed blog categories
-        $this->call(BlogCategorySeeder::class);
+        // $this->call(BlogCategorySeeder::class);
 
         // Seed blog data
-        $this->call(BlogSeeder::class);
+        // $this->call(BlogSeeder::class);
 
         // Seed event data
-        $this->call(EventSeeder::class);
+        // $this->call(EventSeeder::class);
 
         // Seed event registrations
-        $this->call(EventRegistrationSeeder::class);
+        // $this->call(EventRegistrationSeeder::class);
 
         // Seed home sliders
-        $this->call(HomeSliderSeeder::class);
+        // $this->call(HomeSliderSeeder::class);
 
         // Seed contact settings
-        $this->call(ContactSettingSeeder::class);
+        // $this->call(ContactSettingSeeder::class);
     }
 }
