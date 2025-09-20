@@ -24,14 +24,18 @@ class UserSeeder extends Seeder
         }
 
         // Create admin user and assign Super Admin role
-        $adminUser = User::factory()->create([
-            'name' => 'Admin User',
-            'email' => 'admin@dhl.test',
-            'password' => Hash::make('password'),
-            'email_verified_at' => now(),
-        ]);
-        
-        $adminUser->assignRole($superAdminRole);
+        $adminUser = User::updateOrCreate(
+            ['email' => 'admin@dhl.test'],
+            [
+                'name' => 'Admin User',
+                'password' => Hash::make('password'),
+                'email_verified_at' => now(),
+            ]
+        );
+
+        if (!$adminUser->hasRole($superAdminRole)) {
+            $adminUser->assignRole($superAdminRole);
+        }
         
         $this->command->info('Users seeded successfully!');
         $this->command->info('Login credentials:');
