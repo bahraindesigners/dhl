@@ -115,7 +115,7 @@ export default function UrgentNewsSlider({
                                             </span>
                                             
                                             <Link
-                                                href={`/news/${news.slug}`}
+                                                href={`/news/${news.id}`}
                                                 className={`inline-flex items-center gap-2 text-red-600 hover:text-red-700 text-sm font-medium transition-colors ${isRTL ? 'flex-row-reverse font-arabic' : ''}`}
                                             >
                                                 <span>{t('news.readMore')}</span>
