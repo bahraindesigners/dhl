@@ -26,7 +26,20 @@ class Contact extends Model
     protected static function booted(): void
     {
         static::created(function (Contact $contact) {
-            ContactMessageCreated::dispatch($contact);
+            try {
+                ContactMessageCreated::dispatch($contact);
+                \Illuminate\Support\Facades\Log::info('ContactMessageCreated event dispatched', [
+                    'contact_id' => $contact->id,
+                    'contact_email' => $contact->email,
+                ]);
+            } catch (\Exception $e) {
+                \Illuminate\Support\Facades\Log::error('Failed to dispatch ContactMessageCreated event', [
+                    'contact_id' => $contact->id,
+                    'error' => $e->getMessage(),
+                ]);
+                // Re-throw the exception so the contact creation fails if event dispatch fails
+                throw $e;
+            }
         });
     }
 

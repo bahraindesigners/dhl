@@ -60,6 +60,8 @@
     "success": "Success",
     "back": "Back",
     "cancel": "Cancel",
+    "next": "Next",
+    "previous": "Previous",
     "optional": "Optional",
     "yes": "Yes",
     "no": "No",
@@ -84,6 +86,28 @@
     "featuredDescription": "These are the most commonly asked questions by our community members",
     "moreQuestionsBelow": "More questions organized by category below",
     "featured":"Featured"
+  },
+  "contact": {
+    "description": "Get in touch with us for questions, support, or more information about our union services",
+    "sendMessage": "Send us a Message",
+    "formDescription": "Fill out the form below and we'll get back to you as soon as possible",
+    "successMessage": "Thank you for your message! We will get back to you soon.",
+    "namePlaceholder": "Your full name",
+    "emailPlaceholder": "your.email@example.com",
+    "phonePlaceholder": "+973 1234 5678",
+    "subjectPlaceholder": "Message subject",
+    "messagePlaceholder": "How can we help you?",
+    "sending": "Sending...",
+    "subject": "Subject",
+    "message": "Message",
+    "officeAddress": "Office Address",
+    "phone": "Phone",
+    "officeHours": "Office Hours",
+    "additionalInfo": "Additional Information",
+    "followUs": "Follow Us",
+    "followInstagram": "Follow us on Instagram",
+    "followLinkedIn": "Follow us on LinkedIn",
+    "followX": "Follow us on X"
   },
   "member": {
     "memberNumber": "Member Number"
@@ -210,6 +234,7 @@
     "objective6": "Develop effective communication channels with members",
     "latestNews": "Latest News",
     "latestNewsDescription": "Stay informed with the latest updates, announcements, and news from DHL Bahraini Trade Union.",
+    "urgentNews": "Urgent News",
     "actionCards": "Quick Actions"
   },
   "news": {

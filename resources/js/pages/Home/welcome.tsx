@@ -9,15 +9,17 @@ import OurFoundations from './components/our-foundations';
 import ActionCardsSection from './components/action-cards-section';
 import LatestNews from './components/latest-news';
 import LatestEvents from './components/latest-events';
+import UrgentNewsSlider from './components/urgent-news-slider';
 
 interface WelcomeProps {
     sliders?: SliderType[];
     news?: Blog[];
+    urgentNews?: Blog[];
     events?: Event[];
 }
 
 export default function Welcome() {
-    const { auth, sliders = [], news = [], events = [] } = usePage<SharedData & WelcomeProps>().props;
+    const { auth, sliders = [], news = [], urgentNews = [], events = [] } = usePage<SharedData & WelcomeProps>().props;
     const { t, i18n } = useTranslation();
     const isRTL = i18n.language === 'ar';
 
@@ -38,11 +40,14 @@ export default function Welcome() {
                 )}
 
                 {/* Content Section */}
-                <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+                <section className="mx-auto max-w-7xl py-12 lg:px-8">
 
                     {/* Vision, Mission & Objectives Section */}
                     <OurFoundations />
 
+                    {/* Urgent News Section */}
+                    <UrgentNewsSlider urgentNews={urgentNews} />
+                    
                     {/* Latest News Section */}
                     <LatestNews news={news} />
 
@@ -52,7 +57,7 @@ export default function Welcome() {
 
                 {/* Latest Events Section */}
                 <LatestEvents events={events} />
-                
+
             </main>
         </NavbarLayout>
     );

@@ -38,14 +38,45 @@ class HomePageController extends Controller
             ->with(['category', 'media'])
             ->latest('published_at')
             ->limit(3)
+            ->where('show_as_urgent_news', false) // Exclude urgent news
             ->get()
             ->map(function ($blog) {
                 return [
                     'id' => $blog->id,
-                    'title' => $blog->title,
+                    'title' => $blog->title, // Will use current app locale
                     'slug' => $blog->slug,
-                    'excerpt' => $blog->excerpt,
-                    'content' => $blog->content,
+                    'excerpt' => $blog->excerpt, // Will use current app locale
+                    'content' => $blog->content, // Will use current app locale
+                    'author' => $blog->author,
+                    'status' => $blog->status,
+                    'featured' => $blog->featured,
+                    'show_as_urgent_news' => $blog->show_as_urgent_news,
+                    'published_at' => $blog->published_at?->toISOString(),
+                    'views_count' => $blog->views_count ?? 0,
+                    'reading_time' => $blog->reading_time ?? 5,
+                    'featured_image' => $blog->getFeaturedImageUrl(),
+                    'blog_category' => $blog->category ? [
+                        'id' => $blog->category->id,
+                        'name' => $blog->category->name,
+                        'color' => $blog->category->color,
+                    ] : null,
+                ];
+            });
+
+        // Fetch urgent news separately
+        $urgentNews = Blog::published()
+            ->where('show_as_urgent_news', true)
+            ->with(['category', 'media'])
+            ->latest('published_at')
+            ->limit(5)
+            ->get()
+            ->map(function ($blog) {
+                return [
+                    'id' => $blog->id,
+                    'title' => $blog->title, // Will use current app locale
+                    'slug' => $blog->slug,
+                    'excerpt' => $blog->excerpt, // Will use current app locale
+                    'content' => $blog->content, // Will use current app locale
                     'author' => $blog->author,
                     'status' => $blog->status,
                     'featured' => $blog->featured,
@@ -105,6 +136,7 @@ class HomePageController extends Controller
         return Inertia::render('Home/welcome', [
             'sliders' => $sliders,
             'news' => $news,
+            'urgentNews' => $urgentNews,
             'events' => $events,
         ]);
     }

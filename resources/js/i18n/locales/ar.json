@@ -83,6 +83,8 @@
     "success": "نجح",
     "back": "رجوع",
     "cancel": "إلغاء",
+    "next": "التالي",
+    "previous": "السابق",
     "optional": "اختياري",
     "yes": "نعم",
     "no": "لا",
@@ -107,6 +109,28 @@
     "featuredDescription": "هذه هي الأسئلة الأكثر شيوعاً من قبل أعضاء مجتمعنا",
     "moreQuestionsBelow": "المزيد من الأسئلة منظمة حسب الفئة أدناه",
     "featured":"المميزة"
+  },
+  "contact": {
+    "description": "تواصل معنا للاستفسارات أو الدعم أو المزيد من المعلومات حول خدمات النقابة",
+    "sendMessage": "أرسل رسالة",
+    "formDescription": "املأ النموذج أدناه وسنعاود الاتصال بك في أقرب وقت ممكن",
+    "successMessage": "شكراً لك على رسالتك! سنعاود الاتصال بك قريباً.",
+    "namePlaceholder": "اسمك الكامل",
+    "emailPlaceholder": "your.email@example.com",
+    "phonePlaceholder": "1234 5678 973+",
+    "subjectPlaceholder": "موضوع الرسالة",
+    "messagePlaceholder": "كيف يمكننا مساعدتك؟",
+    "sending": "جاري الإرسال...",
+    "subject": "الموضوع",
+    "message": "الرسالة",
+    "officeAddress": "عنوان المكتب",
+    "phone": "الهاتف",
+    "officeHours": "ساعات العمل",
+    "additionalInfo": "معلومات إضافية",
+    "followUs": "تابعنا",
+    "followInstagram": "تابعنا على انستغرام",
+    "followLinkedIn": "تابعنا على لينكدإن",
+    "followX": "تابعنا على إكس"
   },
   "member": {
     "memberNumber": "رقم العضوية"
@@ -233,6 +257,7 @@
     "objective6": "تطوير قنوات تواصل فعّالة مع الأعضاء",
     "latestNews": "آخر الأخبار",
     "latestNewsDescription": "ابقَ على اطلاع بآخر التحديثات والإعلانات والأخبار من نقابة موظفي DHL البحرين.",
+    "urgentNews": "أخبار عاجلة",
     "actionCards": "اختصارات سريعة"
   },
   "news": {

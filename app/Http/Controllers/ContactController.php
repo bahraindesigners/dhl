@@ -42,21 +42,39 @@ class ContactController extends Controller
 
     public function store(ContactFormRequest $request)
     {
-        $contact = Contact::create([
-            'name' => $request->validated('name'),
-            'email' => $request->validated('email'),
-            'phone' => $request->validated('phone'),
-            'subject' => $request->validated('subject'),
-            'message' => $request->validated('message'),
-            'ip_address' => $request->ip(),
-            'user_agent' => $request->userAgent(),
-        ]);
+        try {
+            $contact = Contact::create([
+                'name' => $request->validated('name'),
+                'email' => $request->validated('email'),
+                'phone' => $request->validated('phone'),
+                'subject' => $request->validated('subject'),
+                'message' => $request->validated('message'),
+                'ip_address' => $request->ip(),
+                'user_agent' => $request->userAgent(),
+            ]);
 
-        // The ContactMessageCreated event will be automatically dispatched
-        // by the Contact model's booted() method, which will trigger
-        // the SendContactMessageNotification listener
+            // The ContactMessageCreated event will be automatically dispatched
+            // by the Contact model's booted() method, which will trigger
+            // the SendContactMessageNotification listener
 
-        return back()->with('success', 'Thank you for your message! We will get back to you soon.');
+            \Illuminate\Support\Facades\Log::info('Contact form submitted successfully', [
+                'contact_id' => $contact->id,
+                'contact_email' => $contact->email,
+                'contact_name' => $contact->name,
+            ]);
+
+            return back()->with('success', 'Thank you for your message! We will get back to you soon.');
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error('Failed to process contact form submission', [
+                'error' => $e->getMessage(),
+                'email' => $request->validated('email') ?? 'unknown',
+                'name' => $request->validated('name') ?? 'unknown',
+            ]);
+
+            return back()
+                ->withInput()
+                ->withErrors(['general' => 'There was an error processing your message. Please try again.']);
+        }
     }
 
     /**
