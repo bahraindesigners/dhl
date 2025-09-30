@@ -80,6 +80,20 @@ export function Navbar() {
             href: '/about',
             description: 'Learn about our organization',
             icon: Info,
+            children: [
+                {
+                    title: t('nav.about'),
+                    href: '/about',
+                    description: t('nav.aboutDescription'),
+                    icon: Info,
+                },
+                {
+                    title: t('nav.qanda'),
+                    href: '/questions-and-answers',
+                    description: t('nav.qandaDescription'),
+                    icon: Globe,
+                },
+            ]
         },
         {
             title: t('nav.news'),
@@ -170,10 +184,13 @@ export function Navbar() {
 
                 {/* Navigation Menu - Center */}
                 <NavigationMenu className="hidden lg:flex">
-                    <NavigationMenuList className="gap-1">
+                    <NavigationMenuList className={cn(
+                        "gap-1",
+                        i18n.language === 'ar' ? 'flex-row-reverse' : 'flex-row'
+                    )}>
                         {navigationItems.map((item) => {
                             const Icon = item.icon;
-                            
+
                             // If item has children, render as dropdown
                             if (item.children) {
                                 return (
@@ -184,7 +201,10 @@ export function Navbar() {
                                             (item.children.some(child => child.href && isActiveRoute(child.href))) &&
                                             'text-primary before:w-3/4'
                                         )}>
-                                            <div className="flex flex-row items-center gap-2">
+                                            <div className={cn(
+                                                "flex items-center gap-2",
+                                                i18n.language === 'ar' ? 'flex-row-reverse' : 'flex-row'
+                                            )}>
                                                 {Icon && <Icon className="h-4 w-4" />}
                                                 <span>{item.title}</span>
                                             </div>
@@ -203,11 +223,20 @@ export function Navbar() {
                                                                         child.href && isActiveRoute(child.href) && 'bg-accent text-primary'
                                                                     )}
                                                                 >
-                                                                    <div className="flex items-center gap-2 text-sm font-medium leading-none">
+                                                                    <div className={cn(
+                                                                        "flex items-center gap-2 text-sm font-medium leading-none",
+
+
+                                                                    )}
+                                                                        dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}
+                                                                    >
                                                                         {ChildIcon && <ChildIcon className="h-4 w-4" />}
                                                                         {child.title}
                                                                     </div>
-                                                                    <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                                                                    <p className={
+                                                                        "line-clamp-2 text-sm leading-snug text-muted-foreground" + (i18n.language === 'ar' ? ' text-right' : ' text-left')
+
+                                                                    }>
                                                                         {child.description}
                                                                     </p>
                                                                 </Link>
@@ -220,7 +249,7 @@ export function Navbar() {
                                     </NavigationMenuItem>
                                 );
                             }
-                            
+
                             // Regular navigation item
                             return (
                                 <NavigationMenuItem key={item.href}>
@@ -234,7 +263,10 @@ export function Navbar() {
                                             'text-primary before:w-3/4'
                                         )}
                                     >
-                                        <Link href={item.href!} className="flex flex-row items-center gap-2">
+                                        <Link href={item.href!} className={cn(
+                                            "flex items-center gap-2",
+                                            i18n.language === 'ar' ? 'flex-row-reverse' : 'flex-row'
+                                        )}>
                                             {Icon && <Icon className="h-4 w-4" />}
                                             <span>{item.title}</span>
                                         </Link>
@@ -246,7 +278,10 @@ export function Navbar() {
                 </NavigationMenu>
 
                 {/* Right Side - Account & Language */}
-                <div className="flex items-center space-x-3">
+                <div className={cn(
+                    "flex items-center",
+                    i18n.language === 'ar' ? 'space-x-reverse space-x-3' : 'space-x-3'
+                )}>
                     {/* Language Switcher */}
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
@@ -295,20 +330,29 @@ export function Navbar() {
                                     </div>
                                     <DropdownMenuItem asChild>
                                         <Link href="/profile">
-                                            <User className="mr-2 h-4 w-4" />
+                                            <User className={cn(
+                                                "h-4 w-4",
+                                                i18n.language === 'ar' ? 'ml-2' : 'mr-2'
+                                            )} />
                                             {t('profile.title')}
                                         </Link>
                                     </DropdownMenuItem>
                                     <DropdownMenuItem asChild>
                                         <Link href="/logout" method="post">
-                                            <LogOut className="mr-2 h-4 w-4" />
+                                            <LogOut className={cn(
+                                                "h-4 w-4",
+                                                i18n.language === 'ar' ? 'ml-2' : 'mr-2'
+                                            )} />
                                             {t('auth.signOut')}
                                         </Link>
                                     </DropdownMenuItem>
                                 </DropdownMenuContent>
                             </DropdownMenu>
                         ) : (
-                            <div className="flex items-center space-x-2">
+                            <div className={cn(
+                                "flex items-center",
+                                i18n.language === 'ar' ? 'space-x-reverse space-x-2' : 'space-x-2'
+                            )}>
                                 <Button variant="ghost" size="sm" asChild>
                                     <Link href={login()}>{t('auth.signIn')}</Link>
                                 </Button>
@@ -327,122 +371,174 @@ export function Navbar() {
                                 <span className="sr-only">Menu</span>
                             </Button>
                         </SheetTrigger>
-                        <SheetContent side={i18n.language === "ar" ? "right" : "left"} className="w-80">
-                            <div className="mb-6">
-                                <h2 className="text-lg font-semibold">{t('company.name')}</h2>
+                        <SheetContent side={i18n.language === "ar" ? "right" : "left"} className="w-80 p-0">
+                            {/* Header Section */}
+                            <div className="border-b bg-gradient-to-r from-primary/5 to-primary/10 p-6">
+                                <h2 className="text-xl font-bold text-gray-900">{t('company.name')}</h2>
+                                <p className="text-sm text-gray-600 mt-1">{t('company.tagline')}</p>
                             </div>
-                            <nav className="flex flex-col space-y-3 p-4">
-                                {navigationItems.map((item) => {
-                                    const Icon = item.icon;
-                                    
-                                    // If item has children, render children directly in mobile
-                                    if (item.children) {
-                                        return (
-                                            <div key={item.title} className="space-y-2">
-                                                <div className="px-3 py-2 text-sm font-semibold text-muted-foreground border-b">
-                                                    <div className="flex items-center space-x-3">
-                                                        {Icon && <Icon className="h-5 w-5" />}
-                                                        <span>{item.title}</span>
+
+                            {/* Scrollable Navigation Content */}
+                            <div className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
+                                <nav className="flex flex-col space-y-1 p-4">
+                                    {navigationItems.map((item) => {
+                                        const Icon = item.icon;
+
+                                        // If item has children, render children directly in mobile
+                                        if (item.children) {
+                                            return (
+                                                <div key={item.title} className="space-y-1 mb-4">
+                                                    {/* Category Header */}
+                                                    <div className="px-3 py-3 bg-gray-50 rounded-xl border border-gray-100">
+                                                        <div className={cn(
+                                                            "flex items-center",
+                                                            i18n.language === 'ar' ? 'gap-x-reverse gap-x-3' : 'gap-x-3'
+                                                        )}>
+                                                            {Icon && <Icon className="h-5 w-5 text-gray-300" />}
+                                                            <span className="text-sm font-semibold text-gray-400">{item.title}</span>
+                                                        </div>
+                                                    </div>
+
+                                                    {/* Child Items */}
+                                                    <div className={cn(
+                                                        "space-y-1",
+                                                        i18n.language === 'ar' ? 'mr-3' : 'ml-3'
+                                                    )}>
+                                                        {item.children.map((child) => {
+                                                            const ChildIcon = child.icon;
+                                                            const isActive = child.href && isActiveRoute(child.href);
+                                                            return (
+                                                                <Link
+                                                                    key={child.href}
+                                                                    href={child.href!}
+                                                                    onClick={() => setIsOpen(false)}
+                                                                    className={cn(
+                                                                        'flex items-center rounded-xl p-3 text-sm font-medium transition-all duration-200 group',
+                                                                        i18n.language === 'ar' ? 'gap-x-reverse gap-x-3' : 'gap-x-3',
+                                                                        isActive
+                                                                            ? 'bg-primary text-white shadow-md shadow-primary/25'
+                                                                            : 'hover:bg-primary/5 hover:text-primary border border-transparent hover:border-primary/10'
+                                                                    )}
+                                                                >
+                                                                    {ChildIcon && (
+                                                                        <ChildIcon className={cn(
+                                                                            "h-4 w-4 transition-colors",
+                                                                            isActive ? "text-white" : "text-gray-500 group-hover:text-primary"
+                                                                        )} />
+                                                                    )}
+                                                                    <span className="flex-1">{child.title}</span>
+                                                                    {isActive && (
+                                                                        <div className="h-2 w-2 rounded-full bg-white/30"></div>
+                                                                    )}
+                                                                </Link>
+                                                            );
+                                                        })}
                                                     </div>
                                                 </div>
-                                                {item.children.map((child) => {
-                                                    const ChildIcon = child.icon;
-                                                    return (
-                                                        <Link
-                                                            key={child.href}
-                                                            href={child.href!}
-                                                            onClick={() => setIsOpen(false)}
-                                                            className={cn(
-                                                                'flex items-center space-x-3 rounded-lg p-3 ml-6 text-sm font-medium transition-colors hover:bg-accent',
-                                                                child.href && isActiveRoute(child.href) && 'bg-accent text-primary'
-                                                            )}
-                                                        >
-                                                            {ChildIcon && <ChildIcon className="h-5 w-5 text-black" />}
-                                                            <span>{child.title}</span>
-                                                        </Link>
-                                                    );
-                                                })}
-                                            </div>
+                                            );
+                                        }
+
+                                        // Regular navigation item
+                                        const isActive = item.href && isActiveRoute(item.href);
+                                        return (
+                                            <Link
+                                                key={item.href}
+                                                href={item.href!}
+                                                onClick={() => setIsOpen(false)}
+                                                className={cn(
+                                                    'flex items-center rounded-xl p-3 text-sm font-medium transition-all duration-200 group mb-1',
+                                                    i18n.language === 'ar' ? 'gap-x-reverse gap-x-3' : 'gap-x-3',
+                                                    isActive
+                                                        ? 'bg-primary text-white shadow-md shadow-primary/25'
+                                                        : 'hover:bg-primary/5 hover:text-primary border border-transparent hover:border-primary/10'
+                                                )}
+                                            >
+                                                {Icon && (
+                                                    <Icon className={cn(
+                                                        "h-5 w-5 transition-colors",
+                                                        isActive ? "text-white" : "text-gray-500 group-hover:text-primary"
+                                                    )} />
+                                                )}
+                                                <span className="flex-1">{item.title}</span>
+                                                {isActive && (
+                                                    <div className="h-2 w-2 rounded-full bg-white/30"></div>
+                                                )}
+                                            </Link>
                                         );
-                                    }
-                                    
-                                    // Regular navigation item
-                                    return (
-                                        <Link
-                                            key={item.href}
-                                            href={item.href!}
-                                            onClick={() => setIsOpen(false)}
-                                            className={cn(
-                                                'flex items-center space-x-3 rounded-lg p-3 text-sm font-medium transition-colors hover:bg-accent',
-                                                item.href && isActiveRoute(item.href) && 'bg-accent text-primary'
-                                            )}
-                                        >
-                                            {Icon && <Icon className="h-5 w-5 text-black" />}
-                                            <span>{item.title}</span>
-                                        </Link>
-                                    );
-                                })}
-                            </nav>
+                                    })}
+                                </nav>
 
-                            {/* Mobile User Section */}
-                            <div className="mt-8 border-t pt-6">
-                                {auth.user ? (
-                                    <div className="space-y-3">
-                                        <div className="px-3 py-2 rounded-lg bg-accent/50">
-                                            <p className="text-sm font-medium">{auth.user.name}</p>
-                                            <p className="text-xs text-muted-foreground">{auth.user.email}</p>
+                                {/* Mobile User Section */}
+                                <div className="border-t bg-gray-50/50 p-4 mt-4">
+                                    {auth.user ? (
+                                        <div className="gap-y-3">
+                                            {/* User Profile Card */}
+                                            <div className="bg-white rounded-xl p-4 border border-gray-100 shadow-sm">
+                                                <div className={cn(
+                                                    "flex items-center mb-3",
+                                                    i18n.language === 'ar' ? 'gap-x-reverse gap-x-3' : 'gap-x-3'
+                                                )}>
+                                                    <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
+                                                        <User className="h-5 w-5 text-primary" />
+                                                    </div>
+                                                    <div className="flex-1 min-w-0">
+                                                        <p className="text-sm font-semibold text-gray-900 truncate">{auth.user.name}</p>
+                                                        <p className="text-xs text-gray-500 truncate">{auth.user.email}</p>
+                                                    </div>
+                                                </div>
+
+                                                {/* User Actions */}
+                                                <div className="gap-y-2">
+                                                    <Link
+                                                        href="/profile"
+                                                        onClick={() => setIsOpen(false)}
+                                                        className={cn(
+                                                            "flex items-center rounded-lg p-2 text-sm font-medium hover:bg-gray-50 transition-colors",
+                                                            i18n.language === 'ar' ? 'space-x-reverse space-x-3' : 'space-x-3'
+                                                        )}
+                                                    >
+                                                        <User className="h-4 w-4 text-gray-500" />
+                                                        <span>{t('profile.title')}</span>
+                                                    </Link>
+                                                    <Link
+                                                        href="/logout"
+                                                        method="post"
+                                                        onClick={() => setIsOpen(false)}
+                                                        className={cn(
+                                                            "flex items-center rounded-lg p-2 text-sm font-medium text-red-600 hover:bg-red-50 transition-colors",
+                                                            i18n.language === 'ar' ? 'space-x-reverse space-x-3' : 'space-x-3'
+                                                        )}
+                                                    >
+                                                        <LogOut className="h-4 w-4" />
+                                                        <span>{t('auth.signOut')}</span>
+                                                    </Link>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <Link
-                                            href="/profile"
-                                            onClick={() => setIsOpen(false)}
-                                            className="flex items-center space-x-3 rounded-lg p-3 text-sm font-medium hover:bg-accent"
-                                        >
-                                            <User className="h-5 w-5 text-black" />
-                                            <span>{t('profile.title')}</span>
-                                        </Link>
-                                        <Link
-                                            href="/logout"
-                                            method="post"
-                                            onClick={() => setIsOpen(false)}
-                                            className="flex items-center space-x-3 rounded-lg p-3 text-sm font-medium text-red-600 hover:bg-red-50"
-                                        >
-                                            <LogOut className="h-5 w-5" />
-                                            <span>{t('auth.signOut')}</span>
-                                        </Link>
-                                    </div>
-                                ) : (
-                                    <div className="space-y-3">
-                                        <Button asChild variant="ghost" className="w-full justify-start">
-                                            <Link href={login()} onClick={() => setIsOpen(false)}>
-                                                <LogIn className="mr-3 h-5 w-5" />
-                                                {t('auth.signIn')}
-                                            </Link>
-                                        </Button>
-                                        <Button asChild className="w-full">
-                                            <Link href={register()} onClick={() => setIsOpen(false)}>
-                                                {t('auth.joinUnion')}
-                                            </Link>
-                                        </Button>
-                                    </div>
-                                )}
+                                    ) : (
+                                        <div className="space-y-3">
+                                            <Button asChild variant="outline" className="w-full justify-start h-12 rounded-xl border-2">
+                                                <Link href={login()} onClick={() => setIsOpen(false)}>
+                                                    <LogIn className={cn(
+                                                        "h-5 w-5",
+                                                        i18n.language === 'ar' ? 'ml-3' : 'mr-3'
+                                                    )} />
+                                                    {t('auth.signIn')}
+                                                </Link>
+                                            </Button>
+                                            <Button asChild className="w-full h-12 rounded-xl shadow-md shadow-primary/25">
+                                                <Link href={register()} onClick={() => setIsOpen(false)}>
+                                                    <Users className={cn(
+                                                        "h-5 w-5",
+                                                        i18n.language === 'ar' ? 'ml-3' : 'mr-3'
+                                                    )} />
+                                                    {t('auth.joinUnion')}
+                                                </Link>
+                                            </Button>
+                                        </div>
+                                    )}
 
-                                {/* Mobile Language Switcher */}
-                                <div className="mt-6 border-t pt-6">
-                                    <h3 className="text-sm font-medium mb-3">{t('common.language')}</h3>
-                                    <div className="space-y-2">
-                                        <button
-                                            className="flex items-center space-x-3 w-full p-2 text-sm rounded-lg hover:bg-accent"
-                                            onClick={() => changeLanguage('en')}
-                                        >
-                                            <span>🇺🇸 {t('languages.english')}</span>
-                                        </button>
-                                        <button
-                                            className="flex items-center space-x-3 w-full p-2 text-sm rounded-lg hover:bg-accent"
-                                            onClick={() => changeLanguage('ar')}
-                                        >
-                                            <span>🇸🇦 {t('languages.arabic')}</span>
-                                        </button>
-                                    </div>
+
                                 </div>
                             </div>
                         </SheetContent>

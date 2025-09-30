@@ -21,14 +21,14 @@ class RequiresMemberProfile
             $user = Auth::user();
 
             // Check if user has a member profile
-            if (! $user->memberProfile || ! $user->memberProfile->is_approved) {
-                // If the user is already on the membership page, allow access
-                if ($request->routeIs('membership')) {
+            if (! $user->memberProfile || ! $user->memberProfile->profile_status) {
+                // If the user is already on the profile page, allow access
+                if ($request->routeIs('profile')) {
                     return $next($request);
                 }
 
-                // Redirect to membership page with a message
-                return redirect()->route('membership')->with('info', 'Please complete your member profile to access this feature.');
+                // Redirect to profile page with a message
+                return redirect()->route('profile')->with('info', 'Please complete your member profile to access this feature.');
             }
         }
 

@@ -31,7 +31,7 @@ export interface HomeSlider {
     button_text: string | Record<string, string>;
     button_url: string;
     desktop_image: string;
-    mobile_image: string;
+    mobile_image: string | null;
     sort_order: number;
 }
 
@@ -224,4 +224,37 @@ export interface Offer {
     sort_order: number;
     created_at: string;
     updated_at: string;
+}
+
+export interface FAQ {
+    id: number;
+    question: string | Record<string, string>;
+    answer: string | Record<string, string>;
+    faq_category_id?: number;
+    category?: string;
+    sort_order: number;
+    is_featured: boolean;
+    status: string;
+    meta_title?: string | Record<string, string>;
+    meta_description?: string | Record<string, string>;
+    slug: string;
+    published_at?: string;
+    created_at: string;
+    updated_at: string;
+}
+
+export interface FAQCategory {
+    id: number;
+    name: string | Record<string, string>;
+    description?: string | Record<string, string>;
+    slug: string;
+    is_active: boolean;
+    sort_order: number;
+    faqs: FAQ[];
+    created_at: string;
+    updated_at: string;
+}
+
+export type PageProps<T extends Record<string, unknown> = Record<string, unknown>> = T & {
+    auth: Auth;
 }

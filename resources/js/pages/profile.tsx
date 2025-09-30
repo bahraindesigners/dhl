@@ -1,11 +1,18 @@
-import { Head, Link } from '@inertiajs/react';
+import { Head, Link, useForm, usePage } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 import NavbarLayout from '@/layouts/navbar-layout';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import { 
+import { type SharedData } from '@/types';
+import PersonalInformation from '@/pages/Membership/components/PersonalInformation';
+import EmploymentInformation from '@/pages/Membership/components/EmploymentInformation';
+import ContactInformation from '@/pages/Membership/components/ContactInformation';
+import SignatureSection from '@/pages/Membership/components/SignatureSection';
+import Attachments from '@/pages/Membership/components/Attachments';
+import MultiStepForm from '@/pages/Membership/components/MultiStepForm';
+import {
     User, 
     Mail, 
     Calendar, 
@@ -50,14 +57,136 @@ interface MemberProfile {
     updated_at: string;
 }
 
+interface MembershipSettings {
+    enable_member_form: boolean;
+}
+
 interface Props {
     user: User;
     memberProfile: MemberProfile | null;
+    membershipSettings: MembershipSettings;
 }
 
-export default function Profile({ user, memberProfile }: Props) {
+export default function Profile({ user, memberProfile, membershipSettings }: Props) {
     const { t, i18n } = useTranslation();
+    const { auth, flash } = usePage<SharedData & { flash: { success?: string; error?: string; info?: string } }>().props;
     const isRTL = i18n.language === 'ar';
+    const isFormEnabled = membershipSettings.enable_member_form;
+    const hasAnyMemberProfile = Boolean(auth.memberProfile);
+
+    const { data, setData, post, processing, errors } = useForm({
+        phone: '',
+        cpr_number: '',
+        staff_number: '',
+        nationality: '',
+        gender: '',
+        marital_status: '',
+        date_of_joining: '',
+        position: '',
+        department: '',
+        section: '',
+        working_place_address: '',
+        office_phone: '',
+        education_qualification: '',
+        mobile_number: '',
+        home_phone: '',
+        permanent_address: '',
+        message: '',
+        signature: '',
+        was_previous_member: 'no',
+        withdrawal_letter: null as File | null,
+    });
+
+    const submit = () => {
+        post('/membership', {
+            forceFormData: true,
+            preserveScroll: true,
+        });
+    };
+
+    const formSteps = [
+        {
+            id: 'personal',
+            title: t('membership.form.personalInformation'),
+            component: (
+                <PersonalInformation
+                    data={data}
+                    setData={setData}
+                    errors={errors}
+                    isRTL={isRTL}
+                    user={user}
+                />
+            ),
+            validate: () => {
+                return !!(
+                    data.mobile_number &&
+                    data.cpr_number &&
+                    data.nationality &&
+                    data.gender &&
+                    data.marital_status
+                );
+            },
+        },
+        {
+            id: 'employment',
+            title: t('membership.form.employmentInformation'),
+            component: (
+                <EmploymentInformation
+                    data={data}
+                    setData={setData}
+                    errors={errors}
+                    isRTL={isRTL}
+                />
+            ),
+            validate: () => {
+                return !!(
+                    data.staff_number &&
+                    data.date_of_joining &&
+                    data.position &&
+                    data.department &&
+                    data.section
+                );
+            },
+        },
+        {
+            id: 'contact',
+            title: t('membership.form.contactInformation'),
+            component: (
+                <ContactInformation
+                    data={data}
+                    setData={setData}
+                    errors={errors}
+                    isRTL={isRTL}
+                />
+            ),
+            validate: () => {
+                return !!data.permanent_address;
+            },
+        },
+        {
+            id: 'signature',
+            title: t('membership.form.signature'),
+            component: (
+                <div className="space-y-8">
+                    <SignatureSection
+                        data={data}
+                        setData={setData}
+                        errors={errors}
+                        isRTL={isRTL}
+                    />
+                    <Attachments
+                        data={data}
+                        setData={setData}
+                        errors={errors}
+                        isRTL={isRTL}
+                    />
+                </div>
+            ),
+            validate: () => {
+                return !!data.signature;
+            },
+        },
+    ];
 
     const formatDate = (dateString: string) => {
         return new Date(dateString).toLocaleDateString(i18n.language === 'ar' ? 'ar-BH' : 'en-GB', {
@@ -82,6 +211,53 @@ export default function Profile({ user, memberProfile }: Props) {
                             {t('profile.pageDescription')}
                         </p>
                     </div>
+
+                    {(flash?.success || flash?.error || flash?.info) && (
+                        <div className="mb-8 space-y-3">
+                            {flash?.success && (
+                                <div className={`rounded-md bg-green-50 p-4 ${isRTL ? 'font-arabic' : ''}`}>
+                                    <div className="flex">
+                                        <div className="flex-shrink-0">
+                                            <svg className="h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor">
+                                                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                                            </svg>
+                                        </div>
+                                        <div className="ml-3">
+                                            <p className="text-sm font-medium text-green-800">{flash.success}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+                            {flash?.info && (
+                                <div className={`rounded-md bg-blue-50 p-4 ${isRTL ? 'font-arabic' : ''}`}>
+                                    <div className="flex">
+                                        <div className="flex-shrink-0">
+                                            <svg className="h-5 w-5 text-blue-400" viewBox="0 0 20 20" fill="currentColor">
+                                                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+                                            </svg>
+                                        </div>
+                                        <div className="ml-3">
+                                            <p className="text-sm font-medium text-blue-800">{flash.info}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+                            {flash?.error && (
+                                <div className={`rounded-md bg-red-50 p-4 ${isRTL ? 'font-arabic' : ''}`}>
+                                    <div className="flex">
+                                        <div className="flex-shrink-0">
+                                            <svg className="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+                                                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                                            </svg>
+                                        </div>
+                                        <div className="ml-3">
+                                            <p className="text-sm font-medium text-red-800">{flash.error}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    )}
 
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                         {/* User Information Card */}
@@ -325,24 +501,50 @@ export default function Profile({ user, memberProfile }: Props) {
                                     </Card>
                                 </div>
                             ) : (
-                                <Card>
-                                    <CardHeader>
-                                        <CardTitle className={`${isRTL ? 'font-arabic' : ''}`}>
-                                            {t('profile.noMemberProfile')}
-                                        </CardTitle>
-                                        <CardDescription className={`${isRTL ? 'font-arabic' : ''}`}>
-                                            {t('profile.noMemberProfileDescription')}
-                                        </CardDescription>
-                                    </CardHeader>
-                                    <CardContent>
-                                        <Button asChild>
-                                            <Link href="/membership">
-                                                <Users className="h-4 w-4 mr-2" />
-                                                {t('profile.completeMembership')}
-                                            </Link>
-                                        </Button>
-                                    </CardContent>
-                                </Card>
+                                <div className="space-y-6">
+                                    {!isFormEnabled ? (
+                                        <Card>
+                                            <CardHeader>
+                                                <CardTitle className={`${isRTL ? 'font-arabic' : ''}`}>
+                                                    {t('profile.noMemberProfile')}
+                                                </CardTitle>
+                                                <CardDescription className={`${isRTL ? 'font-arabic' : ''}`}>
+                                                    {t('profile.noMemberProfileDescription')}
+                                                </CardDescription>
+                                            </CardHeader>
+                                        </Card>
+                                    ) : hasAnyMemberProfile ? (
+                                        <div className={`max-w-3xl mx-auto p-6 bg-green-50 border border-green-200 rounded-lg text-center ${isRTL ? 'font-arabic' : ''}`}>
+                                            <h3 className="text-xl font-semibold text-green-800 mb-2">
+                                                {t('membership.alreadyMemberTitle')}
+                                            </h3>
+                                            <p className="text-green-700">
+                                                {t('membership.alreadyMemberMessage')}
+                                            </p>
+                                        </div>
+                                    ) : (
+                                        <div className="space-y-8">
+                                            <div className="text-center">
+                                                <h2 className={`text-2xl sm:text-3xl font-bold text-gray-900 mb-3 ${isRTL ? 'font-arabic' : ''}`}>
+                                                    {t('membership.joinToday')}
+                                                </h2>
+                                                <p className={`text-lg text-gray-600 ${isRTL ? 'font-arabic' : ''}`}>
+                                                    {t('membership.fillOutForm')}
+                                                </p>
+                                            </div>
+                                            <form onSubmit={(e) => e.preventDefault()}>
+                                                <MultiStepForm
+                                                    steps={formSteps}
+                                                    onSubmit={submit}
+                                                    isSubmitting={processing}
+                                                    isRTL={isRTL}
+                                                    data={data}
+                                                    errors={errors}
+                                                />
+                                            </form>
+                                        </div>
+                                    )}
+                                </div>
                             )}
                         </div>
                     </div>

@@ -1,145 +1,23 @@
 import React from 'react';
-import { Head, Form, usePage, useForm, Link } from '@inertiajs/react';
+import { Head, usePage } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
-import { type SharedData } from '@/types';
-import { Users, UserPlus, Star, LogIn, ArrowRight } from 'lucide-react';
+import { Users, UserPlus, Star } from 'lucide-react';
 import NavbarLayout from '@/layouts/navbar-layout';
-import PersonalInformation from './components/PersonalInformation';
-import EmploymentInformation from './components/EmploymentInformation';
-import ContactInformation from './components/ContactInformation';
-import SignatureSection from './components/SignatureSection';
-import Attachments from './components/Attachments';
-import MultiStepForm from './components/MultiStepForm';
-import { login } from '@/routes';
 
 interface MembershipPageProps {
     page: {
         how_to_join: Record<string, string>;
         union_benefits: Record<string, string>;
-        enable_member_form: boolean;
     };
+    [key: string]: any;
 }
 
 export default function Membership() {
-    const { page, auth, flash } = usePage<SharedData & MembershipPageProps & { flash: { success?: string; error?: string; info?: string } }>().props;
+    const { page } = usePage<MembershipPageProps>().props;
     const { t, i18n } = useTranslation();
     const isRTL = i18n.language === 'ar';
 
-    // Form handling - removed name and email since user is authenticated
-    const { data, setData, post, processing, errors, reset } = useForm({
-        phone: '',
-        cpr_number: '',
-        staff_number: '',
-        nationality: '',
-        gender: '',
-        marital_status: '',
-        date_of_joining: '',
-        position: '',
-        department: '',
-        section: '',
-        working_place_address: '',
-        office_phone: '',
-        education_qualification: '',
-        mobile_number: '',
-        home_phone: '',
-        permanent_address: '',
-        message: '',
-        signature: '',
-        was_previous_member: 'no',
-        withdrawal_letter: null,
-    });
-
-    const submit = () => {
-        post('/membership', {
-            forceFormData: true,
-            preserveScroll: true,
-        });
-    };
-
-    // Define form steps
-    const formSteps = [
-        {
-            id: 'personal',
-            title: t('membership.form.personalInformation'),
-            component: (
-                <PersonalInformation
-                    data={data}
-                    setData={setData}
-                    errors={errors}
-                    isRTL={isRTL}
-                    user={auth.user}
-                />
-            ),
-            validate: () => {
-                return !!(
-                    data.mobile_number &&
-                    data.cpr_number &&
-                    data.nationality &&
-                    data.gender &&
-                    data.marital_status
-                );
-            }
-        },
-        {
-            id: 'employment',
-            title: t('membership.form.employmentInformation'),
-            component: (
-                <EmploymentInformation
-                    data={data}
-                    setData={setData}
-                    errors={errors}
-                    isRTL={isRTL}
-                />
-            ),
-            validate: () => {
-                return !!(
-                    data.staff_number &&
-                    data.date_of_joining &&
-                    data.position &&
-                    data.department &&
-                    data.section
-                );
-            }
-        },
-        {
-            id: 'contact',
-            title: t('membership.form.contactInformation'),
-            component: (
-                <ContactInformation
-                    data={data}
-                    setData={setData}
-                    errors={errors}
-                    isRTL={isRTL}
-                />
-            ),
-            validate: () => {
-                return !!(data.permanent_address);
-            }
-        },
-        {
-            id: 'signature',
-            title: t('membership.form.signature'),
-            component: (
-                <div className="space-y-8">
-                    <SignatureSection
-                        data={data}
-                        setData={setData}
-                        errors={errors}
-                        isRTL={isRTL}
-                    />
-                    <Attachments
-                        data={data}
-                        setData={setData}
-                        errors={errors}
-                        isRTL={isRTL}
-                    />
-                </div>
-            ),
-            validate: () => {
-                return !!(data.signature);
-            }
-        }
-    ];    // Helper function to convert TipTap JSON to HTML
+    // Helper function to convert TipTap JSON to HTML
     const tiptapToHtml = (tiptapJson: any): string => {
         if (typeof tiptapJson === 'string') {
             return tiptapJson;
@@ -245,60 +123,6 @@ export default function Membership() {
                 </div>
             </section>
 
-            {/* Flash Messages */}
-            {(flash?.success || flash?.error || flash?.info) && (
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-                    {flash?.success && (
-                        <div className={`rounded-md bg-green-50 p-4 ${isRTL ? 'font-arabic' : ''}`}>
-                            <div className="flex">
-                                <div className="flex-shrink-0">
-                                    <svg className="h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor">
-                                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                                    </svg>
-                                </div>
-                                <div className="ml-3">
-                                    <p className="text-sm font-medium text-green-800">
-                                        {flash.success}
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    )}
-                    {flash?.info && (
-                        <div className={`rounded-md bg-blue-50 p-4 ${isRTL ? 'font-arabic' : ''}`}>
-                            <div className="flex">
-                                <div className="flex-shrink-0">
-                                    <svg className="h-5 w-5 text-blue-400" viewBox="0 0 20 20" fill="currentColor">
-                                        <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
-                                    </svg>
-                                </div>
-                                <div className="ml-3">
-                                    <p className="text-sm font-medium text-blue-800">
-                                        {flash.info}
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    )}
-                    {flash?.error && (
-                        <div className={`rounded-md bg-red-50 p-4 ${isRTL ? 'font-arabic' : ''}`}>
-                            <div className="flex">
-                                <div className="flex-shrink-0">
-                                    <svg className="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
-                                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
-                                    </svg>
-                                </div>
-                                <div className="ml-3">
-                                    <p className="text-sm font-medium text-red-800">
-                                        {flash.error}
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    )}
-                </div>
-            )}
-
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
                     {/* How to Join Section */}
@@ -365,70 +189,6 @@ export default function Membership() {
                         />
                     </div>
                 </div>
-
-                {/* Member Form Section */}
-                {page.enable_member_form && (
-                    <div className="mt-16 pt-16 border-t border-gray-200">
-                        <div className="text-center mb-12">
-                            <h2 className={`text-2xl sm:text-3xl font-bold text-gray-900 mb-4 ${isRTL ? 'font-arabic' : ''}`}>
-                                {t('membership.joinToday')}
-                            </h2>
-                            <p className={`text-lg text-gray-600 max-w-2xl mx-auto ${isRTL ? 'font-arabic' : ''}`}>
-                                {auth.user ? t('membership.fillOutForm') : t('membership.loginRequired')}
-                            </p>
-                        </div>
-                        {auth.user ? (
-                            auth.memberProfile ? (
-                                <div className={`max-w-3xl mx-auto p-6 bg-green-50 border border-green-200 rounded-lg text-center ${isRTL ? 'font-arabic' : ''}`}>
-                                    <h3 className="text-xl font-semibold text-green-800 mb-2">
-                                        {t('membership.alreadyMemberTitle')}
-                                    </h3>
-                                    <p className="text-green-700">
-                                        {t('membership.alreadyMemberMessage')}
-                                    </p>
-                                </div>
-                            ) : (
-                                /* Multi-Step Member Registration Form */
-                                <form onSubmit={(e) => e.preventDefault()}>
-                                    <MultiStepForm
-                                        steps={formSteps}
-                                        onSubmit={submit}
-                                        isSubmitting={processing}
-                                        isRTL={isRTL}
-                                        data={data}
-                                        errors={errors}
-                                    />
-                                </form>
-                            )
-                        ) : (
-                            /* Login Required Section */
-                            <div className="max-w-md mx-auto">
-                                <div className="bg-gradient-to-br from-primary/5 via-white to-primary/10 rounded-2xl p-8 text-center border border-primary/10 shadow-lg">
-                                    <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-primary text-white">
-                                        <LogIn className="h-8 w-8" />
-                                    </div>
-
-                                    <h3 className={`text-xl font-bold text-gray-900 mb-4 ${isRTL ? 'font-arabic' : ''}`}>
-                                        {t('membership.authRequired')}
-                                    </h3>
-
-                                    <p className={`text-gray-600 mb-6 ${isRTL ? 'font-arabic' : ''}`}>
-                                        {t('membership.authRequiredDesc')}
-                                    </p>
-
-                                    <Link
-                                        href={login()}
-                                        className={`inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 text-sm font-medium text-white transition-all duration-200 hover:bg-primary/90 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 shadow-lg hover:shadow-xl ${isRTL ? 'flex-row-reverse font-arabic' : ''}`}
-                                    >
-                                        <LogIn className="h-4 w-4" />
-                                        <span>{t('auth.login')}</span>
-                                        <ArrowRight className={`h-4 w-4 ${isRTL ? 'rotate-180' : ''}`} />
-                                    </Link>
-                                </div>
-                            </div>
-                        )}
-                    </div>
-                )}
             </div>
         </NavbarLayout>
     );

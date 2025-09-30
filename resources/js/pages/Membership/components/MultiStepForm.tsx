@@ -61,15 +61,25 @@ export default function MultiStepForm({ steps, onSubmit, isSubmitting, isRTL, da
     const currentStepData = steps[currentStep];
 
     return (
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-4xl mx-auto px-4 sm:px-0">
             {/* Progress Indicator */}
-            <div className="mb-8">
-                <div className="flex items-center justify-between">
-                    {steps.map((step, index) => (
-                        <div key={step.id} className="flex items-center flex-1">
+            <div className="mb-6 sm:mb-8">
+                <div className="overflow-x-auto pb-2">
+                    <div
+                        className={`flex items-center gap-4 sm:gap-6 min-w-max ${
+                            isRTL ? 'flex-row-reverse' : ''
+                        }`}
+                    >
+                        {steps.map((step, index) => (
+                            <div
+                                key={step.id}
+                                className={`flex items-start sm:items-center sm:flex-1 gap-3 ${
+                                    isRTL ? 'flex-row-reverse' : ''
+                                }`}
+                            >
                             {/* Step Circle */}
-                            <div 
-                                className={`relative flex items-center justify-center w-10 h-10 rounded-full border-2 transition-all duration-200 ${
+                            <div
+                                className={`relative flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-full border-2 transition-all duration-200 ${
                                     index === currentStep
                                         ? 'bg-primary border-primary text-white'
                                         : index < currentStep || (index === currentStep && validateStep(index))
@@ -90,8 +100,8 @@ export default function MultiStepForm({ steps, onSubmit, isSubmitting, isRTL, da
                             </div>
 
                             {/* Step Label */}
-                            <div className={`ml-3 ${isRTL ? 'mr-3 ml-0 text-right' : ''}`}>
-                                <p className={`text-sm font-medium ${
+                            <div className={`flex-1 ${isRTL ? 'text-right' : ''}`}>
+                                <p className={`text-xs sm:text-sm font-medium ${
                                     index === currentStep 
                                         ? 'text-primary' 
                                         : index < currentStep 
@@ -110,7 +120,7 @@ export default function MultiStepForm({ steps, onSubmit, isSubmitting, isRTL, da
 
                             {/* Progress Line */}
                             {index < steps.length - 1 && (
-                                <div className="flex-1 mx-4">
+                                <div className="hidden sm:block flex-1">
                                     <div className="h-0.5 bg-gray-200 relative">
                                         <div 
                                             className={`h-full transition-all duration-300 ${
@@ -121,12 +131,13 @@ export default function MultiStepForm({ steps, onSubmit, isSubmitting, isRTL, da
                                 </div>
                             )}
                         </div>
-                    ))}
+                        ))}
+                    </div>
                 </div>
             </div>
 
             {/* Step Content */}
-            <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-8 mb-6">
+            <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 sm:p-8 mb-6">
                 <div className="mb-6">
                     <h2 className={`text-2xl font-bold text-gray-900 ${isRTL ? 'font-arabic text-right' : ''}`}>
                         {currentStepData.title}
@@ -137,21 +148,25 @@ export default function MultiStepForm({ steps, onSubmit, isSubmitting, isRTL, da
                 </div>
 
                 {/* Current Step Component */}
-                <div className="min-h-[400px]">
+                <div className="min-h-[320px] sm:min-h-[400px]">
                     {currentStepData.component}
                 </div>
             </div>
 
             {/* Navigation Buttons */}
-            <div className={`flex justify-between items-center ${isRTL ? 'flex-row-reverse' : ''}`}>
+            <div
+                className={`flex flex-col-reverse sm:flex-row justify-between items-stretch sm:items-center gap-4 ${
+                    isRTL ? 'sm:flex-row-reverse' : ''
+                }`}
+            >
                 {/* Previous Button */}
                 <button
                     type="button"
                     onClick={goToPreviousStep}
                     disabled={isFirstStep}
-                    className={`flex items-center px-6 py-3 border border-gray-300 rounded-lg text-gray-700 font-medium hover:bg-gray-50 focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed ${
+                    className={`flex items-center justify-center px-4 sm:px-6 py-3 border border-gray-300 rounded-lg text-gray-700 font-medium hover:bg-gray-50 focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed ${
                         isRTL ? 'font-arabic flex-row-reverse' : ''
-                    }`}
+                    } w-full sm:w-auto`}
                 >
                     {!isRTL ? <ChevronLeft className="w-5 h-5 mr-2" /> : null}
                     {t('membership.form.previous')}
@@ -159,7 +174,7 @@ export default function MultiStepForm({ steps, onSubmit, isSubmitting, isRTL, da
                 </button>
 
                 {/* Step Counter */}
-                <div className={`text-sm text-gray-500 ${isRTL ? 'font-arabic' : ''}`}>
+                <div className={`text-center text-sm text-gray-500 ${isRTL ? 'font-arabic' : ''}`}>
                     {currentStep + 1} / {steps.length}
                 </div>
 
@@ -169,9 +184,9 @@ export default function MultiStepForm({ steps, onSubmit, isSubmitting, isRTL, da
                         type="button"
                         onClick={onSubmit}
                         disabled={isSubmitting || !isCurrentStepValid()}
-                        className={`flex items-center px-8 py-3 bg-primary text-white rounded-lg font-medium hover:bg-primary/90 focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-all duration-200 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed ${
+                        className={`flex items-center justify-center px-6 sm:px-8 py-3 bg-primary text-white rounded-lg font-medium hover:bg-primary/90 focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-all duration-200 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none ${
                             isRTL ? 'font-arabic' : ''
-                        }`}
+                        } w-full sm:w-auto`}
                     >
                         {isSubmitting ? t('membership.form.submitting') : t('membership.form.submit')}
                     </button>
@@ -180,9 +195,9 @@ export default function MultiStepForm({ steps, onSubmit, isSubmitting, isRTL, da
                         type="button"
                         onClick={goToNextStep}
                         disabled={!isCurrentStepValid()}
-                        className={`flex items-center px-6 py-3 bg-primary text-white rounded-lg font-medium hover:bg-primary/90 focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-all duration-200 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none disabled:hover:bg-primary ${
+                        className={`flex items-center justify-center px-6 py-3 bg-primary text-white rounded-lg font-medium hover:bg-primary/90 focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-all duration-200 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none disabled:hover:bg-primary ${
                             isRTL ? 'font-arabic flex-row-reverse' : ''
-                        }`}
+                        } w-full sm:w-auto`}
                     >
                         {t('membership.form.next')}
                         {!isRTL ? <ChevronRight className="w-5 h-5 ml-2" /> : null}
@@ -194,13 +209,13 @@ export default function MultiStepForm({ steps, onSubmit, isSubmitting, isRTL, da
             {/* Error Messages Display */}
             {Object.keys(errors).length > 0 && (
                 <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg">
-                    <div className="flex">
+                    <div className="flex flex-col sm:flex-row sm:items-start gap-3">
                         <div className="flex-shrink-0">
                             <svg className="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
                                 <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
                             </svg>
                         </div>
-                        <div className="ml-3">
+                        <div className="sm:ml-3">
                             <h3 className={`text-sm font-medium text-red-800 ${isRTL ? 'font-arabic' : ''}`}>
                                 {t('membership.form.errorsTitle')}
                             </h3>

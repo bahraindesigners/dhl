@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\FAQ;
+use App\Models\FAQCategory;
 use Illuminate\Database\Seeder;
 
 class FAQSeeder extends Seeder
@@ -12,6 +13,9 @@ class FAQSeeder extends Seeder
      */
     public function run(): void
     {
+        // Get category IDs for proper relationships
+        $categoryIds = FAQCategory::pluck('id', 'slug')->toArray();
+
         $faqs = [
             // General FAQs
             [
@@ -23,7 +27,7 @@ class FAQSeeder extends Seeder
                     'en' => 'DHL Events Platform is a comprehensive event management system that allows you to discover, register for, and manage events in Kuwait. Our platform offers seamless registration, multilingual support, and integrated payment processing.',
                     'ar' => 'منصة فعاليات DHL هي نظام إدارة فعاليات شامل يتيح لك اكتشاف والتسجيل في وإدارة الفعاليات في الكويت. توفر منصتنا تسجيلاً سلساً ودعماً متعدد اللغات ومعالجة مدفوعات متكاملة.',
                 ],
-                'category' => 'general',
+                'faq_category_id' => $categoryIds['general'] ?? null,
                 'sort_order' => 1,
                 'is_featured' => true,
                 'status' => 'active',
@@ -49,7 +53,7 @@ class FAQSeeder extends Seeder
                     'en' => 'You can browse events by location, category, or date using our search filters. All events display location details and you can filter by proximity to find events in your area.',
                     'ar' => 'يمكنك تصفح الفعاليات حسب الموقع أو الفئة أو التاريخ باستخدام مرشحات البحث. تعرض جميع الفعاليات تفاصيل الموقع ويمكنك التصفية حسب القرب للعثور على الفعاليات في منطقتك.',
                 ],
-                'category' => 'events',
+                'faq_category_id' => $categoryIds['events'] ?? null,
                 'sort_order' => 1,
                 'is_featured' => true,
                 'status' => 'active',
@@ -75,7 +79,7 @@ class FAQSeeder extends Seeder
                     'en' => 'To register for an event, click on the event you\'re interested in, review the details, and click "Register Now". Fill in your information, choose your payment method, and complete the registration process. You\'ll receive a confirmation email with your registration details.',
                     'ar' => 'للتسجيل في فعالية، انقر على الفعالية التي تهمك، راجع التفاصيل، وانقر على "سجل الآن". املأ معلوماتك، اختر طريقة الدفع، وأكمل عملية التسجيل. ستتلقى بريداً إلكترونياً للتأكيد مع تفاصيل تسجيلك.',
                 ],
-                'category' => 'registration',
+                'faq_category_id' => $categoryIds['registration'] ?? null,
                 'sort_order' => 1,
                 'is_featured' => true,
                 'status' => 'active',
@@ -101,7 +105,7 @@ class FAQSeeder extends Seeder
                     'en' => 'We accept various payment methods including credit cards (Visa, MasterCard), K-Net, PayPal, bank transfers, and cash payments. The available payment methods may vary depending on the event organizer.',
                     'ar' => 'نقبل طرق دفع مختلفة بما في ذلك بطاقات الائتمان (فيزا، ماستركارد)، كي-نت، باي بال، التحويلات البنكية، والدفع النقدي. قد تختلف طرق الدفع المتاحة حسب منظم الفعالية.',
                 ],
-                'category' => 'payment',
+                'faq_category_id' => $categoryIds['payment'] ?? null,
                 'sort_order' => 1,
                 'is_featured' => false,
                 'status' => 'active',
@@ -127,7 +131,7 @@ class FAQSeeder extends Seeder
                     'en' => 'If you\'re experiencing technical issues with your registration, please try clearing your browser cache and cookies first. If the problem persists, contact our support team at support@dhl.test or call +965 2222 3333. Include your email address and a description of the issue.',
                     'ar' => 'إذا كنت تواجه مشاكل تقنية في تسجيلك، يرجى محاولة مسح ذاكرة التخزين المؤقت وملفات تعريف الارتباط في متصفحك أولاً. إذا استمرت المشكلة، اتصل بفريق الدعم على support@dhl.test أو اتصل على +965 2222 3333. أرفق عنوان بريدك الإلكتروني ووصفاً للمشكلة.',
                 ],
-                'category' => 'technical',
+                'faq_category_id' => $categoryIds['technical-support'] ?? null,
                 'sort_order' => 1,
                 'is_featured' => false,
                 'status' => 'active',
@@ -153,7 +157,7 @@ class FAQSeeder extends Seeder
                     'en' => 'While you can register for events as a guest, creating an account offers many benefits including faster checkout, order history, saved payment methods, and personalized event recommendations. Account creation is free and takes just a minute.',
                     'ar' => 'بينما يمكنك التسجيل في الفعاليات كضيف، إنشاء حساب يوفر فوائد عديدة بما في ذلك الدفع السريع وتاريخ الطلبات وطرق الدفع المحفوظة والتوصيات الشخصية للفعاليات. إنشاء الحساب مجاني ويستغرق دقيقة واحدة فقط.',
                 ],
-                'category' => 'account',
+                'faq_category_id' => $categoryIds['account'] ?? null,
                 'sort_order' => 1,
                 'is_featured' => false,
                 'status' => 'active',
@@ -166,6 +170,57 @@ class FAQSeeder extends Seeder
                 'meta_description' => [
                     'en' => 'Learn about the benefits of creating an account vs guest registration for events.',
                     'ar' => 'تعرف على فوائد إنشاء حساب مقابل التسجيل كضيف في الفعاليات.',
+                ],
+            ],
+
+            // Policies FAQs
+            [
+                'question' => [
+                    'en' => 'What is your privacy policy?',
+                    'ar' => 'ما هي سياسة الخصوصية الخاصة بكم؟',
+                ],
+                'answer' => [
+                    'en' => 'We take your privacy seriously. We collect only necessary information for event registration and use it solely for providing our services. We do not share your personal information with third parties without your consent. For detailed information, please review our complete privacy policy.',
+                    'ar' => 'نحن نأخذ خصوصيتك على محمل الجد. نجمع المعلومات الضرورية فقط لتسجيل الفعاليات ونستخدمها فقط لتقديم خدماتنا. لا نشارك معلوماتك الشخصية مع أطراف ثالثة دون موافقتك. للحصول على معلومات مفصلة، يرجى مراجعة سياسة الخصوصية الكاملة.',
+                ],
+                'faq_category_id' => $categoryIds['policies'] ?? null,
+                'sort_order' => 1,
+                'is_featured' => false,
+                'status' => 'active',
+                'slug' => 'privacy-policy-information',
+                'published_at' => now(),
+                'meta_title' => [
+                    'en' => 'Privacy Policy Information - DHL Events',
+                    'ar' => 'معلومات سياسة الخصوصية - فعاليات DHL',
+                ],
+                'meta_description' => [
+                    'en' => 'Learn about our privacy policy and how we protect your personal information.',
+                    'ar' => 'تعرف على سياسة الخصوصية وكيف نحمي معلوماتك الشخصية.',
+                ],
+            ],
+
+            [
+                'question' => [
+                    'en' => 'What are your terms and conditions?',
+                    'ar' => 'ما هي شروط وأحكامكم؟',
+                ],
+                'answer' => [
+                    'en' => 'By using our platform, you agree to our terms and conditions which include guidelines for event registration, payment policies, cancellation procedures, and user conduct. These terms are designed to ensure a fair and safe experience for all users.',
+                    'ar' => 'باستخدام منصتنا، فإنك توافق على شروطنا وأحكامنا التي تشمل إرشادات تسجيل الفعاليات وسياسات الدفع وإجراءات الإلغاء وسلوك المستخدم. هذه الشروط مصممة لضمان تجربة عادلة وآمنة لجميع المستخدمين.',
+                ],
+                'faq_category_id' => $categoryIds['policies'] ?? null,
+                'sort_order' => 2,
+                'is_featured' => false,
+                'status' => 'active',
+                'slug' => 'terms-and-conditions',
+                'published_at' => now(),
+                'meta_title' => [
+                    'en' => 'Terms and Conditions - DHL Events',
+                    'ar' => 'الشروط والأحكام - فعاليات DHL',
+                ],
+                'meta_description' => [
+                    'en' => 'Read our terms and conditions for using the DHL Events platform.',
+                    'ar' => 'اقرأ الشروط والأحكام الخاصة باستخدام منصة فعاليات DHL.',
                 ],
             ],
         ];

@@ -6,6 +6,7 @@ use App\Http\Controllers\BoardMemberController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\EventRegistrationController;
+use App\Http\Controllers\FAQController;
 use App\Http\Controllers\HomePageController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\MembershipController;
@@ -23,6 +24,7 @@ Route::get('/', [HomePageController::class, 'index'])->name('home');
 
 // Public pages
 Route::get('/about', [AboutController::class, 'index'])->name('about');
+Route::get('/questions-and-answers', [FAQController::class, 'index'])->name('faq.index');
 Route::get('/membership', [MembershipController::class, 'index'])->name('membership');
 Route::post('/membership', [MembershipController::class, 'store'])->name('membership.store')->middleware('auth');
 Route::get('/board-member/{boardMember}', [BoardMemberController::class, 'show'])->name('board-member.show');
@@ -36,8 +38,8 @@ Route::get('/events', [EventController::class, 'index'])->name('events.index');
 Route::get('/events/{event}', [EventController::class, 'show'])->name('events.show');
 
 // Offer routes
-Route::get('/offers', [OfferController::class, 'index'])->middleware(['auth', 'member-profile'])->name('offers.index');
-Route::get('/offers/{offer}', [OfferController::class, 'show'])->middleware(['auth', 'member-profile'])->name('offers.show');
+Route::get('/offers', [OfferController::class, 'index'])->name('offers.index');
+Route::get('/offers/{offer}', [OfferController::class, 'show'])->name('offers.show');
 
 // Event registration routes (require authentication)
 Route::middleware(['auth'])->group(function () {

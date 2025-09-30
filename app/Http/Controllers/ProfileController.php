@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\MembershipPage;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -12,6 +13,7 @@ class ProfileController extends Controller
     {
         $user = Auth::user();
         $memberProfile = $user->activeMemberProfile; // Only get approved profile
+        $membershipPage = MembershipPage::getSingleton();
 
         return Inertia::render('profile', [
             'user' => [
@@ -42,6 +44,9 @@ class ProfileController extends Controller
                 'created_at' => $memberProfile->created_at,
                 'updated_at' => $memberProfile->updated_at,
             ] : null,
+            'membershipSettings' => [
+                'enable_member_form' => (bool) $membershipPage->enable_member_form,
+            ],
         ]);
     }
 }

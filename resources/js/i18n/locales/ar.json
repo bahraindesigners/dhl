@@ -8,6 +8,9 @@
     "resources": "الموارد",
     "contact": "اتصل بنا",
     "membership": "العضوية",
+    "qanda": "الأسئلة والأجوبة",
+    "qandaDescription": "احصل على إجابات للأسئلة الشائعة والمساعدة التي تحتاجها",
+    "aboutDescription": "تعرف على المزيد حول منظمتنا ومهمتنا وقيمنا",
     "membershipDescription": "انضم إلى مجتمعنا المتنامي وكن جزءاً من شيء أعظم",
     "offersDescription": "عروض وخصومات حصرية للأعضاء",
     "resourcesDescription": "الوصول إلى الوثائق المهمة والموارد المفيدة"
@@ -52,6 +55,7 @@
     "profile": "الملف الشخصي"
   },
   "profile": {
+    "title": "ملفي الشخصي",
     "pageDescription": "عرض وإدارة معلوماتك الشخصية وتفاصيل العضوية.",
     "emailVerified": "البريد الإلكتروني مُتحقق منه",
     "memberSince": "عضو منذ",
@@ -86,7 +90,23 @@
     "phone": "الهاتف",
     "email": "البريد الإلكتروني",
     "currency": "د.ب",
-    "characters": "حرف"
+    "characters": "حرف",
+    "searchPlaceholder": "البحث في الأسئلة والأجوبة...",
+    "categories": "الفئات",
+    "all": "الكل",
+    "featured": "المميزة",
+    "questions": "أسئلة",
+    "noResults": "لم يتم العثور على نتائج",
+    "tryDifferentSearch": "جرب تعديل مصطلحات البحث أو تصفح الفئات",
+    "resultsFound": "نتيجة",
+    "clickToView": "انقر للعرض"
+  },
+  "qa": {
+    "browseByCategory": "تصفح حسب الفئة",
+    "browseCategoryDescription": "انقر على أي فئة أدناه للانتقال السريع إلى ذلك القسم",
+    "featuredDescription": "هذه هي الأسئلة الأكثر شيوعاً من قبل أعضاء مجتمعنا",
+    "moreQuestionsBelow": "المزيد من الأسئلة منظمة حسب الفئة أدناه",
+    "featured":"المميزة"
   },
   "member": {
     "memberNumber": "رقم العضوية"
@@ -121,6 +141,8 @@
     "pageTitle": "الفعاليات",
     "pageDescription": "اكتشف الفعاليات وورش العمل والأنشطة القادمة التي ينظمها مجتمعنا.",
     "viewAllEvents": "عرض جميع الفعاليات",
+    "noResults": "No events found",
+    "noResultsDescription": "Try adjusting your search or filter to find what you're looking for.",
     "latestEvents": "أحدث الفعاليات",
     "latestEventsDescription": "ابقَ على اطلاع بأحدث فعالياتنا وأنشطتنا.",
     "upcomingEvents": "الفعاليات القادمة",

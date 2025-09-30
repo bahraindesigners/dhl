@@ -97,22 +97,22 @@ export default function HomeSlider({
                                 {/* Split Layout Container - RTL Responsive */}
                                 <div className={`flex h-[500px] flex-col lg:flex-row ${isRTL ? 'lg:flex-row-reverse' : ''}`}>
                                     {/* Content Section - Responsive to RTL */}
-                                    <div className={`flex flex-1 items-center justify-center bg-gradient-to-br  px-6 py-10 sm:px-8 sm:py-12 md:px-12 lg:px-16 xl:px-20 ${isRTL ? 'lg:rounded-r-lg text-right' : 'lg:rounded-l-lg text-left'}`}>
+                                    <div className={`flex flex-1 lg:flex-1 items-center justify-center bg-gradient-to-br  px-6 py-6 sm:px-8 sm:py-8 md:px-12 lg:px-16 xl:px-20 ${isRTL ? 'lg:rounded-r-lg text-right' : 'lg:rounded-l-lg text-left'}`}>
                                         <div className="w-full max-w-xl lg:max-w-2xl">
-                                            <h1 className={`mb-4 text-2xl font-bold text-gray-900 sm:mb-6 sm:text-3xl md:text-4xl lg:text-5xl ${isRTL ? 'text-right font-arabic' : 'text-left'}`}>
+                                            <h1 className={`mb-2 text-xl font-bold text-gray-900 sm:mb-4 sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl ${isRTL ? 'text-right font-arabic' : 'text-left'}`}>
                                                 {getContent(slider.title)}
                                             </h1>
                                             
                                             {/* Subtitle */}
                                             {slider.subtitle && (
-                                                <h2 className={`mb-4 text-lg font-semibold text-gray-700 sm:text-xl md:text-2xl ${isRTL ? 'text-right font-arabic' : 'text-left'}`}>
+                                                <h2 className={`mb-2 text-base font-semibold text-gray-700 sm:mb-3 sm:text-lg md:text-xl lg:text-2xl ${isRTL ? 'text-right font-arabic' : 'text-left'}`}>
                                                     {getContent(slider.subtitle)}
                                                 </h2>
                                             )}
                                             
                                             {/* Description */}
                                             {slider.description && (
-                                                <p className={`mb-6 text-base text-gray-600 sm:mb-8 sm:text-lg md:text-xl ${isRTL ? 'text-right leading-relaxed font-arabic' : 'text-left'}`}>
+                                                <p className={`mb-3 text-sm text-gray-600 sm:mb-4 sm:text-base md:text-lg lg:text-xl ${isRTL ? 'text-right leading-relaxed font-arabic' : 'text-left'}`}>
                                                     {getContent(slider.description)}
                                                 </p>
                                             )}
@@ -121,7 +121,7 @@ export default function HomeSlider({
                                             {slider.button_text && slider.button_url && (
                                                 <Link
                                                     href={slider.button_url}
-                                                    className={`inline-flex items-center justify-center rounded-lg bg-primary px-6 py-3 text-base font-semibold text-primary-foreground shadow-lg transition-all duration-200 hover:bg-primary/90 hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-primary/50 sm:px-8 sm:py-3 sm:text-lg ${isRTL ? 'font-arabic' : ''}`}
+                                                    className={`inline-flex items-center justify-center rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-lg transition-all duration-200 hover:bg-primary/90 hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-primary/50 sm:px-6 sm:py-3 sm:text-base lg:px-8 lg:text-lg ${isRTL ? 'font-arabic' : ''}`}
                                                 >
                                                     {getContent(slider.button_text)}
                                                 </Link>
@@ -129,19 +129,20 @@ export default function HomeSlider({
                                         </div>
                                     </div>
 
-                                    {/* Image Section - Right Side */}
-                                    <div className="relative h-full flex-1 overflow-hidden rounded-lg lg:h-full">
+                                    {/* Image Section - Bigger on mobile, equal on desktop */}
+                                    <div className="relative h-full flex-[2] lg:flex-1 overflow-hidden rounded-lg lg:h-full">
                                         {(slider.desktop_image || slider.mobile_image) ? (
                                             <>
                                                 <picture>
-                                                    {slider.mobile_image && (
+                                                    {/* Use mobile image if available, otherwise fallback to desktop image for mobile devices */}
+                                                    {(slider.mobile_image || slider.desktop_image) && (
                                                         <source
                                                             media="(max-width: 768px)"
-                                                            srcSet={slider.mobile_image}
+                                                            srcSet={slider.mobile_image || slider.desktop_image}
                                                         />
                                                     )}
                                                     <img
-                                                        src={slider.desktop_image || slider.mobile_image}
+                                                        src={slider.desktop_image || slider.mobile_image || ''}
                                                         alt={getContent(slider.title)}
                                                         className="h-full w-full object-cover object-center"
                                                     />

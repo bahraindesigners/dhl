@@ -8,6 +8,9 @@
     "resources": "Resources",
     "contact": "Contact",
     "membership": "Membership",
+    "qanda": "Questions & Answers",
+    "qandaDescription": "Find answers to frequently asked questions and get the help you need",
+    "aboutDescription": "Learn more about our organization, mission, and values",
     "membershipDescription": "Join our growing community and become part of something greater",
     "offersDescription": "Exclusive deals and discounts for members",
     "resourcesDescription": "Access important documents and helpful resources"
@@ -29,6 +32,7 @@
     "profile": "Profile"
   },
   "profile": {
+    "title": "My Profile",
     "pageDescription": "View and manage your personal information and membership details.",
     "emailVerified": "Email Verified",
     "memberSince": "Member Since",
@@ -63,7 +67,23 @@
     "phone": "Phone",
     "email": "Email",
     "currency": "BHD",
-    "characters": "characters"
+    "characters": "characters",
+    "searchPlaceholder": "Search questions and answers...",
+    "categories": "Categories",
+    "all": "All",
+    "featured": "Featured",
+    "questions": "Questions",
+    "noResults": "No Results Found",
+    "tryDifferentSearch": "Try adjusting your search terms or browse through the categories",
+    "resultsFound": "results found",
+    "clickToView": "Click to view"
+  },
+  "qa": {
+    "browseByCategory": "Browse by Category",
+    "browseCategoryDescription": "Click on any category below to quickly jump to that section",
+    "featuredDescription": "These are the most commonly asked questions by our community members",
+    "moreQuestionsBelow": "More questions organized by category below",
+    "featured":"Featured"
   },
   "member": {
     "memberNumber": "Member Number"
@@ -96,6 +116,8 @@
   },
   "events": {
     "pageTitle": "Events",
+    "noResults": "No events found",
+    "noResultsDescription": "Try adjusting your search or filter to find what you're looking for.",
     "pageDescription": "Discover upcoming events, workshops, and activities organized by our community.",
     "viewAllEvents": "View All Events",
     "latestEvents": "Latest Events",

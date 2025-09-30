@@ -35,5 +35,9 @@ class DatabaseSeeder extends Seeder
 
         // Seed contact settings
         // $this->call(ContactSettingSeeder::class);
+
+        // Seed FAQ categories and FAQs
+        $this->call(FAQCategorySeeder::class);
+        $this->call(FAQSeeder::class);
     }
 }
