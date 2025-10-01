@@ -27,7 +27,7 @@ class MemberProfilesTable
                     ->label('Employee Photo')
                     ->collection('employee_image')
                     ->circular()
-                    ->size(50)
+                    ->imageSize(50)
                     ->openUrlInNewTab(),
 
                 SpatieMediaLibraryImageColumn::make('signature')
@@ -35,7 +35,7 @@ class MemberProfilesTable
                     ->collection('signature')
                     ->conversion('signature_thumb')
                     ->circular()
-                    ->size(50)
+                    ->imageSize(50)
                     ->openUrlInNewTab(),
 
                 IconColumn::make('withdrawal_letters')

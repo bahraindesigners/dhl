@@ -68,5 +68,5 @@ Route::middleware(['auth', 'verified', 'member-profile'])->group(function () {
     Route::get('/loans/{loan}', [UnionLoanController::class, 'show'])->name('loans.show');
 });
 
-require __DIR__.'/settings.php';
+// require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
