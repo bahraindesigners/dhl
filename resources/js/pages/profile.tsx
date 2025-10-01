@@ -92,9 +92,10 @@ export default function Profile({ user, memberProfile, membershipSettings }: Pro
         home_phone: '',
         permanent_address: '',
         message: '',
-        signature: '',
+        signature: null as File | null,
         was_previous_member: 'no',
         withdrawal_letter: null as File | null,
+        employee_image: null as File | null, // Add employee image field
     });
 
     const submit = () => {
@@ -123,7 +124,8 @@ export default function Profile({ user, memberProfile, membershipSettings }: Pro
                     data.cpr_number &&
                     data.nationality &&
                     data.gender &&
-                    data.marital_status
+                    data.marital_status &&
+                    data.employee_image // Add employee image as required
                 );
             },
         },

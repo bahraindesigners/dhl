@@ -57,13 +57,26 @@ class ContactController extends Controller
             // by the Contact model's booted() method, which will trigger
             // the SendContactMessageNotification listener
 
+            $mailDriver = config('mail.default');
+            $isProductionMailDriver = ! in_array($mailDriver, ['log', 'array']);
+
             \Illuminate\Support\Facades\Log::info('Contact form submitted successfully', [
                 'contact_id' => $contact->id,
                 'contact_email' => $contact->email,
                 'contact_name' => $contact->name,
+                'mail_driver' => $mailDriver,
+                'email_notifications_configured' => $isProductionMailDriver,
             ]);
 
-            return back()->with('success', 'Thank you for your message! We will get back to you soon.');
+            $successMessage = 'Thank you for your message! We have received it successfully.';
+
+            if (! $isProductionMailDriver) {
+                $successMessage .= ' Note: Email notifications are currently configured for development/testing mode.';
+            } else {
+                $successMessage .= ' We will get back to you soon.';
+            }
+
+            return back()->with('success', $successMessage);
         } catch (\Exception $e) {
             \Illuminate\Support\Facades\Log::error('Failed to process contact form submission', [
                 'error' => $e->getMessage(),

@@ -28,30 +28,54 @@ class SendContactMessageNotification implements ShouldQueue
     public function handle(ContactMessageCreated $event): void
     {
         // Check if contact notifications are enabled
-        if (!config('contact.notifications.send_notifications', true)) {
+        if (! config('contact.notifications.send_notifications', true)) {
+            Log::info('Contact notifications are disabled in config');
+
             return;
         }
 
         // Get notification email from contact settings
         $settings = ContactSetting::getSingleton();
-        
-        if (!$settings->notification_email) {
+
+        if (! $settings->notification_email) {
             Log::warning('No notification email configured for contact messages');
+
             return;
+        }
+
+        // Check if mail is properly configured (not using log/array drivers)
+        $mailDriver = config('mail.default');
+        $isProductionMailDriver = ! in_array($mailDriver, ['log', 'array']);
+
+        if (! $isProductionMailDriver) {
+            Log::warning('Contact notification attempted but mail is not configured for production', [
+                'mail_driver' => $mailDriver,
+                'contact_id' => $event->contact->id,
+                'notification_email' => $settings->notification_email,
+                'message' => 'Email notifications are configured to use log/testing driver. Configure SMTP, Mailgun, SES, or other production mail driver to actually send emails.',
+            ]);
         }
 
         try {
             $mailInstance = Mail::to($settings->notification_email);
-            
+
             // Check if queuing is enabled in config
             if (config('contact.notifications.queue_enabled', false)) {
                 $mailInstance->queue(new NewContactMessage($event->contact));
             } else {
                 $mailInstance->send(new NewContactMessage($event->contact));
             }
+
+            Log::info('Contact notification email processed', [
+                'contact_id' => $event->contact->id,
+                'notification_email' => $settings->notification_email,
+                'mail_driver' => $mailDriver,
+                'actually_sent' => $isProductionMailDriver,
+                'queued' => config('contact.notifications.queue_enabled', false),
+            ]);
         } catch (\Exception $e) {
             // Log the error but don't fail the process
-            Log::error('Failed to send contact notification email: ' . $e->getMessage(), [
+            Log::error('Failed to send contact notification email: '.$e->getMessage(), [
                 'contact_id' => $event->contact->id,
                 'contact_email' => $event->contact->email,
                 'notification_email' => $settings->notification_email,

@@ -47,14 +47,14 @@ class MemberProfileForm
                                             ->columnSpanFull()
                                             ->collapsible(),
 
-                                        // Profile Photo Section
-                                        Section::make('Profile Photo')
+                                        // Employee Photo Section
+                                        Section::make('Employee Photo')
                                             ->icon('heroicon-o-camera')
-                                            ->description('Upload member profile photo')
+                                            ->description('Upload employee identification photo')
                                             ->schema([
-                                                SpatieMediaLibraryFileUpload::make('profile_photo')
-                                                    ->label('Profile Photo')
-                                                    ->collection('profile_photo')
+                                                SpatieMediaLibraryFileUpload::make('employee_image')
+                                                    ->label('Employee Photo')
+                                                    ->collection('employee_image')
                                                     ->image()
                                                     ->imageEditor()
                                                     ->imageEditorAspectRatios(['1:1'])
@@ -261,33 +261,32 @@ class MemberProfileForm
                         Tab::make('Documents & Files')
                             ->icon('heroicon-o-document-text')
                             ->schema([
-                                Section::make('Document Management')
-                                    ->icon('heroicon-o-folder')
-                                    ->description('Upload additional documents and certificates')
+                                Section::make('Withdrawal Letters')
+                                    ->icon('heroicon-o-document-text')
+                                    ->description('Upload member withdrawal letters and related documents')
                                     ->schema([
-                                        SpatieMediaLibraryFileUpload::make('additional_files')
-                                            ->label('Additional Documents')
-                                            ->collection('additional_files')
+                                        SpatieMediaLibraryFileUpload::make('withdrawal_letters')
+                                            ->label('Withdrawal Letters')
+                                            ->collection('withdrawal_letters')
                                             ->multiple()
                                             ->maxSize(10240) // 10MB
                                             ->acceptedFileTypes([
                                                 'application/pdf',
                                                 'application/msword',
                                                 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-                                                'application/vnd.ms-excel',
-                                                'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
                                                 'image/jpeg',
                                                 'image/png',
                                                 'image/webp',
-                                                'text/plain',
                                             ])
-                                            ->helperText('Upload certificates, ID copies, contracts, or other relevant documents (Max: 10MB per file)')
+                                            ->helperText('Upload withdrawal letters (PDFs or images). Max: 10MB per file')
                                             ->downloadable()
                                             ->previewable()
                                             ->reorderable()
                                             ->columnSpanFull(),
                                     ])
                                     ->collapsible(),
+
+                                
                             ]),
 
                         Tab::make('Settings')

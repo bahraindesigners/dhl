@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import SignatureCanvas from 'react-signature-canvas';
 
@@ -15,15 +15,51 @@ export default function SignatureSection({ data, setData, errors, isRTL }: Signa
 
     const clearSignature = () => {
         signatureRef.current?.clear();
-        setData('signature', '');
+        setData('signature', null);
     };
 
     const saveSignature = () => {
         if (signatureRef.current) {
-            const signatureData = signatureRef.current.toDataURL();
-            setData('signature', signatureData);
+            const canvas = signatureRef.current.getCanvas();
+            canvas.toBlob((blob) => {
+                if (blob) {
+                    const file = new File([blob], 'signature.png', { type: 'image/png' });
+                    setData('signature', file);
+                }
+            }, 'image/png');
         }
     };
+
+    // Function to resize canvas properly
+    const resizeCanvas = useCallback(() => {
+        if (signatureRef.current) {
+            const canvas = signatureRef.current.getCanvas();
+            const container = canvas.parentElement;
+            if (container) {
+                const ratio = Math.max(window.devicePixelRatio || 1, 1);
+                canvas.width = container.offsetWidth * ratio;
+                canvas.height = container.offsetHeight * ratio;
+                canvas.getContext('2d')?.scale(ratio, ratio);
+                canvas.style.width = container.offsetWidth + 'px';
+                canvas.style.height = container.offsetHeight + 'px';
+                signatureRef.current.clear(); // Clear after resize to avoid artifacts
+            }
+        }
+    }, []);
+
+    // Set up proper canvas sizing
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            resizeCanvas();
+        }, 100); // Small delay to ensure DOM is ready
+
+        window.addEventListener('resize', resizeCanvas);
+        
+        return () => {
+            clearTimeout(timer);
+            window.removeEventListener('resize', resizeCanvas);
+        };
+    }, [resizeCanvas]);
 
     return (
         <div className="space-y-6">
@@ -41,15 +77,19 @@ export default function SignatureSection({ data, setData, errors, isRTL }: Signa
                     </p>
                     
                     <div className="border-2 border-gray-300 rounded-lg p-4 bg-white">
-                        <SignatureCanvas
-                            ref={signatureRef}
-                            canvasProps={{
-                                width: 600,
-                                height: 200,
-                                className: 'signature-canvas w-full h-48 border border-gray-200 rounded'
-                            }}
-                            onEnd={saveSignature}
-                        />
+                        <div className="w-full h-48 relative">
+                            <SignatureCanvas
+                                ref={signatureRef}
+                                canvasProps={{
+                                    className: 'absolute inset-0 w-full h-full border border-gray-200 rounded cursor-crosshair'
+                                }}
+                                backgroundColor="rgba(255,255,255,1)"
+                                penColor="black"
+                                minWidth={1}
+                                maxWidth={3}
+                                onEnd={saveSignature}
+                            />
+                        </div>
                     </div>
                     
                     <div className="flex gap-3 mt-3">

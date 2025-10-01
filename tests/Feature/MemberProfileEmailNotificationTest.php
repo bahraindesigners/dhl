@@ -7,7 +7,7 @@ use App\Mail\NewMemberProfileNotification;
 use App\Models\MemberProfile;
 use App\Models\MembershipPage;
 use App\Models\User;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
 
@@ -48,7 +48,7 @@ it('sends admin notification email when new member profile is created', function
     ]);
 
     $event = new MemberProfileCreated($memberProfile);
-    $listener = new SendMemberProfileNotification();
+    $listener = new SendMemberProfileNotification;
     $listener->handle($event);
 
     Mail::assertQueued(NewMemberProfileNotification::class, function ($mail) use ($memberProfile) {
@@ -70,7 +70,7 @@ it('sends user confirmation email when new member profile is created', function 
     ]);
 
     $event = new MemberProfileCreated($memberProfile);
-    $listener = new SendMemberProfileNotification();
+    $listener = new SendMemberProfileNotification;
     $listener->handle($event);
 
     Mail::assertQueued(MemberProfileConfirmation::class, function ($mail) use ($user, $memberProfile) {
@@ -91,7 +91,7 @@ it('does not send admin notification when notification email is not configured',
     ]);
 
     $event = new MemberProfileCreated($memberProfile);
-    $listener = new SendMemberProfileNotification();
+    $listener = new SendMemberProfileNotification;
     $listener->handle($event);
 
     Mail::assertNotQueued(NewMemberProfileNotification::class);
@@ -106,13 +106,13 @@ it('still sends user confirmation even when admin notification is disabled', fun
     $user = User::factory()->create([
         'email' => 'user@example.com',
     ]);
-    
+
     $memberProfile = MemberProfile::factory()->create([
         'user_id' => $user->id,
     ]);
 
     $event = new MemberProfileCreated($memberProfile);
-    $listener = new SendMemberProfileNotification();
+    $listener = new SendMemberProfileNotification;
     $listener->handle($event);
 
     Mail::assertQueued(MemberProfileConfirmation::class, function ($mail) use ($user) {
@@ -127,20 +127,20 @@ it('handles user with no email gracefully', function () {
     $user = User::factory()->create([
         'email' => '',
     ]);
-    
+
     $memberProfile = MemberProfile::factory()->create([
         'user_id' => $user->id,
     ]);
 
     $event = new MemberProfileCreated($memberProfile);
-    $listener = new SendMemberProfileNotification();
-    
+    $listener = new SendMemberProfileNotification;
+
     // Should not throw exception
     $listener->handle($event);
 
     // Admin notification should still be sent
     Mail::assertQueued(NewMemberProfileNotification::class);
-    
+
     // User confirmation should not be sent (no user email available)
     Mail::assertNotQueued(MemberProfileConfirmation::class);
 });
@@ -172,6 +172,7 @@ it('sends both emails when member profile is created via controller', function (
         'mobile_number' => '+973 987 654',
         'home_phone' => '+973 111 222',
         'permanent_address' => 'Manama, Bahrain',
+        'employee_image' => UploadedFile::fake()->image('employee.jpg'),
         'was_previous_member' => 'no',
     ];
 

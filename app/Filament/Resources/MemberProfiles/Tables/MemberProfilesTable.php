@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\MemberProfiles\Tables;
 
 use App\Models\MemberProfile;
+use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -22,21 +23,33 @@ class MemberProfilesTable
     {
         return $table
             ->columns([
-                SpatieMediaLibraryImageColumn::make('profile_photo')
-                    ->label('Photo')
-                    ->collection('profile_photo')
-                    ->conversion('thumb')
+                SpatieMediaLibraryImageColumn::make('employee_image')
+                    ->label('Employee Photo')
+                    ->collection('employee_image')
                     ->circular()
-                    ->defaultImageUrl('/images/default-avatar.png')
-                    ->imageSize(50),
+                    ->size(50)
+                    ->openUrlInNewTab(),
 
                 SpatieMediaLibraryImageColumn::make('signature')
                     ->label('Signature')
                     ->collection('signature')
                     ->conversion('signature_thumb')
-                    ->imageHeight(30)
-                    ->imageWidth(60)
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->circular()
+                    ->size(50)
+                    ->openUrlInNewTab(),
+
+                IconColumn::make('withdrawal_letters')
+                    ->label('Withdrawal Letter')
+                    ->icon(fn ($record) => $record->hasMedia('withdrawal_letters') ? 'heroicon-o-document-text' : 'heroicon-o-x-mark')
+                    ->color(fn ($record) => $record->hasMedia('withdrawal_letters') ? 'success' : 'gray')
+                    ->tooltip(fn ($record) => $record->hasMedia('withdrawal_letters')
+                        ? 'Withdrawal letter uploaded - '.$record->getFirstMedia('withdrawal_letters')?->name
+                        : 'No withdrawal letter uploaded')
+                    ->url(fn ($record) => $record->hasMedia('withdrawal_letters')
+                        ? $record->getFirstMediaUrl('withdrawal_letters')
+                        : null)
+                    ->openUrlInNewTab()
+                    ->toggleable(),
 
                 TextColumn::make('staff_number')
                     ->label('Staff #')
@@ -186,6 +199,71 @@ class MemberProfilesTable
             ->recordActions([
                 ViewAction::make(),
                 EditAction::make(),
+                Action::make('download_images')
+                    ->label('Download Images')
+                    ->icon('heroicon-o-arrow-down-tray')
+                    ->color('info')
+                    ->action(function (MemberProfile $record) {
+                        $images = collect();
+
+                        // Get employee image
+                        if ($record->hasMedia('employee_image')) {
+                            $images = $images->merge($record->getMedia('employee_image'));
+                        }
+
+                        // Get signature
+                        if ($record->hasMedia('signature')) {
+                            $images = $images->merge($record->getMedia('signature'));
+                        }
+
+                        // Get withdrawal letters (if any)
+                        if ($record->hasMedia('withdrawal_letters')) {
+                            $images = $images->merge($record->getMedia('withdrawal_letters'));
+                        }
+
+                        if ($images->isEmpty()) {
+                            \Filament\Notifications\Notification::make()
+                                ->title('No images found')
+                                ->body('This member profile has no uploaded images.')
+                                ->warning()
+                                ->send();
+
+                            return;
+                        }
+
+                        // Create a ZIP file
+                        $zip = new \ZipArchive;
+                        $zipFileName = 'member_'.$record->staff_number.'_images_'.now()->format('Y_m_d_H_i_s').'.zip';
+                        $zipPath = storage_path('app/temp/'.$zipFileName);
+
+                        // Ensure temp directory exists
+                        if (! file_exists(dirname($zipPath))) {
+                            mkdir(dirname($zipPath), 0755, true);
+                        }
+
+                        if ($zip->open($zipPath, \ZipArchive::CREATE) === true) {
+                            foreach ($images as $media) {
+                                $filePath = $media->getPath();
+                                if (file_exists($filePath)) {
+                                    $fileName = $media->collection_name.'_'.$media->name;
+                                    $zip->addFile($filePath, $fileName);
+                                }
+                            }
+                            $zip->close();
+
+                            return response()->download($zipPath, $zipFileName)->deleteFileAfterSend();
+                        } else {
+                            \Filament\Notifications\Notification::make()
+                                ->title('Error creating ZIP file')
+                                ->body('Unable to create ZIP file for download.')
+                                ->danger()
+                                ->send();
+                        }
+                    })
+                    ->visible(fn (MemberProfile $record) => $record->hasMedia('employee_image') ||
+                        $record->hasMedia('signature') ||
+                        $record->hasMedia('withdrawal_letters')
+                    ),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

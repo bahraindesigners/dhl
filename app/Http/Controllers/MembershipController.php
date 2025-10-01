@@ -81,6 +81,20 @@ class MembershipController extends Controller
                     'profile_status' => false, // Pending approval
                 ]);
 
+                // Handle employee image upload
+                if ($request->hasFile('employee_image')) {
+                    $memberProfile
+                        ->addMediaFromRequest('employee_image')
+                        ->toMediaCollection('employee_image');
+                }
+
+                // Handle signature upload
+                if ($request->hasFile('signature')) {
+                    $memberProfile
+                        ->addMediaFromRequest('signature')
+                        ->toMediaCollection('signature');
+                }
+
                 // Handle withdrawal letter file upload
                 if ($request->hasFile('withdrawal_letter')) {
                     $memberProfile

@@ -406,7 +406,16 @@
       "previous": "الخطوة السابقة",
       "step": "الخطوة",
       "of": "من",
-      "fillRequiredFields": "يرجى ملء جميع الحقول المطلوبة"
+      "fillRequiredFields": "يرجى ملء جميع الحقول المطلوبة",
+      "employeeImage": "صورة الموظف",
+      "employeeImageDescription": "قم بتحميل صورة واضحة لنفسك لملف العضوية الخاص بك",
+      "uploadEmployeeImage": "تحميل صورة الموظف",
+      "imageFormats": "الصيغ المدعومة: JPG، PNG، GIF",
+      "maxImageSize": "الحد الأقصى لحجم الملف: 10 ميجابايت",
+      "dragDropImage": "اسحب وأفلت صورتك هنا، أو انقر للتصفح",
+      "imagePreview": "معاينة الصورة",
+      "removeImage": "إزالة الصورة",
+      "imageRequired": "صورة الموظف مطلوبة"
     },
     "loginRequired": "يرجى تسجيل الدخول للوصول إلى نموذج طلب العضوية",
     "authRequired": "تسجيل الدخول مطلوب",

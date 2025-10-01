@@ -17,7 +17,6 @@ interface ContactSettings {
     instagram_url: string | null;
     linkedin_url: string | null;
     x_url: string | null;
-    notification_email: string | null;
     office_address: Record<string, string>;
     phone_numbers: Record<string, string>;
 }
@@ -99,17 +98,6 @@ export function Footer() {
                             {t('footer.contactInfo')}
                         </h3>
                         <div className="space-y-3">
-                            {contactSettings.notification_email && (
-                                <div className="flex items-center space-x-3">
-                                    <Mail className="h-4 w-4 text-primary flex-shrink-0" />
-                                    <a
-                                        href={`mailto:${contactSettings.notification_email}`}
-                                        className="text-gray-300 hover:text-primary transition-colors text-sm"
-                                    >
-                                        {contactSettings.notification_email}
-                                    </a>
-                                </div>
-                            )}
                             {phoneNumbers && (
                                 <div className="flex items-center space-x-3">
                                     <Phone className="h-4 w-4 text-primary flex-shrink-0" />
@@ -121,7 +109,7 @@ export function Footer() {
                             {officeAddress && (
                                 <div className="flex items-start space-x-3">
                                     <MapPin className="h-4 w-4 text-primary flex-shrink-0 mt-0.5" />
-                                    <address 
+                                    <address
                                         className={`text-gray-300 text-sm not-italic leading-relaxed ${isRTL ? 'font-arabic' : ''}`}
                                         dangerouslySetInnerHTML={{ __html: officeAddress }}
                                     />

@@ -45,9 +45,16 @@ class MemberProfile extends Model implements HasMedia
             ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/webp'])
             ->singleFile();
 
+        $this->addMediaCollection('employee_image')
+            ->acceptsMimeTypes(['image/jpeg', 'image/jpg', 'image/png', 'image/gif'])
+            ->singleFile();
+
         $this->addMediaCollection('signature')
             ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/webp'])
             ->singleFile();
+
+        $this->addMediaCollection('withdrawal_letters')
+            ->acceptsMimeTypes(['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'image/jpeg', 'image/jpg', 'image/png']);
 
         $this->addMediaCollection('additional_files')
             ->acceptsMimeTypes([
@@ -70,6 +77,13 @@ class MemberProfile extends Model implements HasMedia
             ->height(150)
             ->sharpen(10)
             ->performOnCollections('profile_photo')
+            ->nonQueued();
+
+        $this->addMediaConversion('employee_thumb')
+            ->width(150)
+            ->height(150)
+            ->sharpen(10)
+            ->performOnCollections('employee_image')
             ->nonQueued();
 
         $this->addMediaConversion('signature_thumb')

@@ -41,6 +41,8 @@ class MembershipApplicationRequest extends FormRequest
             'mobile_number' => ['required', 'string', 'max:20'],
             'home_phone' => ['nullable', 'string', 'max:20'],
             'permanent_address' => ['required', 'string'],
+            'employee_image' => ['required', 'file', 'image', 'mimes:jpg,jpeg,png,gif', 'max:10240'], // 10MB max
+            'signature' => ['required', 'file', 'image', 'mimes:jpg,jpeg,png,gif', 'max:5120'], // 5MB max
             'withdrawal_letter' => ['nullable', 'file', 'mimes:pdf,doc,docx,jpg,jpeg,png', 'max:5120'], // 5MB max
             'was_previous_member' => ['required', 'string', 'in:yes,no'],
         ];
@@ -59,6 +61,14 @@ class MembershipApplicationRequest extends FormRequest
             'staff_number.required' => 'Staff number is required.',
             'staff_number.unique' => 'This staff number is already registered.',
             'email.unique' => 'This email address is already registered.',
+            'employee_image.required' => 'Employee image is required.',
+            'employee_image.image' => 'The uploaded file must be an image.',
+            'employee_image.mimes' => 'Employee image must be a file of type: jpg, jpeg, png, gif.',
+            'employee_image.max' => 'Employee image may not be greater than 10MB.',
+            'signature.required' => 'Digital signature is required.',
+            'signature.image' => 'The signature must be an image.',
+            'signature.mimes' => 'Signature must be a file of type: jpg, jpeg, png, gif.',
+            'signature.max' => 'Signature may not be greater than 5MB.',
         ];
     }
 }

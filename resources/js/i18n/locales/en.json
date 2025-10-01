@@ -383,7 +383,16 @@
       "previous": "Previous Step",
       "step": "Step",
       "of": "of",
-      "fillRequiredFields": "Please fill all required fields"
+      "fillRequiredFields": "Please fill all required fields",
+      "employeeImage": "Employee Image",
+      "employeeImageDescription": "Upload a clear photo of yourself for your membership profile",
+      "uploadEmployeeImage": "Upload Employee Image",
+      "imageFormats": "Supported formats: JPG, PNG, GIF",
+      "maxImageSize": "Maximum file size: 10MB",
+      "dragDropImage": "Drag and drop your image here, or click to browse",
+      "imagePreview": "Image Preview",
+      "removeImage": "Remove Image",
+      "imageRequired": "Employee image is required"
     },
     "loginRequired": "Please login to access the membership application form",
     "authRequired": "Login Required",
