@@ -43,6 +43,31 @@ class ProfileController extends Controller
                 'profile_status' => $memberProfile->profile_status,
                 'created_at' => $memberProfile->created_at,
                 'updated_at' => $memberProfile->updated_at,
+                // Add media URLs
+                'employee_image_url' => $memberProfile->getFirstMediaUrl('employee_image'),
+                'signature_url' => $memberProfile->getFirstMediaUrl('signature'),
+                'withdrawal_letters' => $memberProfile->getMedia('withdrawal_letters')->map(function ($media) {
+                    return [
+                        'id' => $media->id,
+                        'name' => $media->name,
+                        'file_name' => $media->file_name,
+                        'mime_type' => $media->mime_type,
+                        'size' => $media->size,
+                        'human_readable_size' => $media->human_readable_size,
+                        'url' => $media->getUrl(),
+                    ];
+                }),
+                'additional_files' => $memberProfile->getMedia('additional_files')->map(function ($media) {
+                    return [
+                        'id' => $media->id,
+                        'name' => $media->name,
+                        'file_name' => $media->file_name,
+                        'mime_type' => $media->mime_type,
+                        'size' => $media->size,
+                        'human_readable_size' => $media->human_readable_size,
+                        'url' => $media->getUrl(),
+                    ];
+                }),
             ] : null,
             'membershipSettings' => [
                 'enable_member_form' => (bool) $membershipPage->enable_member_form,

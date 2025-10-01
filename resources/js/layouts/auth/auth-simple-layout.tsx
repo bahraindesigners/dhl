@@ -1,7 +1,7 @@
-import AppLogoIcon from '@/components/app-logo-icon';
 import { home } from '@/routes';
 import { Link } from '@inertiajs/react';
 import { type PropsWithChildren } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface AuthLayoutProps {
     name?: string;
@@ -10,24 +10,37 @@ interface AuthLayoutProps {
 }
 
 export default function AuthSimpleLayout({ children, title, description }: PropsWithChildren<AuthLayoutProps>) {
-    return (
-        <div className="flex min-h-svh flex-col items-center justify-center gap-6 bg-background p-6 md:p-10">
-            <div className="w-full max-w-sm">
-                <div className="flex flex-col gap-8">
-                    <div className="flex flex-col items-center gap-4">
-                        <Link href={home()} className="flex flex-col items-center gap-2 font-medium">
-                            <div className="mb-1 flex h-9 w-9 items-center justify-center rounded-md">
-                                <AppLogoIcon className="size-9 fill-current text-[var(--foreground)] dark:text-white" />
-                            </div>
-                            <span className="sr-only">{title}</span>
-                        </Link>
+    const { t, i18n } = useTranslation();
+    const isRTL = i18n.language === 'ar';
 
-                        <div className="space-y-2 text-center">
-                            <h1 className="text-xl font-medium">{title}</h1>
-                            <p className="text-center text-sm text-muted-foreground">{description}</p>
-                        </div>
+    return (
+        <div className={`min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center p-4 ${isRTL ? 'rtl' : 'ltr'}`}>
+            <div className="w-full max-w-md">
+                <div className="bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden">
+                    {/* Header with Logo and Title */}
+                    <div className="bg-gradient-to-r from-primary to-primary/90 px-8 py-8 text-center">
+                        <Link href={home()} className="inline-block mb-4">
+                            <img 
+                                src="/uinuon-logo.jpeg" 
+                                alt="DHL Union Logo"
+                                className="h-16 w-16 rounded-full mx-auto shadow-lg border-2 border-white"
+                            />
+                        </Link>
+                        <h1 className="text-2xl font-bold text-primary-foreground mb-2">{title}</h1>
+                        <p className="text-primary-foreground/80 text-sm">{description}</p>
                     </div>
-                    {children}
+
+                    {/* Form Content */}
+                    <div className="px-8 py-8">
+                        {children}
+                    </div>
+
+                    {/* Footer */}
+                    <div className="bg-gray-50 px-8 py-4 border-t border-gray-200">
+                        <p className="text-center text-xs text-gray-600">
+                            {t('auth.unionPortalFooter')}
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
