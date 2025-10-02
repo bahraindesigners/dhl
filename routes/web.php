@@ -4,6 +4,7 @@ use App\Http\Controllers\AboutController;
 use App\Http\Controllers\AlHasalaController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\BoardMemberController;
+use App\Http\Controllers\ComplaintController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\EventRegistrationController;
@@ -75,6 +76,14 @@ Route::middleware(['auth', 'verified', 'member-profile'])->group(function () {
     Route::get('/al-hasala/create', [AlHasalaController::class, 'create'])->name('al-hasala.create');
     Route::post('/al-hasala', [AlHasalaController::class, 'store'])->name('al-hasala.store');
     Route::get('/al-hasala/{alHasala}', [AlHasalaController::class, 'show'])->name('al-hasala.show');
+});
+
+// Complaint routes (require authentication and member profile)
+Route::middleware(['auth', 'verified', 'member-profile'])->group(function () {
+    Route::get('/complaints', [ComplaintController::class, 'index'])->name('complaints.index');
+    Route::get('/complaints/create', [ComplaintController::class, 'create'])->name('complaints.create');
+    Route::post('/complaints', [ComplaintController::class, 'store'])->name('complaints.store');
+    Route::get('/complaints/{complaint}', [ComplaintController::class, 'show'])->name('complaints.show');
 });
 
 // require __DIR__.'/settings.php';

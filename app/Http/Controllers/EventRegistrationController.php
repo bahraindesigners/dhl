@@ -38,7 +38,9 @@ class EventRegistrationController extends Controller
         }
 
         try {
-            DB::transaction(function () use ($event, $request, $user) {
+            $registration = null;
+
+            DB::transaction(function () use ($event, $request, $user, &$registration) {
                 // Create the registration
                 $registration = EventRegistration::create([
                     'event_id' => $event->id,
@@ -48,9 +50,9 @@ class EventRegistrationController extends Controller
                     'email' => $request->email,
                     'phone' => $request->phone,
                     'special_requirements' => $request->special_requirements,
-                    'status' => 'confirmed', // Auto-confirm for now
+                    'status' => 'pending', // Requires admin approval
                     'registered_at' => now(),
-                    'confirmed_at' => now(),
+                    'confirmed_at' => null, // Will be set when admin confirms
                     'amount_paid' => $event->price ?? 0,
                     'payment_status' => $event->price > 0 ? 'pending' : 'paid',
                 ]);
@@ -59,7 +61,7 @@ class EventRegistrationController extends Controller
                 $event->increment('registered_count');
             });
 
-            return back()->with('success', __('Congratulations! You have been successfully registered for this event. We look forward to seeing you there!'));
+            return back()->with('success', __('Your event registration has been submitted successfully! We will review your registration and send you a confirmation email once approved.'));
 
         } catch (\Exception $e) {
             return back()->with('error', 'An error occurred during registration. Please try again.');

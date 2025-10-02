@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Events\EventRegistrationCreated;
+use App\Events\EventRegistrationUpdated;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -45,10 +46,36 @@ class EventRegistration extends Model
 
         // Fire event when a new registration is created
         static::created(function ($registration) {
+            \Illuminate\Support\Facades\Log::info('EventRegistration model observer fired', [
+                'registration_id' => $registration->id,
+                'trace_id' => uniqid('observer_'),
+            ]);
+            
             // Load the event and eventCategory relationships before firing the event
             $registration->load(['event.eventCategory']);
-            
+
             EventRegistrationCreated::dispatch($registration);
+        });
+
+        // Fire event when registration is updated (specifically status changes)
+        static::updating(function ($registration) {
+            // Check if status is changing
+            if ($registration->isDirty('status')) {
+                $oldStatus = $registration->getOriginal('status');
+                $newStatus = $registration->status;
+
+                \Illuminate\Support\Facades\Log::info('EventRegistration status update observer fired', [
+                    'registration_id' => $registration->id,
+                    'old_status' => $oldStatus,
+                    'new_status' => $newStatus,
+                    'trace_id' => uniqid('update_observer_'),
+                ]);
+
+                // Load the event relationship before firing the event
+                $registration->load(['event.eventCategory']);
+
+                EventRegistrationUpdated::dispatch($registration, $oldStatus, $newStatus);
+            }
         });
     }
 

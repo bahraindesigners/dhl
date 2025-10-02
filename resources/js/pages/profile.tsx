@@ -171,7 +171,7 @@ export default function Profile({ user, memberProfile, membershipSettings }: Pro
                             <div className="space-y-4">
                                 {/* Account Information */}
                                 <CollapsibleSection
-                                    title="Account Information"
+                                    title={t('profile.accountInformation')}
                                     icon={<User className="h-5 w-5" />}
                                     defaultOpen={true}
                                     isRTL={isRTL}
@@ -179,7 +179,7 @@ export default function Profile({ user, memberProfile, membershipSettings }: Pro
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                         <div>
                                             <label className={`text-sm font-medium text-gray-600 ${isRTL ? 'font-arabic' : ''}`}>
-                                                Email Address
+                                                {t('profile.emailAddress')}
                                             </label>
                                             <div className="mt-1 flex items-center gap-2">
                                                 <Mail className="h-4 w-4 text-gray-400" />
@@ -188,25 +188,25 @@ export default function Profile({ user, memberProfile, membershipSettings }: Pro
                                         </div>
                                         <div>
                                             <label className={`text-sm font-medium text-gray-600 ${isRTL ? 'font-arabic' : ''}`}>
-                                                Email Verified
+                                                {t('profile.emailVerified')}
                                             </label>
                                             <div className="mt-1">
                                                 {user.email_verified_at ? (
                                                     <Badge variant="default" className="flex items-center gap-1 w-fit">
                                                         <CheckCircle className="h-3 w-3" />
-                                                        Verified
+                                                        {t('profile.verified')}
                                                     </Badge>
                                                 ) : (
                                                     <Badge variant="destructive" className="flex items-center gap-1 w-fit">
                                                         <XCircle className="h-3 w-3" />
-                                                        Not Verified
+                                                        {t('profile.notVerified')}
                                                     </Badge>
                                                 )}
                                             </div>
                                         </div>
                                         <div>
                                             <label className={`text-sm font-medium text-gray-600 ${isRTL ? 'font-arabic' : ''}`}>
-                                                Member Since
+                                                {t('profile.memberSince')}
                                             </label>
                                             <div className="mt-1 flex items-center gap-2">
                                                 <Calendar className="h-4 w-4 text-gray-400" />
@@ -217,18 +217,18 @@ export default function Profile({ user, memberProfile, membershipSettings }: Pro
                                         </div>
                                         <div>
                                             <label className={`text-sm font-medium text-gray-600 ${isRTL ? 'font-arabic' : ''}`}>
-                                                Profile Status
+                                                {t('profile.profileStatus')}
                                             </label>
                                             <div className="mt-1">
                                                 {memberProfile.profile_status ? (
                                                     <Badge variant="default" className="flex items-center gap-1 w-fit">
                                                         <CheckCircle className="h-3 w-3" />
-                                                        Active
+                                                        {t('profile.active')}
                                                     </Badge>
                                                 ) : (
                                                     <Badge variant="secondary" className="flex items-center gap-1 w-fit">
                                                         <XCircle className="h-3 w-3" />
-                                                        Pending
+                                                        {t('profile.pending')}
                                                     </Badge>
                                                 )}
                                             </div>
@@ -239,7 +239,7 @@ export default function Profile({ user, memberProfile, membershipSettings }: Pro
                                     
                                     <div className="text-center">
                                         <p className={`text-xs text-gray-500 ${isRTL ? 'font-arabic' : ''}`}>
-                                            Profile managed by administration
+                                            {t('profile.accountInfoNote')}
                                         </p>
                                     </div>
                                 </CollapsibleSection>
@@ -398,7 +398,7 @@ export default function Profile({ user, memberProfile, membershipSettings }: Pro
                                 {/* Digital Signature */}
                                 {memberProfile.signature_url && (
                                     <CollapsibleSection
-                                        title="Digital Signature"
+                                        title={t('profile.digitalSignature')}
                                         icon={<Camera className="h-5 w-5" />}
                                         isRTL={isRTL}
                                     >
@@ -415,7 +415,7 @@ export default function Profile({ user, memberProfile, membershipSettings }: Pro
                                                 onClick={() => window.open(memberProfile.signature_url, '_blank')}
                                             >
                                                 <Eye className="h-4 w-4 mr-2" />
-                                                View Full Size
+                                                {t('common.viewFullSize')}
                                             </Button>
                                         </div>
                                     </CollapsibleSection>
@@ -424,7 +424,7 @@ export default function Profile({ user, memberProfile, membershipSettings }: Pro
                                 {/* Documents */}
                                 {(memberProfile.withdrawal_letters.length > 0 || memberProfile.additional_files.length > 0) && (
                                     <CollapsibleSection
-                                        title="Documents & Files"
+                                        title={t('profile.documents')}
                                         icon={<FileText className="h-5 w-5" />}
                                         isRTL={isRTL}
                                     >
@@ -432,7 +432,7 @@ export default function Profile({ user, memberProfile, membershipSettings }: Pro
                                             {memberProfile.withdrawal_letters.length > 0 && (
                                                 <div>
                                                     <h4 className={`font-medium text-gray-900 mb-3 ${isRTL ? 'font-arabic' : ''}`}>
-                                                        Withdrawal Letters
+                                                        {t('profile.withdrawalLetters')}
                                                     </h4>
                                                     <div className="space-y-2">
                                                         {memberProfile.withdrawal_letters.map((file) => (
@@ -450,7 +450,7 @@ export default function Profile({ user, memberProfile, membershipSettings }: Pro
                                                                     onClick={() => window.open(file.url, '_blank')}
                                                                 >
                                                                     <Download className="h-4 w-4 mr-2" />
-                                                                    Download
+                                                                    {t('profile.download')}
                                                                 </Button>
                                                             </div>
                                                         ))}
@@ -461,7 +461,7 @@ export default function Profile({ user, memberProfile, membershipSettings }: Pro
                                             {memberProfile.additional_files.length > 0 && (
                                                 <div>
                                                     <h4 className={`font-medium text-gray-900 mb-3 ${isRTL ? 'font-arabic' : ''}`}>
-                                                        Additional Documents
+                                                        {t('profile.additionalFiles')}
                                                     </h4>
                                                     <div className="space-y-2">
                                                         {memberProfile.additional_files.map((file) => (
@@ -479,7 +479,7 @@ export default function Profile({ user, memberProfile, membershipSettings }: Pro
                                                                     onClick={() => window.open(file.url, '_blank')}
                                                                 >
                                                                     <Download className="h-4 w-4 mr-2" />
-                                                                    Download
+                                                                    {t('common.download')}
                                                                 </Button>
                                                             </div>
                                                         ))}
@@ -517,13 +517,13 @@ export default function Profile({ user, memberProfile, membershipSettings }: Pro
                                 <div className="space-y-8">
                                     <div className="text-center">
                                         <h2 className={`text-2xl sm:text-3xl font-bold text-gray-900 mb-3 ${isRTL ? 'font-arabic' : ''}`}>
-                                            Member Profile Required
+                                            {t('profile.memberProfileRequired')}
                                         </h2>
                                         <p className={`text-lg text-gray-600 ${isRTL ? 'font-arabic' : ''}`}>
-                                            Please contact the administration to create your member profile.
+                                            {t('profile.contactAdmin')}
                                         </p>
                                         <p className={`text-sm text-gray-500 mt-2 ${isRTL ? 'font-arabic' : ''}`}>
-                                            Member profiles are now managed exclusively by the administration team.
+                                            {t('profile.memberProfilesManaged')}
                                         </p>
                                     </div>
                                 </div>

@@ -142,6 +142,12 @@ export function Navbar() {
                     description: t('alHasala.description'),
                     icon: BookOpen,
                 },
+                {
+                    title: t('complaints.myComplaints'),
+                    href: '/complaints',
+                    description: t('complaints.indexDescription'),
+                    icon: Users,
+                },
             ]
         },
         {
@@ -326,7 +332,7 @@ export function Navbar() {
                                 <DropdownMenuTrigger asChild>
                                     <Button variant="ghost" size="sm" className="h-9 w-9 rounded-full p-0">
                                         <User className="h-4 w-4 text-black" />
-                                        <span className="sr-only">Account</span>
+                                        <span className="sr-only">{t('nav.account')}</span>
                                     </Button>
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent align="end" className="w-48">
@@ -374,7 +380,7 @@ export function Navbar() {
                         <SheetTrigger asChild>
                             <Button variant="ghost" size="sm" className="lg:hidden">
                                 <Menu className="h-5 w-5 text-black" />
-                                <span className="sr-only">Menu</span>
+                                <span className="sr-only">{t('nav.menu')}</span>
                             </Button>
                         </SheetTrigger>
                         <SheetContent side={i18n.language === "ar" ? "right" : "left"} className="w-80 p-0">

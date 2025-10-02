@@ -79,6 +79,16 @@ class PermissionSeeder extends Seeder
             'create home-sliders',
             'edit home-sliders',
             'delete home-sliders',
+
+            // Board member management
+            'view board members',
+            'create board members',
+            'edit board members',
+            'delete board members',
+            'restore board members',
+            'force delete board members',
+            'replicate board members',
+            'reorder board members',
         ];
 
         foreach ($permissions as $permission) {
@@ -111,6 +121,7 @@ class PermissionSeeder extends Seeder
             'view faqs', 'create faqs', 'edit faqs', 'delete faqs',
             'view downloads', 'create downloads', 'edit downloads', 'delete downloads',
             'view home-sliders', 'create home-sliders', 'edit home-sliders', 'delete home-sliders',
+            'view board members', 'create board members', 'edit board members', 'delete board members',
         ];
 
         $role->givePermissionTo($permissions);
@@ -128,6 +139,7 @@ class PermissionSeeder extends Seeder
             'view faqs', 'create faqs', 'edit faqs',
             'view downloads', 'create downloads', 'edit downloads',
             'view home-sliders', 'create home-sliders', 'edit home-sliders',
+            'view board members', 'create board members', 'edit board members',
         ];
 
         $role->givePermissionTo($permissions);
@@ -144,6 +156,7 @@ class PermissionSeeder extends Seeder
             'view event registrations',
             'view faqs',
             'view downloads',
+            'view board members',
         ];
 
         $role->givePermissionTo($permissions);

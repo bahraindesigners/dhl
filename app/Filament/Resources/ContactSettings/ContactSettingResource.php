@@ -11,12 +11,15 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use LaraZeus\SpatieTranslatable\Resources\Concerns\Translatable;
+use UnitEnum;
 
 class ContactSettingResource extends Resource
 {
     use Translatable;
 
     protected static ?string $model = ContactSetting::class;
+
+    protected static string|UnitEnum|null $navigationGroup = 'Contact Management';
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 

@@ -1,53 +1,97 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>New Al Hasala Application</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f9f9f9;
-        }
-        .container {
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        .header {
-            text-align: center;
-            border-bottom: 3px solid #059669;
-            padding-bottom: 20px;
-            margin-bottom: 30px;
-        }
-        .header h1 {
-            color: #047857;
-            margin: 0;
-            font-size: 28px;
-        }
-        .hasala-details {
-            background-color: #f0fdf4;
-            padding: 20px;
-            border-radius: 8px;
-            margin: 20px 0;
-            border-left: 4px solid #059669;
-        }
-        .detail-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-            padding: 8px 0;
-            border-bottom: 1px solid #e5e7eb;
-        }
-        .detail-row:last-child {
-            border-bottom: none;
-        }
+@component('emails.layouts.base', [
+    'title' => 'New Al Hasala Application',
+    'subtitle' => 'A member has submitted an Al Hasala application'
+])
+
+<!-- Al Hasala Application Details Section -->
+<div style="margin-bottom: 30px;">
+    <h2 style="color: #1a1a1a; font-size: 20px; font-weight: 600; margin-bottom: 15px; padding-bottom: 8px; border-bottom: 2px solid #ffcb00; display: inline-block;">💰 Al Hasala Application Details</h2>
+    <div style="background: #f8f9fb; border-radius: 8px; padding: 20px; margin-bottom: 20px; border-left: 4px solid #ffcb00;">
+        <div style="margin-bottom: 15px;">
+            <div style="font-weight: 600; color: #374151; margin-bottom: 5px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px;">Application ID</div>
+            <div style="background: #fff8e1; padding: 8px 12px; border-radius: 6px; border-left: 3px solid #ffcb00; font-weight: 500; color: #1f2937; font-size: 16px; line-height: 1.5;">#{{ $alHasala->id }}</div>
+        </div>
+        <div style="margin-bottom: 15px;">
+            <div style="font-weight: 600; color: #374151; margin-bottom: 5px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px;">Amount Requested</div>
+            <div style="background: #fff8e1; padding: 8px 12px; border-radius: 6px; border-left: 3px solid #ffcb00; font-weight: 700; color: #059669; font-size: 18px; line-height: 1.5;">
+                BD {{ number_format($alHasala->amount, 2) }}
+            </div>
+        </div>
+        <div style="margin-bottom: 15px;">
+            <div style="font-weight: 600; color: #374151; margin-bottom: 5px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px;">Duration</div>
+            <div style="color: #1f2937; font-size: 16px; line-height: 1.5;">{{ $alHasala->months }} months</div>
+        </div>
+        <div style="margin-bottom: 15px;">
+            <div style="font-weight: 600; color: #374151; margin-bottom: 5px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px;">Status</div>
+            <div style="color: #1f2937; font-size: 16px; line-height: 1.5;">
+                <span style="display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; background: #fef3c7; color: #92400e;">{{ $alHasala->status->label() }}</span>
+            </div>
+        </div>
+        <div style="margin-bottom: 0;">
+            <div style="font-weight: 600; color: #374151; margin-bottom: 5px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px;">Application Date</div>
+            <div style="color: #1f2937; font-size: 16px; line-height: 1.5;">{{ $alHasala->created_at->format('F j, Y \a\t g:i A') }}</div>
+        </div>
+    </div>
+</div>
+
+@if($alHasala->note)
+<!-- Application Note Section -->
+<div style="margin-bottom: 30px;">
+    <h2 style="color: #1a1a1a; font-size: 20px; font-weight: 600; margin-bottom: 15px; padding-bottom: 8px; border-bottom: 2px solid #ffcb00; display: inline-block;">📝 Application Note</h2>
+    <div style="background: #ffffff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 20px; white-space: pre-wrap; line-height: 1.6; font-family: Georgia, serif; font-size: 15px; color: #374151;">{{ $alHasala->note }}</div>
+</div>
+@endif
+
+<!-- Applicant Information Section -->
+<div style="margin-bottom: 30px;">
+    <h2 style="color: #1a1a1a; font-size: 20px; font-weight: 600; margin-bottom: 15px; padding-bottom: 8px; border-bottom: 2px solid #ffcb00; display: inline-block;">👤 Applicant Information</h2>
+    <div style="background: #f8f9fb; border-radius: 8px; padding: 20px; margin-bottom: 20px; border-left: 4px solid #ffcb00;">
+        <div style="margin-bottom: 15px;">
+            <div style="font-weight: 600; color: #374151; margin-bottom: 5px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px;">Name</div>
+            <div style="background: #fff8e1; padding: 8px 12px; border-radius: 6px; border-left: 3px solid #ffcb00; font-weight: 500; color: #1f2937; font-size: 16px; line-height: 1.5;">{{ $alHasala->user->name }}</div>
+        </div>
+        <div style="margin-bottom: 15px;">
+            <div style="font-weight: 600; color: #374151; margin-bottom: 5px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px;">Email</div>
+            <div style="color: #1f2937; font-size: 16px; line-height: 1.5;">
+                <a href="mailto:{{ $alHasala->user->email }}" style="color: #ffcb00; text-decoration: none;">{{ $alHasala->user->email }}</a>
+            </div>
+        </div>
+        @if($alHasala->memberProfile)
+        <div style="margin-bottom: 15px;">
+            <div style="font-weight: 600; color: #374151; margin-bottom: 5px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px;">Staff Number</div>
+            <div style="color: #1f2937; font-size: 16px; line-height: 1.5;">{{ $alHasala->memberProfile->staff_number ?? 'N/A' }}</div>
+        </div>
+        <div style="margin-bottom: 15px;">
+            <div style="font-weight: 600; color: #374151; margin-bottom: 5px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px;">Department</div>
+            <div style="color: #1f2937; font-size: 16px; line-height: 1.5;">{{ $alHasala->memberProfile->department ?? 'N/A' }}</div>
+        </div>
+        @if($alHasala->memberProfile->mobile_number)
+        <div style="margin-bottom: 0;">
+            <div style="font-weight: 600; color: #374151; margin-bottom: 5px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px;">Mobile</div>
+            <div style="color: #1f2937; font-size: 16px; line-height: 1.5;">
+                <a href="tel:{{ $alHasala->memberProfile->mobile_number }}" style="color: #ffcb00; text-decoration: none;">{{ $alHasala->memberProfile->mobile_number }}</a>
+            </div>
+        </div>
+        @endif
+        @endif
+    </div>
+</div>
+
+<!-- Action Button -->
+<div style="text-align: center; margin: 30px 0;">
+    <a href="{{ url('/admin/al-hasalas/' . $alHasala->id) }}" style="display: inline-block; background: linear-gradient(135deg, #ffcb00 0%, #ffd700 100%); color: #1a1a1a; text-decoration: none; padding: 12px 30px; border-radius: 8px; font-weight: 600; font-size: 16px; box-shadow: 0 3px 10px rgba(255, 203, 0, 0.3);">
+        Review Application
+    </a>
+</div>
+
+<!-- Action Required Notice -->
+<div style="background: #fff8e1; padding: 20px; border-radius: 8px; border-left: 4px solid #ffcb00; margin-top: 30px;">
+    <p style="margin: 0; color: #92400e; font-weight: 500;">
+        <strong>Action Required:</strong> Please review this Al Hasala application and take appropriate action in the admin panel.
+    </p>
+</div>
+
+@endcomponent
         .label {
             font-weight: 600;
             color: #374151;

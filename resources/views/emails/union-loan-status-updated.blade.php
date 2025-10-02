@@ -1,236 +1,144 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Loan Application Status Update</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f9f9f9;
-        }
-        .container {
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        .header {
-            text-align: center;
-            border-bottom: 3px solid #3b82f6;
-            padding-bottom: 20px;
-            margin-bottom: 30px;
-        }
-        .header h1 {
-            color: #1e40af;
-            margin: 0;
-            font-size: 28px;
-        }
-        .status-update {
-            text-align: center;
-            padding: 30px;
-            border-radius: 12px;
-            margin: 30px 0;
-        }
-        .status-approved {
-            background: linear-gradient(135deg, #10b981, #059669);
-            color: white;
-        }
-        .status-rejected {
-            background: linear-gradient(135deg, #ef4444, #dc2626);
-            color: white;
-        }
-        .status-pending {
-            background: linear-gradient(135deg, #f59e0b, #d97706);
-            color: white;
-        }
-        .status-icon {
-            font-size: 48px;
-            margin-bottom: 15px;
-            display: block;
-        }
-        .status-text {
-            font-size: 24px;
-            font-weight: 600;
-            margin: 0;
-        }
-        .loan-details {
-            background-color: #f8fafc;
-            padding: 20px;
-            border-radius: 8px;
-            margin: 20px 0;
-            border-left: 4px solid #3b82f6;
-        }
-        .detail-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-            padding: 8px 0;
-            border-bottom: 1px solid #e5e7eb;
-        }
-        .detail-row:last-child {
-            border-bottom: none;
-        }
-        .label {
-            font-weight: 600;
-            color: #374151;
-        }
-        .value {
-            color: #1f2937;
-        }
-        .rejection-reason {
-            background-color: #fef2f2;
-            border: 1px solid #fecaca;
-            padding: 20px;
-            border-radius: 8px;
-            margin: 20px 0;
-            border-left: 4px solid #ef4444;
-        }
-        .rejection-reason h3 {
-            color: #dc2626;
-            margin-top: 0;
-        }
-        .action-section {
-            text-align: center;
-            margin: 30px 0;
-        }
-        .btn {
-            display: inline-block;
-            padding: 12px 24px;
-            background-color: #3b82f6;
-            color: white;
-            text-decoration: none;
-            border-radius: 6px;
-            font-weight: 600;
-            transition: background-color 0.3s;
-        }
-        .btn:hover {
-            background-color: #2563eb;
-        }
-        .footer {
-            text-align: center;
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid #e5e7eb;
-            color: #6b7280;
-            font-size: 14px;
-        }
-        .next-steps {
-            background-color: #eff6ff;
-            padding: 20px;
-            border-radius: 8px;
-            margin: 20px 0;
-            border-left: 4px solid #3b82f6;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="header">
-            <h1>🏦 Loan Application Update</h1>
-            <p style="margin: 10px 0 0 0; color: #6b7280;">Application #{{ $unionLoan->id }}</p>
+@component('emails.layouts.base', [
+    'title' => 'Union Loan Application Update',
+    'subtitle' => 'Your union loan application status has been updated'
+])
+
+<!-- Greeting -->
+<div style="margin-bottom: 20px;">
+    <p style="margin: 0; color: #374151; font-size: 16px; line-height: 1.6;">
+        <strong>Dear {{ $unionLoan->user->name }},</strong>
+    </p>
+    <p style="margin: 10px 0 0 0; color: #6b7280; font-size: 15px; line-height: 1.6;">
+        Your union loan application status has been updated. Please find the details below:
+    </p>
+</div>
+
+<!-- Status Update Section -->
+<div style="background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 8px; padding: 20px; margin-bottom: 30px; text-align: center;">
+    <h2 style="color: #0c4a6e; font-size: 20px; font-weight: 600; margin-bottom: 10px;">🔄 Status Update</h2>
+    <p style="color: #075985; margin: 10px 0; font-size: 16px;">Your union loan application is now:</p>
+    @if($unionLoan->status->value === 'approved')
+        <span style="display: inline-block; padding: 8px 20px; border-radius: 20px; font-size: 16px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; background: #10b981; color: white;">APPROVED</span>
+    @elseif($unionLoan->status->value === 'rejected')
+        <span style="display: inline-block; padding: 8px 20px; border-radius: 20px; font-size: 16px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; background: #ef4444; color: white;">REJECTED</span>
+    @else
+        <span style="display: inline-block; padding: 8px 20px; border-radius: 20px; font-size: 16px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; background: #f59e0b; color: white;">{{ strtoupper($unionLoan->status->value) }}</span>
+    @endif
+</div>
+
+<!-- Loan Application Details Section -->
+<div style="margin-bottom: 30px;">
+    <h2 style="color: #1a1a1a; font-size: 20px; font-weight: 600; margin-bottom: 15px; padding-bottom: 8px; border-bottom: 2px solid #ffcb00; display: inline-block;">💰 Loan Application Details</h2>
+    <div style="background: #f8f9fb; border-radius: 8px; padding: 20px; margin-bottom: 20px; border-left: 4px solid #ffcb00;">
+        <div style="margin-bottom: 15px;">
+            <div style="font-weight: 600; color: #374151; margin-bottom: 5px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px;">Application ID</div>
+            <div style="background: #fff8e1; padding: 8px 12px; border-radius: 6px; border-left: 3px solid #ffcb00; font-weight: 500; color: #1f2937; font-size: 16px; line-height: 1.5;">#{{ $unionLoan->id }}</div>
         </div>
-
-        <p>Dear {{ $unionLoan->user->name }},</p>
-
-        <p>We have an update regarding your union loan application. Please see the details below:</p>
-
-        <div class="status-update status-{{ strtolower($unionLoan->status->value) }}">
-            @if($unionLoan->status->value === 'approved')
-                <span class="status-icon">🎉</span>
-                <p class="status-text">Congratulations! Your loan has been APPROVED</p>
-            @elseif($unionLoan->status->value === 'rejected')
-                <span class="status-icon">❌</span>
-                <p class="status-text">Your loan application has been REJECTED</p>
-            @else
-                <span class="status-icon">⏳</span>
-                <p class="status-text">Your loan application is PENDING review</p>
-            @endif
+        <div style="margin-bottom: 15px;">
+            <div style="font-weight: 600; color: #374151; margin-bottom: 5px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px;">Loan Type</div>
+            <div style="background: #fff8e1; padding: 8px 12px; border-radius: 6px; border-left: 3px solid #ffcb00; font-weight: 500; color: #1f2937; font-size: 16px; line-height: 1.5;">{{ $unionLoan->loan_type }}</div>
         </div>
-
-        <div class="loan-details">
-            <h3 style="margin-top: 0; color: #1e40af;">💰 Application Details</h3>
-            <div class="detail-row">
-                <span class="label">Application ID:</span>
-                <span class="value">#{{ $unionLoan->id }}</span>
-            </div>
-            <div class="detail-row">
-                <span class="label">Loan Amount:</span>
-                <span class="value">BD {{ number_format($unionLoan->amount, 2) }}</span>
-            </div>
-            <div class="detail-row">
-                <span class="label">Duration:</span>
-                <span class="value">{{ $unionLoan->months }} months</span>
-            </div>
-            <div class="detail-row">
-                <span class="label">Current Status:</span>
-                <span class="value">{{ $unionLoan->status->label() }}</span>
-            </div>
-            <div class="detail-row">
-                <span class="label">Application Date:</span>
-                <span class="value">{{ $unionLoan->created_at->format('F j, Y \a\t g:i A') }}</span>
-            </div>
-            <div class="detail-row">
-                <span class="label">Last Updated:</span>
-                <span class="value">{{ $unionLoan->updated_at->format('F j, Y \a\t g:i A') }}</span>
+        <div style="margin-bottom: 15px;">
+            <div style="font-weight: 600; color: #374151; margin-bottom: 5px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px;">Amount Requested</div>
+            <div style="background: #fff8e1; padding: 8px 12px; border-radius: 6px; border-left: 3px solid #ffcb00; font-weight: 700; color: #059669; font-size: 18px; line-height: 1.5;">
+                BD {{ number_format($unionLoan->amount, 2) }}
             </div>
         </div>
-
-        @if($unionLoan->status->value === 'rejected' && $unionLoan->rejected_reason)
-        <div class="rejection-reason">
-            <h3>📋 Rejection Reason</h3>
-            <p style="margin-bottom: 0; white-space: pre-wrap;">{{ $unionLoan->rejected_reason }}</p>
+        <div style="margin-bottom: 15px;">
+            <div style="font-weight: 600; color: #374151; margin-bottom: 5px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px;">Duration</div>
+            <div style="color: #1f2937; font-size: 16px; line-height: 1.5;">{{ $unionLoan->duration_months }} months</div>
         </div>
-        @endif
-
-        @if($unionLoan->status->value === 'approved')
-        <div class="next-steps">
-            <h3 style="margin-top: 0; color: #1e40af;">🎯 Next Steps</h3>
-            <ul style="margin-bottom: 0; padding-left: 20px;">
-                <li>You will be contacted by our finance team within 1-2 business days</li>
-                <li>Please keep your identification documents ready</li>
-                <li>The loan amount will be processed according to our standard procedures</li>
-                <li>You will receive loan agreement documents for signature</li>
-            </ul>
+        <div style="margin-bottom: 15px;">
+            <div style="font-weight: 600; color: #374151; margin-bottom: 5px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px;">Purpose</div>
+            <div style="color: #1f2937; font-size: 16px; line-height: 1.5;">{{ $unionLoan->purpose }}</div>
         </div>
-        @elseif($unionLoan->status->value === 'rejected')
-        <div class="next-steps">
-            <h3 style="margin-top: 0; color: #dc2626;">💡 What You Can Do</h3>
-            <ul style="margin-bottom: 0; padding-left: 20px;">
-                <li>Review the rejection reason provided above</li>
-                <li>Address any issues mentioned in the rejection reason</li>
-                <li>You may submit a new application after resolving the mentioned concerns</li>
-                <li>Contact our support team if you need clarification</li>
-            </ul>
+        <div style="margin-bottom: 15px;">
+            <div style="font-weight: 600; color: #374151; margin-bottom: 5px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px;">Applied On</div>
+            <div style="color: #1f2937; font-size: 16px; line-height: 1.5;">{{ $unionLoan->created_at->format('F j, Y') }}</div>
         </div>
-        @else
-        <div class="next-steps">
-            <h3 style="margin-top: 0; color: #d97706;">⏰ What Happens Next</h3>
-            <ul style="margin-bottom: 0; padding-left: 20px;">
-                <li>Your application is currently under review by our team</li>
-                <li>We will evaluate your eligibility and loan requirements</li>
-                <li>You will be notified of the decision within 3-5 business days</li>
-                <li>No action is required from your side at this time</li>
-            </ul>
-        </div>
-        @endif
-
-        <div class="action-section">
-            <p><strong>You can view your complete application details by clicking the button below:</strong></p>
-            <a href="{{ url('/loans/' . $unionLoan->id) }}" class="btn">
-                View Application Details →
-            </a>
-        </div>
-
-        <div class="footer">
-            <p>If you have any questions about your loan application, please don't hesitate to contact us.</p>
-            <p style="margin: 5px 0 0 0;">This is an automated notification from the DHL Union Loan Management System.</p>
+        <div style="margin-bottom: 0;">
+            <div style="font-weight: 600; color: #374151; margin-bottom: 5px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px;">Last Updated</div>
+            <div style="color: #1f2937; font-size: 16px; line-height: 1.5;">{{ $unionLoan->updated_at->format('F j, Y \a\t g:i A') }}</div>
         </div>
     </div>
-</body>
-</html>
+</div>
+
+@if($unionLoan->status->value === 'approved')
+<!-- Approval Message -->
+<div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 20px; margin-bottom: 30px; border-left: 4px solid #10b981;">
+    <h2 style="color: #047857; font-size: 18px; font-weight: 600; margin-bottom: 10px; display: flex; align-items: center;">
+        <span style="margin-right: 8px;">🎉</span> Congratulations!
+    </h2>
+    <p style="margin: 0; color: #047857; line-height: 1.6;">
+        Your union loan application has been <strong>approved</strong>! Please contact the loan department to proceed with the next steps.
+    </p>
+</div>
+
+@if($unionLoan->approved_amount && $unionLoan->approved_amount != $unionLoan->amount)
+<!-- Approved Amount Different -->
+<div style="background: #fffbeb; border: 1px solid #fed7aa; border-radius: 8px; padding: 20px; margin-bottom: 30px; border-left: 4px solid #f59e0b;">
+    <h2 style="color: #92400e; font-size: 18px; font-weight: 600; margin-bottom: 10px; display: flex; align-items: center;">
+        <span style="margin-right: 8px;">💰</span> Approved Amount
+    </h2>
+    <p style="margin: 0; color: #92400e; line-height: 1.6;">
+        <strong>Approved Amount:</strong> BD {{ number_format($unionLoan->approved_amount, 2) }}<br>
+        <em>Note: The approved amount may differ from your requested amount based on the loan assessment.</em>
+    </p>
+</div>
+@endif
+@endif
+
+@if($unionLoan->status->value === 'rejected' && $unionLoan->rejection_reason)
+<!-- Rejection Reason -->
+<div style="background: #fef2f2; border: 1px solid #fecaca; border-radius: 8px; padding: 20px; margin-bottom: 30px; border-left: 4px solid #ef4444;">
+    <h2 style="color: #dc2626; font-size: 18px; font-weight: 600; margin-bottom: 15px; display: flex; align-items: center;">
+        <span style="margin-right: 8px;">❌</span> Rejection Reason
+    </h2>
+    <div style="background: #ffffff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 15px; white-space: pre-wrap; line-height: 1.6; font-size: 15px; color: #374151; margin-bottom: 15px;">{{ $unionLoan->rejection_reason }}</div>
+    <p style="margin: 0; color: #6b7280; font-size: 14px; line-height: 1.6;">
+        You may submit a new application after addressing the concerns mentioned above.
+    </p>
+</div>
+@endif
+
+@if($unionLoan->status->value === 'pending')
+<!-- Pending Review Message -->
+<div style="background: #fffbeb; border: 1px solid #fed7aa; border-radius: 8px; padding: 20px; margin-bottom: 30px; border-left: 4px solid #f59e0b;">
+    <h2 style="color: #92400e; font-size: 18px; font-weight: 600; margin-bottom: 10px; display: flex; align-items: center;">
+        <span style="margin-right: 8px;">⏳</span> Under Review
+    </h2>
+    <p style="margin: 0; color: #92400e; line-height: 1.6;">
+        Your union loan application is currently under review. We will notify you once a decision has been made.
+    </p>
+</div>
+@endif
+
+@if($unionLoan->admin_notes)
+<!-- Admin Notes -->
+<div style="background: #f8f9fb; border-radius: 8px; padding: 20px; margin-bottom: 30px; border-left: 4px solid #ffcb00;">
+    <h2 style="color: #1a1a1a; font-size: 18px; font-weight: 600; margin-bottom: 15px;">📝 Additional Notes</h2>
+    <div style="background: #ffffff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 15px; white-space: pre-wrap; line-height: 1.6; font-size: 15px; color: #374151;">{{ $unionLoan->admin_notes }}</div>
+</div>
+@endif
+
+<!-- Action Button -->
+<div style="text-align: center; margin: 30px 0;">
+    <p style="margin-bottom: 15px; color: #374151; font-weight: 500;">View your complete application details in the member portal:</p>
+    <a href="{{ url('/union-loans') }}" style="display: inline-block; background: linear-gradient(135deg, #ffcb00 0%, #ffd700 100%); color: #1a1a1a; text-decoration: none; padding: 12px 30px; border-radius: 8px; font-weight: 600; font-size: 16px; box-shadow: 0 3px 10px rgba(255, 203, 0, 0.3);">
+        View My Loan Applications →
+    </a>
+</div>
+
+<!-- Footer Notice -->
+<div style="background: #f8f9fb; border-radius: 8px; padding: 20px; margin-top: 30px; text-align: center; border-left: 4px solid #ffcb00;">
+    <p style="margin: 0 0 10px 0; color: #6b7280; font-size: 14px; line-height: 1.6;">
+        This is an automated notification from the DHL Bahrain Trade Union Loan Management System.<br>
+        For questions, please contact the loan department.
+    </p>
+    <p style="margin: 0; color: #374151; font-size: 14px; font-weight: 600;">
+        DHL Bahrain Trade Union<br>
+        Loan Department
+    </p>
+</div>
+
+@endcomponent

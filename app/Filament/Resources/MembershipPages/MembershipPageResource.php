@@ -11,12 +11,15 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use LaraZeus\SpatieTranslatable\Resources\Concerns\Translatable;
+use UnitEnum;
 
 class MembershipPageResource extends Resource
 {
     use Translatable;
 
     protected static ?string $model = MembershipPage::class;
+
+    protected static string|UnitEnum|null $navigationGroup = 'Member Management';
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedUserGroup;
 

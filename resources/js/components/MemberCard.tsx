@@ -2,6 +2,7 @@ import React from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { QrCode, User } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface MemberProfile {
     id: number;
@@ -52,9 +53,8 @@ export default function MemberCard({ user, memberProfile, isRTL = false }: Membe
     };
 
     // Split name into first and last name
-    const nameParts = user.name.split(' ');
-    const firstName = nameParts[0] || '';
-    const lastName = nameParts.slice(1).join(' ') || '';
+    const name = user.name;
+    const { t } = useTranslation();
 
     return (
         <div className="w-full max-w-lg mx-auto px-4 sm:px-0" dir='ltr'>
@@ -95,7 +95,7 @@ export default function MemberCard({ user, memberProfile, isRTL = false }: Membe
 
                                 {/* Line 2: Name (LASTNAME Firstname) */}
                                 <div className="text-sm sm:text-sm font-bold text-black leading-tight tracking-wide">
-                                    <div className="uppercase">{lastName + " " + firstName}</div>
+                                    <div className="uppercase">{name}</div>
                                 </div>
 
                                 {/* Line 3: ID Number */}
@@ -177,7 +177,7 @@ export default function MemberCard({ user, memberProfile, isRTL = false }: Membe
             {/* QR Code underneath the card */}
             <div className="flex flex-col items-center mt-3 sm:mt-4 space-y-2">
                 <div className="text-xs text-gray-600 font-medium">
-                    Scan for Member Offers
+                    {t('profile.scanForOffers', 'Scan for Member Offers')}
                 </div>
                 <div
                     className="bg-white p-2 sm:p-3 rounded-lg shadow-md border border-gray-200 cursor-pointer hover:shadow-lg transition-shadow"
@@ -191,7 +191,7 @@ export default function MemberCard({ user, memberProfile, isRTL = false }: Membe
                     />
                 </div>
                 <div className="text-xs text-gray-500 text-center max-w-32">
-                    Click to access member offers and benefits
+                    {t('profile.clickToAccessOffers', 'Click to access member offers and benefits')}
                 </div>
             </div>
         </div>

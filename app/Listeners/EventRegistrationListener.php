@@ -31,6 +31,12 @@ class EventRegistrationListener implements ShouldQueue
         $eventModel = $registration->event;
         $eventCategory = $eventModel->eventCategory;
 
+        $traceId = uniqid('listener_');
+        Log::info('EventRegistrationListener handle called', [
+            'registration_id' => $registration->id,
+            'trace_id' => $traceId,
+        ]);
+
         // Check if the event category has a receiver email
         if (!$eventCategory || !$eventCategory->receiver_email) {
             Log::warning('No receiver email found for event category', [
@@ -38,6 +44,7 @@ class EventRegistrationListener implements ShouldQueue
                 'event_title' => $eventModel->title,
                 'category_id' => $eventCategory?->id,
                 'category_name' => $eventCategory?->name,
+                'trace_id' => $traceId,
             ]);
             return;
         }
@@ -57,6 +64,7 @@ class EventRegistrationListener implements ShouldQueue
                 'notification_recipient' => $eventCategory->receiver_email,
                 'confirmation_recipient' => $registration->email,
                 'registrant_name' => $registration->first_name . ' ' . $registration->last_name,
+                'trace_id' => $traceId,
             ]);
         } catch (\Exception $e) {
             Log::error('Failed to send registration emails', [
