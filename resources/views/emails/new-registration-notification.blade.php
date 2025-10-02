@@ -3,141 +3,170 @@
     'subtitle' => 'A new event registration has been submitted'
 ])
 
-<!-- Event Information Section -->
-<div style="margin-bottom: 30px;">
-    <h2 style="color: #1a1a1a; font-size: 20px; font-weight: 600; margin-bottom: 15px; padding-bottom: 8px; border-bottom: 2px solid #ffcb00; display: inline-block;">🎉 Event Information</h2>
-    <div style="background: #f8f9fb; border-radius: 8px; padding: 20px; margin-bottom: 20px; border-left: 4px solid #ffcb00;">
-        <div style="margin-bottom: 15px;">
-            <div style="font-weight: 600; color: #374151; margin-bottom: 5px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px;">Event Name</div>
-            <div style="background: #fff8e1; padding: 8px 12px; border-radius: 6px; border-left: 3px solid #ffcb00; font-weight: 500; color: #1f2937; font-size: 16px; line-height: 1.5;">{{ $event->title }}</div>
+<!-- Alert -->
+<div style="background: #dbeafe; border: 1px solid #93c5fd; border-radius: 12px; padding: 20px; margin-bottom: 32px; text-align: center;">
+    <div style="width: 48px; height: 48px; background: #3b82f6; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 12px;">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="m22 21-3-3m0 0a5.5 5.5 0 1 0-7.78-7.78 5.5 5.5 0 0 0 7.78 7.78Z"></path>
+        </svg>
+    </div>
+    <p style="color: #1e40af; font-size: 16px; margin: 0; font-weight: 500;">New event registration received</p>
+</div>
+
+<!-- Event Information -->
+<div style="background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 12px; padding: 24px; margin-bottom: 32px;">
+    <h3 style="color: #111827; font-size: 18px; font-weight: 600; margin: 0 0 16px 0;">Event Information</h3>
+    
+    <div>
+        <!-- Event Name -->
+        <div style="margin-bottom: 16px;">
+            <div style="color: #6b7280; font-size: 14px; font-weight: 500; margin-bottom: 4px;">Event</div>
+            <div style="color: #111827; font-size: 16px; font-weight: 500;">{{ $event->title }}</div>
         </div>
-        <div style="margin-bottom: 15px;">
-            <div style="font-weight: 600; color: #374151; margin-bottom: 5px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px;">Category</div>
-            <div style="color: #1f2937; font-size: 16px; line-height: 1.5;">{{ $eventCategory->name }}</div>
+        
+        <!-- Category -->
+        <div style="margin-bottom: 16px;">
+            <div style="color: #6b7280; font-size: 14px; font-weight: 500; margin-bottom: 4px;">Category</div>
+            <span style="background: #dbeafe; color: #1e40af; padding: 4px 8px; border-radius: 6px; font-size: 14px; font-weight: 500;">{{ $eventCategory->name }}</span>
         </div>
-        <div style="margin-bottom: 15px;">
-            <div style="font-weight: 600; color: #374151; margin-bottom: 5px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px;">Start Date & Time</div>
-            <div style="color: #1f2937; font-size: 16px; line-height: 1.5;">{{ $event->start_date->format('F j, Y \a\t g:i A') }}</div>
+        
+        <!-- Date & Time -->
+        <div style="margin-bottom: 16px;">
+            <div style="color: #6b7280; font-size: 14px; font-weight: 500; margin-bottom: 4px;">Date & Time</div>
+            <div style="color: #111827; font-size: 16px;">{{ $event->start_date->format('l, F j, Y \a\t g:i A') }}</div>
+            @if($event->end_date && $event->start_date->format('Y-m-d') !== $event->end_date->format('Y-m-d'))
+                <div style="color: #6b7280; font-size: 14px; margin-top: 4px;">Ends {{ $event->end_date->format('l, F j, Y \a\t g:i A') }}</div>
+            @elseif($event->end_date)
+                <div style="color: #6b7280; font-size: 14px; margin-top: 4px;">Until {{ $event->end_date->format('g:i A') }}</div>
+            @endif
         </div>
-        @if($event->end_date)
-        <div style="margin-bottom: 15px;">
-            <div style="font-weight: 600; color: #374151; margin-bottom: 5px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px;">End Date & Time</div>
-            <div style="color: #1f2937; font-size: 16px; line-height: 1.5;">{{ $event->end_date->format('F j, Y \a\t g:i A') }}</div>
-        </div>
-        @endif
+        
         @if($event->location)
+        <!-- Location -->
         <div style="margin-bottom: 0;">
-            <div style="font-weight: 600; color: #374151; margin-bottom: 5px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px;">Location</div>
-            <div style="color: #1f2937; font-size: 16px; line-height: 1.5;">{{ $event->location }}</div>
+            <div style="color: #6b7280; font-size: 14px; font-weight: 500; margin-bottom: 4px;">Location</div>
+            <div style="color: #111827; font-size: 16px;">{{ $event->location }}</div>
         </div>
         @endif
     </div>
 </div>
 
-<!-- Registration Details Section -->
-<div style="margin-bottom: 30px;">
-    <h2 style="color: #1a1a1a; font-size: 20px; font-weight: 600; margin-bottom: 15px; padding-bottom: 8px; border-bottom: 2px solid #ffcb00; display: inline-block;">👤 Registration Details</h2>
-    <div style="background: #f8f9fb; border-radius: 8px; padding: 20px; margin-bottom: 20px; border-left: 4px solid #ffcb00;">
-        <div style="margin-bottom: 15px;">
-            <div style="font-weight: 600; color: #374151; margin-bottom: 5px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px;">Registration ID</div>
-            <div style="background: #fff8e1; padding: 8px 12px; border-radius: 6px; border-left: 3px solid #ffcb00; font-weight: 500; color: #1f2937; font-size: 16px; line-height: 1.5;">#{{ $registration->id }}</div>
+<!-- Registration Details -->
+<div style="background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 12px; padding: 24px; margin-bottom: 32px;">
+    <h3 style="color: #111827; font-size: 18px; font-weight: 600; margin: 0 0 16px 0;">Registration Details</h3>
+    
+    <div>
+        <!-- Registration ID -->
+        <div style="margin-bottom: 16px;">
+            <div style="color: #6b7280; font-size: 14px; font-weight: 500; margin-bottom: 4px;">Registration ID</div>
+            <div style="color: #111827; font-size: 16px; font-weight: 600; font-family: mono;">#{{ $registration->id }}</div>
         </div>
-        <div style="margin-bottom: 15px;">
-            <div style="font-weight: 600; color: #374151; margin-bottom: 5px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px;">Participant Name</div>
-            <div style="background: #fff8e1; padding: 8px 12px; border-radius: 6px; border-left: 3px solid #ffcb00; font-weight: 500; color: #1f2937; font-size: 16px; line-height: 1.5;">{{ $registration->first_name }} {{ $registration->last_name }}</div>
+        
+        <!-- Participant Name -->
+        <div style="margin-bottom: 16px;">
+            <div style="color: #6b7280; font-size: 14px; font-weight: 500; margin-bottom: 4px;">Participant</div>
+            <div style="color: #111827; font-size: 16px; font-weight: 500;">{{ $registration->first_name }} {{ $registration->last_name }}</div>
         </div>
-        <div style="margin-bottom: 15px;">
-            <div style="font-weight: 600; color: #374151; margin-bottom: 5px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px;">Email</div>
-            <div style="color: #1f2937; font-size: 16px; line-height: 1.5;">
-                <a href="mailto:{{ $registration->email }}" style="color: #ffcb00; text-decoration: none;">{{ $registration->email }}</a>
+        
+        <!-- Email -->
+        <div style="margin-bottom: 16px;">
+            <div style="color: #6b7280; font-size: 14px; font-weight: 500; margin-bottom: 4px;">Email</div>
+            <div style="color: #111827; font-size: 16px;">
+                <a href="mailto:{{ $registration->email }}" style="color: #3b82f6; text-decoration: none;">{{ $registration->email }}</a>
             </div>
         </div>
+        
         @if($registration->phone)
-        <div style="margin-bottom: 15px;">
-            <div style="font-weight: 600; color: #374151; margin-bottom: 5px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px;">Phone</div>
-            <div style="color: #1f2937; font-size: 16px; line-height: 1.5;">
-                <a href="tel:{{ $registration->phone }}" style="color: #ffcb00; text-decoration: none;">{{ $registration->phone }}</a>
+        <!-- Phone -->
+        <div style="margin-bottom: 16px;">
+            <div style="color: #6b7280; font-size: 14px; font-weight: 500; margin-bottom: 4px;">Phone</div>
+            <div style="color: #111827; font-size: 16px;">
+                <a href="tel:{{ $registration->phone }}" style="color: #3b82f6; text-decoration: none;">{{ $registration->phone }}</a>
             </div>
         </div>
         @endif
-        <div style="margin-bottom: 15px;">
-            <div style="font-weight: 600; color: #374151; margin-bottom: 5px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px;">Registration Date</div>
-            <div style="color: #1f2937; font-size: 16px; line-height: 1.5;">{{ $registration->registered_at->format('F j, Y \a\t g:i A') }}</div>
+        
+        <!-- Registration Date -->
+        <div style="margin-bottom: 16px;">
+            <div style="color: #6b7280; font-size: 14px; font-weight: 500; margin-bottom: 4px;">Registered</div>
+            <div style="color: #111827; font-size: 16px;">{{ $registration->registered_at->format('F j, Y \a\t g:i A') }}</div>
         </div>
-        @if($registration->special_requirements || $registration->amount_paid > 0)
-        <div style="margin-bottom: 15px;">
-            <div style="font-weight: 600; color: #374151; margin-bottom: 5px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px;">Status</div>
-            <div style="color: #1f2937; font-size: 16px; line-height: 1.5;">
+        
+        <!-- Status -->
+        <div style="margin-bottom: 16px;">
+            <div style="color: #6b7280; font-size: 14px; font-weight: 500; margin-bottom: 4px;">Status</div>
+            <div>
                 @if($registration->status === 'confirmed')
-                    <span style="display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; background: #bbf7d0; color: #047857;">{{ ucfirst($registration->status) }}</span>
+                    <span style="background: #dcfce7; color: #166534; padding: 4px 12px; border-radius: 20px; font-size: 14px; font-weight: 500;">Confirmed</span>
                 @elseif($registration->status === 'pending')
-                    <span style="display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; background: #fef3c7; color: #92400e;">{{ ucfirst($registration->status) }}</span>
+                    <span style="background: #fef3c7; color: #92400e; padding: 4px 12px; border-radius: 20px; font-size: 14px; font-weight: 500;">Pending</span>
                 @else
-                    <span style="display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; background: #f3f4f6; color: #374151;">{{ ucfirst($registration->status) }}</span>
+                    <span style="background: #f3f4f6; color: #374151; padding: 4px 12px; border-radius: 20px; font-size: 14px; font-weight: 500;">{{ ucfirst($registration->status) }}</span>
                 @endif
             </div>
         </div>
+        
+        @if($registration->special_requirements)
+        <!-- Special Requirements -->
+        @if($registration->amount_paid > 0)
+        <div style="margin-bottom: 16px;">
         @else
         <div style="margin-bottom: 0;">
-            <div style="font-weight: 600; color: #374151; margin-bottom: 5px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px;">Status</div>
-            <div style="color: #1f2937; font-size: 16px; line-height: 1.5;">
-                @if($registration->status === 'confirmed')
-                    <span style="display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; background: #bbf7d0; color: #047857;">{{ ucfirst($registration->status) }}</span>
-                @elseif($registration->status === 'pending')
-                    <span style="display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; background: #fef3c7; color: #92400e;">{{ ucfirst($registration->status) }}</span>
-                @else
-                    <span style="display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; background: #f3f4f6; color: #374151;">{{ ucfirst($registration->status) }}</span>
-                @endif
-            </div>
+        @endif
+            <div style="color: #6b7280; font-size: 14px; font-weight: 500; margin-bottom: 4px;">Special Requirements</div>
+            <div style="background: #ffffff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 12px; color: #374151; font-size: 14px; line-height: 1.5;">{{ $registration->special_requirements }}</div>
         </div>
         @endif
-        @if($registration->special_requirements && $registration->amount_paid > 0)
-        <div style="margin-bottom: 15px;">
-            <div style="font-weight: 600; color: #374151; margin-bottom: 5px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px;">Special Requirements</div>
-            <div style="background: #ffffff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 15px; white-space: pre-wrap; line-height: 1.6; font-size: 15px; color: #374151;">{{ $registration->special_requirements }}</div>
-        </div>
-        @elseif($registration->special_requirements)
-        <div style="margin-bottom: 0;">
-            <div style="font-weight: 600; color: #374151; margin-bottom: 5px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px;">Special Requirements</div>
-            <div style="background: #ffffff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 15px; white-space: pre-wrap; line-height: 1.6; font-size: 15px; color: #374151;">{{ $registration->special_requirements }}</div>
-        </div>
-        @endif
+        
         @if($registration->amount_paid > 0)
+        <!-- Amount Paid -->
         <div style="margin-bottom: 0;">
-            <div style="font-weight: 600; color: #374151; margin-bottom: 5px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px;">Amount Paid</div>
-            <div style="background: #fff8e1; padding: 8px 12px; border-radius: 6px; border-left: 3px solid #ffcb00; font-weight: 700; color: #059669; font-size: 18px; line-height: 1.5;">
-                BD {{ number_format($registration->amount_paid, 2) }}
-            </div>
+            <div style="color: #6b7280; font-size: 14px; font-weight: 500; margin-bottom: 4px;">Amount Paid</div>
+            <div style="color: #059669; font-size: 20px; font-weight: 700;">BD {{ number_format($registration->amount_paid, 2) }}</div>
         </div>
         @endif
     </div>
 </div>
 
 @if($registration->amount_paid > 0)
-<!-- Payment Information Section -->
-<div style="margin-bottom: 30px;">
-    <h2 style="color: #1a1a1a; font-size: 20px; font-weight: 600; margin-bottom: 15px; padding-bottom: 8px; border-bottom: 2px solid #ffcb00; display: inline-block;">💰 Payment Information</h2>
-    <div style="background: #f8f9fb; border-radius: 8px; padding: 20px; margin-bottom: 20px; border-left: 4px solid #ffcb00;">
-        <div style="margin-bottom: 15px;">
-            <div style="font-weight: 600; color: #374151; margin-bottom: 5px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px;">Payment Status</div>
-            <div style="color: #1f2937; font-size: 16px; line-height: 1.5;">
+<!-- Payment Information -->
+<div style="background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 12px; padding: 24px; margin-bottom: 32px;">
+    <h3 style="color: #111827; font-size: 18px; font-weight: 600; margin: 0 0 16px 0;">Payment Information</h3>
+    
+    <div>
+        <!-- Payment Status -->
+        <div style="margin-bottom: 16px;">
+            <div style="color: #6b7280; font-size: 14px; font-weight: 500; margin-bottom: 4px;">Payment Status</div>
+            <div>
                 @if($registration->payment_status === 'paid')
-                    <span style="display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; background: #bbf7d0; color: #047857;">{{ ucfirst($registration->payment_status) }}</span>
+                    <span style="background: #dcfce7; color: #166534; padding: 4px 12px; border-radius: 20px; font-size: 14px; font-weight: 500;">Paid</span>
+                @elseif($registration->payment_status === 'pending')
+                    <span style="background: #fef3c7; color: #92400e; padding: 4px 12px; border-radius: 20px; font-size: 14px; font-weight: 500;">Pending</span>
                 @else
-                    <span style="display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; background: #fef3c7; color: #92400e;">{{ ucfirst($registration->payment_status) }}</span>
+                    <span style="background: #f3f4f6; color: #374151; padding: 4px 12px; border-radius: 20px; font-size: 14px; font-weight: 500;">{{ ucfirst($registration->payment_status) }}</span>
                 @endif
             </div>
         </div>
+        
         @if($registration->payment_method)
-        <div style="margin-bottom: 15px;">
-            <div style="font-weight: 600; color: #374151; margin-bottom: 5px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px;">Payment Method</div>
-            <div style="color: #1f2937; font-size: 16px; line-height: 1.5;">{{ ucfirst($registration->payment_method) }}</div>
+        <!-- Payment Method -->
+        @if($registration->payment_reference)
+        <div style="margin-bottom: 16px;">
+        @else
+        <div style="margin-bottom: 0;">
+        @endif
+            <div style="color: #6b7280; font-size: 14px; font-weight: 500; margin-bottom: 4px;">Payment Method</div>
+            <div style="color: #111827; font-size: 16px;">{{ ucfirst($registration->payment_method) }}</div>
         </div>
         @endif
+        
         @if($registration->payment_reference)
+        <!-- Payment Reference -->
         <div style="margin-bottom: 0;">
-            <div style="font-weight: 600; color: #374151; margin-bottom: 5px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px;">Payment Reference</div>
-            <div style="color: #1f2937; font-size: 16px; line-height: 1.5;">{{ $registration->payment_reference }}</div>
+            <div style="color: #6b7280; font-size: 14px; font-weight: 500; margin-bottom: 4px;">Payment Reference</div>
+            <div style="color: #111827; font-size: 16px; font-family: mono;">{{ $registration->payment_reference }}</div>
         </div>
         @endif
     </div>
@@ -145,111 +174,26 @@
 @endif
 
 <!-- Action Button -->
-<div style="text-align: center; margin: 30px 0;">
-    <a href="{{ url('/admin/event-registrations/' . $registration->id) }}" style="display: inline-block; background: linear-gradient(135deg, #ffcb00 0%, #ffd700 100%); color: #1a1a1a; text-decoration: none; padding: 12px 30px; border-radius: 8px; font-weight: 600; font-size: 16px; box-shadow: 0 3px 10px rgba(255, 203, 0, 0.3);">
+<div style="text-align: center; margin: 32px 0;">
+    <a href="{{ url('/admin/event-registrations/' . $registration->id . '/edit') }}" style="display: inline-block; background: #3b82f6; color: white; text-decoration: none; padding: 14px 28px; border-radius: 8px; font-weight: 500; font-size: 16px; transition: background-color 0.2s;">
         Review Registration
     </a>
 </div>
 
 <!-- Action Required Notice -->
-<div style="background: #fff8e1; padding: 20px; border-radius: 8px; border-left: 4px solid #ffcb00; margin-top: 30px;">
-    <p style="margin: 0; color: #92400e; font-weight: 500;">
-        <strong>Action Required:</strong> Please review this event registration and take appropriate action in the admin panel.
-    </p>
+<div style="background: #fffbeb; border: 1px solid #f59e0b; border-radius: 12px; padding: 20px; margin-top: 32px;">
+    <div style="display: flex; align-items: flex-start;">
+        <div style="width: 20px; height: 20px; background: #f59e0b; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-right: 12px; flex-shrink: 0; margin-top: 2px;">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3">
+                <path d="M12 9v4m0 4h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+            </svg>
+        </div>
+        <div>
+            <p style="color: #92400e; font-weight: 500; margin: 0; line-height: 1.5;">
+                <strong>Action Required:</strong> Please review this event registration and take appropriate action in the admin panel.
+            </p>
+        </div>
+    </div>
 </div>
 
 @endcomponent
-            color: #ffc107;
-        }
-        .footer {
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid #e0e0e0;
-            font-size: 14px;
-            color: #666;
-        }
-    </style>
-</head>
-<body>
-    <div class="header">
-        <h1>🎉 New Event Registration</h1>
-        <p>A new registration has been submitted for one of your events.</p>
-    </div>
-
-    <div class="content">
-        <div class="event-details">
-            <h2>📅 Event Details</h2>
-            <div class="detail-row">
-                <span class="label">Event:</span> {{ $event->title }}
-            </div>
-            <div class="detail-row">
-                <span class="label">Category:</span> {{ $eventCategory->name }}
-            </div>
-            <div class="detail-row">
-                <span class="label">Start Date:</span> {{ $event->start_date->format('F j, Y g:i A') }}
-            </div>
-            @if($event->location)
-            <div class="detail-row">
-                <span class="label">Location:</span> {{ $event->location }}
-            </div>
-            @endif
-        </div>
-
-        <div class="registration-details">
-            <h2>👤 Registration Details</h2>
-            <div class="detail-row">
-                <span class="label">Name:</span> {{ $registration->first_name }} {{ $registration->last_name }}
-            </div>
-            <div class="detail-row">
-                <span class="label">Email:</span> {{ $registration->email }}
-            </div>
-            @if($registration->phone)
-            <div class="detail-row">
-                <span class="label">Phone:</span> {{ $registration->phone }}
-            </div>
-            @endif
-            <div class="detail-row">
-                <span class="label">Registration Date:</span> {{ $registration->registered_at->format('F j, Y g:i A') }}
-            </div>
-            <div class="detail-row">
-                <span class="label">Status:</span> 
-                <span class="{{ $registration->status === 'confirmed' ? 'status-confirmed' : 'status-pending' }}">
-                    {{ ucfirst($registration->status) }}
-                </span>
-            </div>
-            @if($registration->special_requirements)
-            <div class="detail-row">
-                <span class="label">Special Requirements:</span> {{ $registration->special_requirements }}
-            </div>
-            @endif
-        </div>
-
-        @if($registration->amount_paid > 0)
-        <div class="registration-details">
-            <h2>💰 Payment Information</h2>
-            <div class="detail-row">
-                <span class="label">Amount Paid:</span> ${{ number_format($registration->amount_paid, 2) }}
-            </div>
-            <div class="detail-row">
-                <span class="label">Payment Status:</span> {{ ucfirst($registration->payment_status) }}
-            </div>
-            @if($registration->payment_method)
-            <div class="detail-row">
-                <span class="label">Payment Method:</span> {{ ucfirst($registration->payment_method) }}
-            </div>
-            @endif
-            @if($registration->payment_reference)
-            <div class="detail-row">
-                <span class="label">Payment Reference:</span> {{ $registration->payment_reference }}
-            </div>
-            @endif
-        </div>
-        @endif
-    </div>
-
-    <div class="footer">
-        <p>This is an automated notification from the DHL Event Management System.</p>
-        <p>Please log into the admin panel to view more details or manage this registration.</p>
-    </div>
-</body>
-</html>

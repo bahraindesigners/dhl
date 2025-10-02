@@ -1,150 +1,124 @@
 @component('emails.layouts.base', [
-    'title' => 'New Union Loan Application',
+    'title' => 'New Loan Application',
     'subtitle' => 'A member has submitted a union loan application'
 ])
 
-<!-- Union Loan Application Details Section -->
-<div style="margin-bottom: 30px;">
-    <h2 style="color: #1a1a1a; font-size: 20px; font-weight: 600; margin-bottom: 15px; padding-bottom: 8px; border-bottom: 2px solid #ffcb00; display: inline-block;">💰 Union Loan Application Details</h2>
-    <div style="background: #f8f9fb; border-radius: 8px; padding: 20px; margin-bottom: 20px; border-left: 4px solid #ffcb00;">
-        <div style="margin-bottom: 15px;">
-            <div style="font-weight: 600; color: #374151; margin-bottom: 5px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px;">Application ID</div>
-            <div style="background: #fff8e1; padding: 8px 12px; border-radius: 6px; border-left: 3px solid #ffcb00; font-weight: 500; color: #1f2937; font-size: 16px; line-height: 1.5;">#{{ $unionLoan->id }}</div>
+<!-- Alert -->
+<div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 12px; padding: 20px; margin-bottom: 32px; text-align: center;">
+    <div style="width: 48px; height: 48px; background: #2563eb; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 12px;">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="16" x2="12" y2="12"></line>
+            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+        </svg>
+    </div>
+    <p style="color: #1d4ed8; font-size: 16px; margin: 0; font-weight: 500;">New union loan application requires review</p>
+</div>
+
+<!-- Loan Application Details -->
+<div style="background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 12px; padding: 24px; margin-bottom: 32px;">
+    <h3 style="color: #111827; font-size: 18px; font-weight: 600; margin: 0 0 16px 0;">Application Details</h3>
+    
+    <div>
+        <!-- Application ID -->
+        <div style="margin-bottom: 16px;">
+            <div style="color: #6b7280; font-size: 14px; font-weight: 500; margin-bottom: 4px;">Application ID</div>
+            <div style="color: #111827; font-size: 16px; font-weight: 600; font-family: mono;">#{{ $unionLoan->id }}</div>
         </div>
-        <div style="margin-bottom: 15px;">
-            <div style="font-weight: 600; color: #374151; margin-bottom: 5px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px;">Loan Type</div>
-            <div style="background: #fff8e1; padding: 8px 12px; border-radius: 6px; border-left: 3px solid #ffcb00; font-weight: 500; color: #1f2937; font-size: 16px; line-height: 1.5;">{{ $unionLoan->loan_type }}</div>
+        
+        <!-- Amount -->
+        <div style="margin-bottom: 16px;">
+            <div style="color: #6b7280; font-size: 14px; font-weight: 500; margin-bottom: 4px;">Amount Requested</div>
+            <div style="color: #059669; font-size: 20px; font-weight: 700;">BD {{ number_format($unionLoan->amount, 2) }}</div>
         </div>
-        <div style="margin-bottom: 15px;">
-            <div style="font-weight: 600; color: #374151; margin-bottom: 5px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px;">Amount Requested</div>
-            <div style="background: #fff8e1; padding: 8px 12px; border-radius: 6px; border-left: 3px solid #ffcb00; font-weight: 700; color: #059669; font-size: 18px; line-height: 1.5;">
-                BD {{ number_format($unionLoan->amount, 2) }}
-            </div>
+        
+        <!-- Duration -->
+        <div style="margin-bottom: 16px;">
+            <div style="color: #6b7280; font-size: 14px; font-weight: 500; margin-bottom: 4px;">Duration</div>
+            <div style="color: #111827; font-size: 16px;">{{ $unionLoan->months }} months</div>
         </div>
-        <div style="margin-bottom: 15px;">
-            <div style="font-weight: 600; color: #374151; margin-bottom: 5px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px;">Duration</div>
-            <div style="color: #1f2937; font-size: 16px; line-height: 1.5;">{{ $unionLoan->duration_months }} months</div>
+        
+        <!-- Status -->
+        <div style="margin-bottom: 16px;">
+            <div style="color: #6b7280; font-size: 14px; font-weight: 500; margin-bottom: 4px;">Status</div>
+            <span style="background: #fef3c7; color: #92400e; padding: 4px 12px; border-radius: 20px; font-size: 14px; font-weight: 500;">{{ ucfirst($unionLoan->status) }}</span>
         </div>
-        <div style="margin-bottom: 15px;">
-            <div style="font-weight: 600; color: #374151; margin-bottom: 5px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px;">Purpose</div>
-            <div style="color: #1f2937; font-size: 16px; line-height: 1.5;">{{ $unionLoan->purpose }}</div>
-        </div>
-        <div style="margin-bottom: 15px;">
-            <div style="font-weight: 600; color: #374151; margin-bottom: 5px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px;">Status</div>
-            <div style="color: #1f2937; font-size: 16px; line-height: 1.5;">
-                <span style="display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; background: #fef3c7; color: #92400e;">{{ $unionLoan->status->label() }}</span>
-            </div>
-        </div>
+        
+        <!-- Application Date -->
         <div style="margin-bottom: 0;">
-            <div style="font-weight: 600; color: #374151; margin-bottom: 5px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px;">Application Date</div>
-            <div style="color: #1f2937; font-size: 16px; line-height: 1.5;">{{ $unionLoan->created_at->format('F j, Y \a\t g:i A') }}</div>
+            <div style="color: #6b7280; font-size: 14px; font-weight: 500; margin-bottom: 4px;">Submitted</div>
+            <div style="color: #111827; font-size: 16px;">{{ $unionLoan->created_at->format('F j, Y \a\t g:i A') }}</div>
         </div>
     </div>
 </div>
-
-@if($unionLoan->documents_provided)
-<!-- Documents Section -->
-<div style="margin-bottom: 30px;">
-    <h2 style="color: #1a1a1a; font-size: 20px; font-weight: 600; margin-bottom: 15px; padding-bottom: 8px; border-bottom: 2px solid #ffcb00; display: inline-block;">📄 Documents Provided</h2>
-    <div style="background: #ffffff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 20px; white-space: pre-wrap; line-height: 1.6; font-family: Georgia, serif; font-size: 15px; color: #374151;">{{ $unionLoan->documents_provided }}</div>
+@if($unionLoan->note)
+<!-- Additional Notes -->
+<div style="margin-bottom: 32px;">
+    <h3 style="color: #111827; font-size: 18px; font-weight: 600; margin: 0 0 12px 0;">Additional Notes</h3>
+    <div style="background: #ffffff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 20px; white-space: pre-wrap; line-height: 1.6; font-size: 16px; color: #374151;">{{ $unionLoan->note }}</div>
 </div>
 @endif
 
-@if($unionLoan->notes)
-<!-- Application Notes Section -->
-<div style="margin-bottom: 30px;">
-    <h2 style="color: #1a1a1a; font-size: 20px; font-weight: 600; margin-bottom: 15px; padding-bottom: 8px; border-bottom: 2px solid #ffcb00; display: inline-block;">📝 Application Notes</h2>
-    <div style="background: #ffffff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 20px; white-space: pre-wrap; line-height: 1.6; font-family: Georgia, serif; font-size: 15px; color: #374151;">{{ $unionLoan->notes }}</div>
-</div>
-@endif
-
-<!-- Applicant Information Section -->
-<div style="margin-bottom: 30px;">
-    <h2 style="color: #1a1a1a; font-size: 20px; font-weight: 600; margin-bottom: 15px; padding-bottom: 8px; border-bottom: 2px solid #ffcb00; display: inline-block;">👤 Applicant Information</h2>
-    <div style="background: #f8f9fb; border-radius: 8px; padding: 20px; margin-bottom: 20px; border-left: 4px solid #ffcb00;">
-        <div style="margin-bottom: 15px;">
-            <div style="font-weight: 600; color: #374151; margin-bottom: 5px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px;">Name</div>
-            <div style="background: #fff8e1; padding: 8px 12px; border-radius: 6px; border-left: 3px solid #ffcb00; font-weight: 500; color: #1f2937; font-size: 16px; line-height: 1.5;">{{ $unionLoan->user->name }}</div>
+<!-- Applicant Information -->
+<div style="background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 12px; padding: 24px; margin-bottom: 32px;">
+    <h3 style="color: #111827; font-size: 18px; font-weight: 600; margin: 0 0 16px 0;">Applicant Information</h3>
+    
+    <div>
+        <!-- Name -->
+        <div style="margin-bottom: 16px;">
+            <div style="color: #6b7280; font-size: 14px; font-weight: 500; margin-bottom: 4px;">Name</div>
+            <div style="color: #111827; font-size: 16px; font-weight: 500;">{{ $unionLoan->user->name }}</div>
         </div>
-        <div style="margin-bottom: 15px;">
-            <div style="font-weight: 600; color: #374151; margin-bottom: 5px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px;">Email</div>
-            <div style="color: #1f2937; font-size: 16px; line-height: 1.5;">
-                <a href="mailto:{{ $unionLoan->user->email }}" style="color: #ffcb00; text-decoration: none;">{{ $unionLoan->user->email }}</a>
+        
+        <!-- Email -->
+        <div style="margin-bottom: 16px;">
+            <div style="color: #6b7280; font-size: 14px; font-weight: 500; margin-bottom: 4px;">Email</div>
+            <div style="color: #111827; font-size: 16px;">
+                <a href="mailto:{{ $unionLoan->user->email }}" style="color: #3b82f6; text-decoration: none;">{{ $unionLoan->user->email }}</a>
             </div>
         </div>
-        @if($unionLoan->memberProfile)
-        <div style="margin-bottom: 15px;">
-            <div style="font-weight: 600; color: #374151; margin-bottom: 5px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px;">Staff Number</div>
-            <div style="color: #1f2937; font-size: 16px; line-height: 1.5;">{{ $unionLoan->memberProfile->staff_number ?? 'N/A' }}</div>
+        
+        @if($unionLoan->user->memberProfile)
+        <!-- Staff Number -->
+        <div style="margin-bottom: 16px;">
+            <div style="color: #6b7280; font-size: 14px; font-weight: 500; margin-bottom: 4px;">Staff Number</div>
+            <div style="color: #111827; font-size: 16px;">{{ $unionLoan->user->memberProfile->staff_number ?? 'N/A' }}</div>
         </div>
-        <div style="margin-bottom: 15px;">
-            <div style="font-weight: 600; color: #374151; margin-bottom: 5px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px;">Department</div>
-            <div style="color: #1f2937; font-size: 16px; line-height: 1.5;">{{ $unionLoan->memberProfile->department ?? 'N/A' }}</div>
+        
+        <!-- Department -->
+        <div style="margin-bottom: 16px;">
+            <div style="color: #6b7280; font-size: 14px; font-weight: 500; margin-bottom: 4px;">Department</div>
+            <div style="color: #111827; font-size: 16px;">{{ $unionLoan->user->memberProfile->department ?? 'N/A' }}</div>
         </div>
-        @if($unionLoan->memberProfile->mobile_number)
+        
+        @if($unionLoan->user->memberProfile->mobile_number)
+        <!-- Mobile -->
         <div style="margin-bottom: 0;">
-            <div style="font-weight: 600; color: #374151; margin-bottom: 5px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px;">Mobile</div>
-            <div style="color: #1f2937; font-size: 16px; line-height: 1.5;">
-                <a href="tel:{{ $unionLoan->memberProfile->mobile_number }}" style="color: #ffcb00; text-decoration: none;">{{ $unionLoan->memberProfile->mobile_number }}</a>
+            <div style="color: #6b7280; font-size: 14px; font-weight: 500; margin-bottom: 4px;">Mobile</div>
+            <div style="color: #111827; font-size: 16px;">
+                <a href="tel:{{ $unionLoan->user->memberProfile->mobile_number }}" style="color: #3b82f6; text-decoration: none;">{{ $unionLoan->user->memberProfile->mobile_number }}</a>
             </div>
         </div>
         @endif
         @endif
     </div>
 </div>
-
-@if($unionLoan->guarantor_name)
-<!-- Guarantor Information Section -->
-<div style="margin-bottom: 30px;">
-    <h2 style="color: #1a1a1a; font-size: 20px; font-weight: 600; margin-bottom: 15px; padding-bottom: 8px; border-bottom: 2px solid #ffcb00; display: inline-block;">🤝 Guarantor Information</h2>
-    <div style="background: #f8f9fb; border-radius: 8px; padding: 20px; margin-bottom: 20px; border-left: 4px solid #ffcb00;">
-        <div style="margin-bottom: 15px;">
-            <div style="font-weight: 600; color: #374151; margin-bottom: 5px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px;">Guarantor Name</div>
-            <div style="background: #fff8e1; padding: 8px 12px; border-radius: 6px; border-left: 3px solid #ffcb00; font-weight: 500; color: #1f2937; font-size: 16px; line-height: 1.5;">{{ $unionLoan->guarantor_name }}</div>
-        </div>
-        @if($unionLoan->guarantor_staff_number)
-        <div style="margin-bottom: 15px;">
-            <div style="font-weight: 600; color: #374151; margin-bottom: 5px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px;">Guarantor Staff Number</div>
-            <div style="color: #1f2937; font-size: 16px; line-height: 1.5;">{{ $unionLoan->guarantor_staff_number }}</div>
-        </div>
-        @endif
-        @if($unionLoan->guarantor_relationship)
-        <div style="margin-bottom: 0;">
-            <div style="font-weight: 600; color: #374151; margin-bottom: 5px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px;">Relationship</div>
-            <div style="color: #1f2937; font-size: 16px; line-height: 1.5;">{{ $unionLoan->guarantor_relationship }}</div>
-        </div>
-        @endif
-    </div>
-</div>
-@endif
 
 <!-- Action Button -->
-<div style="text-align: center; margin: 30px 0;">
-    <a href="{{ url('/admin/union-loans/' . $unionLoan->id) }}" style="display: inline-block; background: linear-gradient(135deg, #ffcb00 0%, #ffd700 100%); color: #1a1a1a; text-decoration: none; padding: 12px 30px; border-radius: 8px; font-weight: 600; font-size: 16px; box-shadow: 0 3px 10px rgba(255, 203, 0, 0.3);">
+<div style="text-align: center; margin: 32px 0;">
+    <a href="{{ url('/admin/union-loans/' . $unionLoan->id) }}" style="display: inline-block; background: #3b82f6; color: white; text-decoration: none; padding: 12px 24px; border-radius: 8px; font-weight: 500; font-size: 16px;">
         Review Application
     </a>
 </div>
 
-<!-- Action Required Notice -->
-<div style="background: #fff8e1; padding: 20px; border-radius: 8px; border-left: 4px solid #ffcb00; margin-top: 30px;">
-    <p style="margin: 0; color: #92400e; font-weight: 500;">
-        <strong>Action Required:</strong> Please review this union loan application and take appropriate action in the admin panel.
+<!-- Action Notice -->
+<div style="background: #f0f9ff; border: 1px solid #c7d2fe; border-radius: 12px; padding: 20px; text-align: center;">
+    <p style="margin: 0; color: #4338ca; font-size: 14px; line-height: 1.5;">
+        <strong>Action Required:</strong> Please review this application in the admin panel
     </p>
 </div>
 
 @endcomponent
-        .label {
-            font-weight: 600;
-            color: #374151;
-        }
-        .value {
-            color: #1f2937;
-        }
-        .status {
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 12px;
             font-weight: 600;
             text-transform: uppercase;
             background-color: #fef3c7;
