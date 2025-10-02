@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class UnionLoanSettings extends Model
+class AlHasalaSettings extends Model
 {
     use HasFactory;
 
@@ -35,8 +35,8 @@ class UnionLoanSettings extends Model
             'max_months' => 24,
             'receivers' => [
                 [
-                    'name' => 'Loan Admin',
-                    'email' => 'loans@example.com',
+                    'name' => 'Al Hasala Admin',
+                    'email' => 'alhasala@example.com',
                 ],
             ],
             'is_active' => true,

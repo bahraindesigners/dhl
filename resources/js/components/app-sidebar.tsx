@@ -29,6 +29,12 @@ export function AppSidebar() {
             href: '/loans',
             icon: Banknote,
         });
+        
+        mainNavItems.push({
+            title: t('alHasala.title'),
+            href: '/al-hasala',
+            icon: Banknote,
+        });
     }
     
     return (

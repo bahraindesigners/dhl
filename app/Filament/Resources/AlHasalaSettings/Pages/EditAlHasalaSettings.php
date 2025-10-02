@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Filament\Resources\UnionLoanSettings\Pages;
+namespace App\Filament\Resources\AlHasalaSettings\Pages;
 
-use App\Filament\Resources\UnionLoanSettings\UnionLoanSettingsResource;
+use App\Filament\Resources\AlHasalaSettings\AlHasalaSettingsResource;
 use Filament\Resources\Pages\EditRecord;
 
-class EditUnionLoanSettings extends EditRecord
+class EditAlHasalaSettings extends EditRecord
 {
-    protected static string $resource = UnionLoanSettingsResource::class;
+    protected static string $resource = AlHasalaSettingsResource::class;
 
     protected function getHeaderActions(): array
     {

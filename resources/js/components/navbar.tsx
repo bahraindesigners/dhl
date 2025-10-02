@@ -136,6 +136,12 @@ export function Navbar() {
                     description: t('loans.description'),
                     icon: BookOpen,
                 },
+                {
+                    title: t('alHasala.title'),
+                    href: '/al-hasala',
+                    description: t('alHasala.description'),
+                    icon: BookOpen,
+                },
             ]
         },
         {

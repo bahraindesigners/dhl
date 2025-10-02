@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Resources\UnionLoans\Schemas;
+namespace App\Filament\Resources\AlHasalas\Schemas;
 
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Components\Grid;
@@ -9,25 +9,25 @@ use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Components\Tabs\Tab;
 use Filament\Schemas\Schema;
 
-class UnionLoanInfolist
+class AlHasalaInfolist
 {
     public static function configure(Schema $schema): Schema
     {
         return $schema
             ->components([
-                Tabs::make('Loan Details')
+                Tabs::make('Al Hasala Details')
                     ->tabs([
-                        Tab::make('Loan Information')
+                        Tab::make('Al Hasala Information')
                             ->icon('heroicon-o-banknotes')
                             ->schema([
                                 Grid::make(3)
                                     ->schema([
-                                        Section::make('Loan Details')
+                                        Section::make('Al Hasala Details')
                                             ->icon('heroicon-o-banknotes')
-                                            ->description('Loan application information')
+                                            ->description('Al Hasala application information')
                                             ->schema([
                                                 TextEntry::make('amount')
-                                                    ->label('Loan Amount')
+                                                    ->label('Al Hasala Amount')
                                                     ->money('BHD', divideBy: 1)
                                                     ->icon('heroicon-o-banknotes')
                                                     ->color('success'),

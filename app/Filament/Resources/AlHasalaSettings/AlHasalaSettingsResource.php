@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Filament\Resources\UnionLoanSettings;
+namespace App\Filament\Resources\AlHasalaSettings;
 
-use App\Filament\Resources\UnionLoanSettings\Pages\EditUnionLoanSettings;
-use App\Filament\Resources\UnionLoanSettings\Pages\ManageUnionLoanSettings;
-use App\Filament\Resources\UnionLoanSettings\Schemas\UnionLoanSettingsForm;
-use App\Models\UnionLoanSettings;
+use App\Filament\Resources\AlHasalaSettings\Pages\EditAlHasalaSettings;
+use App\Filament\Resources\AlHasalaSettings\Pages\ManageAlHasalaSettings;
+use App\Filament\Resources\AlHasalaSettings\Schemas\AlHasalaSettingsForm;
+use App\Models\AlHasalaSettings;
 use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
@@ -13,27 +13,27 @@ use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use UnitEnum;
 
-class UnionLoanSettingsResource extends Resource
+class AlHasalaSettingsResource extends Resource
 {
-    protected static ?string $model = UnionLoanSettings::class;
+    protected static ?string $model = AlHasalaSettings::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedCog6Tooth;
 
-    protected static ?string $navigationLabel = 'Loan Settings';
+    protected static ?string $navigationLabel = 'Al Hasala Settings';
 
-    protected static ?string $modelLabel = 'Loan Settings';
+    protected static ?string $modelLabel = 'Al Hasala Settings';
 
-    protected static ?string $pluralModelLabel = 'Loan Settings';
+    protected static ?string $pluralModelLabel = 'Al Hasala Settings';
 
     protected static string|UnitEnum|null $navigationGroup = 'Union Management';
 
-    protected static ?int $navigationSort = 2;
+    protected static ?int $navigationSort = 3;
 
     protected static ?string $recordTitleAttribute = 'max_months';
 
     public static function form(Schema $schema): Schema
     {
-        return UnionLoanSettingsForm::configure($schema);
+        return AlHasalaSettingsForm::configure($schema);
     }
 
     public static function table(Table $table): Table
@@ -52,8 +52,8 @@ class UnionLoanSettingsResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => ManageUnionLoanSettings::route('/'),
-            'edit' => EditUnionLoanSettings::route('/{record}/edit'),
+            'index' => ManageAlHasalaSettings::route('/'),
+            'edit' => EditAlHasalaSettings::route('/{record}/edit'),
         ];
     }
 
@@ -64,7 +64,7 @@ class UnionLoanSettingsResource extends Resource
 
     public static function getNavigationUrl(array $parameters = []): string
     {
-        $record = UnionLoanSettings::getSingleton();
+        $record = AlHasalaSettings::getSingleton();
 
         return static::getUrl('edit', ['record' => $record->id]);
     }

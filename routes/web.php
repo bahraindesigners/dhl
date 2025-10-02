@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AboutController;
+use App\Http\Controllers\AlHasalaController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\BoardMemberController;
 use App\Http\Controllers\ContactController;
@@ -66,6 +67,14 @@ Route::middleware(['auth', 'verified', 'member-profile'])->group(function () {
     Route::get('/loans/create', [UnionLoanController::class, 'create'])->name('loans.create');
     Route::post('/loans', [UnionLoanController::class, 'store'])->name('loans.store');
     Route::get('/loans/{loan}', [UnionLoanController::class, 'show'])->name('loans.show');
+});
+
+// Al Hasala routes (require authentication and member profile)
+Route::middleware(['auth', 'verified', 'member-profile'])->group(function () {
+    Route::get('/al-hasala', [AlHasalaController::class, 'index'])->name('al-hasala.index');
+    Route::get('/al-hasala/create', [AlHasalaController::class, 'create'])->name('al-hasala.create');
+    Route::post('/al-hasala', [AlHasalaController::class, 'store'])->name('al-hasala.store');
+    Route::get('/al-hasala/{alHasala}', [AlHasalaController::class, 'show'])->name('al-hasala.show');
 });
 
 // require __DIR__.'/settings.php';

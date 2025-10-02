@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Resources\UnionLoans\Schemas;
+namespace App\Filament\Resources\AlHasalas\Schemas;
 
 use App\LoanStatus;
 use Filament\Forms\Components\Select;
@@ -8,7 +8,7 @@ use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
 
-class UnionLoanForm
+class AlHasalaForm
 {
     public static function configure(Schema $schema): Schema
     {
@@ -26,14 +26,14 @@ class UnionLoanForm
                     ->prefix('BD')
                     ->minValue(0)
                     ->maxValue(10000)
-                    ->label('Loan Amount'),
+                    ->label('Al Hasala Amount'),
                 TextInput::make('months')
                     ->required()
                     ->numeric()
                     ->minValue(1)
                     ->maxValue(60)
                     ->suffix('months')
-                    ->label('Loan Duration'),
+                    ->label('Al Hasala Duration'),
                 Select::make('status')
                     ->options(LoanStatus::class)
                     ->default('pending')
@@ -43,7 +43,7 @@ class UnionLoanForm
                     ->columnSpanFull()
                     ->rows(3)
                     ->label('Notes')
-                    ->helperText('Any additional notes about the loan application'),
+                    ->helperText('Any additional notes about the Al Hasala application'),
                 Textarea::make('rejected_reason')
                     ->columnSpanFull()
                     ->rows(3)

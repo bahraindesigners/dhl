@@ -2,12 +2,16 @@
 
 namespace App\Providers;
 
+use App\Events\AlHasalaCreated;
+use App\Events\AlHasalaUpdated;
 use App\Events\ContactMessageCreated;
 use App\Events\EventRegistrationCreated;
 use App\Events\MemberProfileCreated;
 use App\Events\UnionLoanCreated;
 use App\Events\UnionLoanUpdated;
 use App\Listeners\EventRegistrationListener;
+use App\Listeners\SendAlHasalaAdminNotification;
+use App\Listeners\SendAlHasalaStatusNotification;
 use App\Listeners\SendContactMessageNotification;
 use App\Listeners\SendMemberProfileNotification;
 use App\Listeners\SendNewUnionLoanNotification;
@@ -65,6 +69,16 @@ class AppServiceProvider extends ServiceProvider
         Event::listen(
             MemberProfileCreated::class,
             SendMemberProfileNotification::class
+        );
+
+        Event::listen(
+            AlHasalaCreated::class,
+            SendAlHasalaAdminNotification::class
+        );
+
+        Event::listen(
+            AlHasalaUpdated::class,
+            SendAlHasalaStatusNotification::class
         );
     }
 }
