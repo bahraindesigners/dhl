@@ -40,7 +40,10 @@ class EventCategoryFactory extends Factory
         return [
             'name' => $category,
             'description' => $description,
-            'receiver_email' => $this->faker->companyEmail(),
+            'receiver_emails' => [
+                $this->faker->companyEmail(),
+                $this->faker->companyEmail(),
+            ],
             'is_active' => $this->faker->boolean(85), // 85% active
             'sort_order' => $this->faker->numberBetween(1, 100),
         ];

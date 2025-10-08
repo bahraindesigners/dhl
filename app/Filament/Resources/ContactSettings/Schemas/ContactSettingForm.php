@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\ContactSettings\Schemas;
 
 use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
@@ -17,11 +18,13 @@ class ContactSettingForm
             ->components([
                 Section::make('Contact Information')
                     ->schema([
-                        TextInput::make('notification_email')
-                            ->label('Notification Email')
-                            ->email()
-                            ->placeholder('admin@dhlunion.bh')
-                            ->helperText('Email address where contact form submissions will be sent')
+                        TagsInput::make('notification_emails')
+                            ->label('Notification Emails')
+                            ->placeholder('Add email addresses')
+                            ->helperText('Enter email addresses where contact form submissions will be sent. Press Enter after each email.')
+                            ->nestedRecursiveRules([
+                                'email',
+                            ])
                             ->columnSpanFull(),
                     ])
                     ->columns(1),

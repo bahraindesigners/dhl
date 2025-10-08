@@ -190,7 +190,7 @@ export function Navbar() {
                 {/* Company Name - Left */}
                 <div className="flex items-center">
                     <Link href="/" className="text-xl font-bold text-foreground hover:text-primary transition-colors">
-                        {t('company.name')}
+                        <img src="/uinuon-logo.jpeg" alt={t('company.name')} className="h-10 w-auto" />
                     </Link>
                 </div>
 

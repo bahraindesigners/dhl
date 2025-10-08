@@ -17,15 +17,16 @@ class EventCategory extends Model
     protected $fillable = [
         'name',
         'description',
-        'color',
-        'receiver_email',
-        'is_active',
+        'receiver_emails',
         'sort_order',
+        'is_active',
     ];
 
     protected $casts = [
+        'name' => 'array',
+        'description' => 'array',
+        'receiver_emails' => 'array',
         'is_active' => 'boolean',
-        'sort_order' => 'integer',
     ];
 
     /**

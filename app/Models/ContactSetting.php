@@ -19,7 +19,7 @@ class ContactSetting extends Model
     ];
 
     protected $fillable = [
-        'notification_email',
+        'notification_emails',
         'instagram_url',
         'linkedin_url',
         'x_url',
@@ -34,6 +34,7 @@ class ContactSetting extends Model
     {
         return [
             'is_active' => 'boolean',
+            'notification_emails' => 'array',
         ];
     }
 
@@ -45,7 +46,7 @@ class ContactSetting extends Model
     public static function getSingleton(): self
     {
         return self::firstOrCreate([], [
-            'notification_email' => null,
+            'notification_emails' => [],
             'instagram_url' => null,
             'linkedin_url' => null,
             'x_url' => null,

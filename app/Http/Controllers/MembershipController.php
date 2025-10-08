@@ -47,6 +47,9 @@ class MembershipController extends Controller
                 'how_to_join' => $processedHowToJoin,
                 'union_benefits' => $processedUnionBenefits,
             ],
+            'membershipSettings' => [
+                'enable_member_form' => (bool) $page->enable_member_form,
+            ],
         ]);
     }
 

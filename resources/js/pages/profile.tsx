@@ -1,4 +1,4 @@
-import { Head, usePage } from '@inertiajs/react';
+import { Head, usePage, useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 import NavbarLayout from '@/layouts/navbar-layout';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -8,6 +8,12 @@ import { Separator } from '@/components/ui/separator';
 import { type SharedData } from '@/types';
 import MemberCard from '@/components/MemberCard';
 import CollapsibleSection from '@/components/CollapsibleSection';
+import MultiStepForm from '@/pages/Membership/components/MultiStepForm';
+import PersonalInformation from '@/pages/Membership/components/PersonalInformation';
+import EmploymentInformation from '@/pages/Membership/components/EmploymentInformation';
+import ContactInformation from '@/pages/Membership/components/ContactInformation';
+import Attachments from '@/pages/Membership/components/Attachments';
+import SignatureSection from '@/pages/Membership/components/SignatureSection';
 import {
     User, 
     Mail, 
@@ -85,7 +91,178 @@ export default function Profile({ user, memberProfile, membershipSettings }: Pro
     const { auth, flash } = usePage<SharedData & { flash: { success?: string; error?: string; info?: string } }>().props;
     const isRTL = i18n.language === 'ar';
     const isFormEnabled = membershipSettings.enable_member_form;
-    const hasAnyMemberProfile = Boolean(auth.memberProfile);
+    // Only check for approved member profile (memberProfile), not any profile
+    const hasApprovedProfile = Boolean(memberProfile);
+    const hasUnapprovedProfile = Boolean(auth.memberProfile && !memberProfile);
+
+    // Form state for membership application
+    const { data, setData, post, processing, errors, reset } = useForm<{
+        // Personal Information
+        cpr_number: string;
+        nationality: string;
+        gender: string;
+        marital_status: string;
+        employee_image: File | null;
+        
+        // Employment Information
+        staff_number: string;
+        date_of_joining: string;
+        position: string;
+        department: string;
+        section: string;
+        working_place_address: string;
+        office_phone: string;
+        education_qualification: string;
+        
+        // Contact Information
+        mobile_number: string;
+        home_phone: string;
+        permanent_address: string;
+        
+        // Attachments
+        withdrawal_letter: File | null;
+        was_previous_member: string;
+        
+        // Signature
+        signature: File | null;
+    }>({
+        // Personal Information
+        cpr_number: '',
+        nationality: '',
+        gender: '',
+        marital_status: '',
+        employee_image: null,
+        
+        // Employment Information
+        staff_number: '',
+        date_of_joining: '',
+        position: '',
+        department: '',
+        section: '',
+        working_place_address: '',
+        office_phone: '',
+        education_qualification: '',
+        
+        // Contact Information
+        mobile_number: '',
+        home_phone: '',
+        permanent_address: '',
+        
+        // Attachments
+        withdrawal_letter: null,
+        was_previous_member: '',
+        
+        // Signature
+        signature: null,
+    });
+
+    // Form submission handler
+    const handleSubmit = () => {
+        post('/membership', {
+            onSuccess: () => {
+                reset();
+            },
+            onError: (errors) => {
+                console.error('Form submission errors:', errors);
+            }
+        });
+    };
+
+    // Define form steps
+    const formSteps = [
+        {
+            id: 'personal',
+            title: t('membership.form.personalInformation'),
+            component: (
+                <PersonalInformation
+                    data={data}
+                    setData={setData}
+                    errors={errors}
+                    isRTL={isRTL}
+                    user={user}
+                />
+            ),
+            validate: () => {
+                return !!(
+                    data.cpr_number &&
+                    data.nationality &&
+                    data.gender &&
+                    data.marital_status &&
+                    data.employee_image
+                );
+            }
+        },
+        {
+            id: 'employment',
+            title: t('membership.form.employmentInformation'),
+            component: (
+                <EmploymentInformation
+                    data={data}
+                    setData={setData}
+                    errors={errors}
+                    isRTL={isRTL}
+                />
+            ),
+            validate: () => {
+                return !!(
+                    data.staff_number &&
+                    data.date_of_joining &&
+                    data.position &&
+                    data.department &&
+                    data.working_place_address &&
+                    data.education_qualification
+                );
+            }
+        },
+        {
+            id: 'contact',
+            title: t('membership.form.contactInformation'),
+            component: (
+                <ContactInformation
+                    data={data}
+                    setData={setData}
+                    errors={errors}
+                    isRTL={isRTL}
+                />
+            ),
+            validate: () => {
+                return !!(
+                    data.mobile_number &&
+                    data.permanent_address
+                );
+            }
+        },
+        {
+            id: 'attachments',
+            title: t('membership.form.attachments'),
+            component: (
+                <Attachments
+                    data={data}
+                    setData={setData}
+                    errors={errors}
+                    isRTL={isRTL}
+                />
+            ),
+            validate: () => {
+                return !!(data.was_previous_member);
+            }
+        },
+        {
+            id: 'signature',
+            title: t('membership.form.signature'),
+            component: (
+                <SignatureSection
+                    data={data}
+                    setData={setData}
+                    errors={errors}
+                    isRTL={isRTL}
+                />
+            ),
+            validate: () => {
+                return !!(data.signature);
+            }
+        }
+    ];
 
     const formatDate = (dateString: string) => {
         return new Date(dateString).toLocaleDateString(i18n.language === 'ar' ? 'ar-BH' : 'en-GB', {
@@ -504,27 +681,36 @@ export default function Profile({ user, memberProfile, membershipSettings }: Pro
                                         </CardDescription>
                                     </CardHeader>
                                 </Card>
-                            ) : hasAnyMemberProfile ? (
-                                <div className={`max-w-3xl mx-auto p-6 bg-green-50 border border-green-200 rounded-lg text-center ${isRTL ? 'font-arabic' : ''}`}>
-                                    <h3 className="text-xl font-semibold text-green-800 mb-2">
-                                        {t('membership.alreadyMemberTitle')}
+                            ) : hasUnapprovedProfile ? (
+                                <div className={`max-w-3xl mx-auto p-6 bg-yellow-50 border border-yellow-200 rounded-lg text-center ${isRTL ? 'font-arabic' : ''}`}>
+                                    <h3 className="text-xl font-semibold text-yellow-800 mb-2">
+                                        {t('membership.pendingApprovalTitle')}
                                     </h3>
-                                    <p className="text-green-700">
-                                        {t('membership.alreadyMemberMessage')}
+                                    <p className="text-yellow-700">
+                                        {t('membership.pendingApprovalMessage')}
                                     </p>
                                 </div>
                             ) : (
                                 <div className="space-y-8">
                                     <div className="text-center">
                                         <h2 className={`text-2xl sm:text-3xl font-bold text-gray-900 mb-3 ${isRTL ? 'font-arabic' : ''}`}>
-                                            {t('profile.memberProfileRequired')}
+                                            {t('profile.createMemberProfile')}
                                         </h2>
                                         <p className={`text-lg text-gray-600 ${isRTL ? 'font-arabic' : ''}`}>
-                                            {t('profile.contactAdmin')}
+                                            {t('profile.fillFormToJoin')}
                                         </p>
-                                        <p className={`text-sm text-gray-500 mt-2 ${isRTL ? 'font-arabic' : ''}`}>
-                                            {t('profile.memberProfilesManaged')}
-                                        </p>
+                                    </div>
+                                    
+                                    {/* Membership Form */}
+                                    <div className="bg-white rounded-2xl shadow-xl p-8">
+                                        <MultiStepForm
+                                            steps={formSteps}
+                                            onSubmit={handleSubmit}
+                                            isSubmitting={processing}
+                                            isRTL={isRTL}
+                                            data={data}
+                                            errors={errors}
+                                        />
                                     </div>
                                 </div>
                             )}

@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 
 interface ContactSettings {
+    is_active: boolean;
     instagram_url?: string;
     linkedin_url?: string;
     x_url?: string;
@@ -30,6 +31,13 @@ interface ContactProps {
 export default function Contact({ settings }: ContactProps) {
     const { t, i18n } = useTranslation();
     const isRTL = i18n.language === 'ar';
+
+    // Helper function to check if a translatable field has content
+    const hasContent = (field?: { en: string; ar: string }): boolean => {
+        if (!field) return false;
+        const content = (field as any)[i18n.language] || field.en || field.ar;
+        return content && content.trim() !== '' && content !== '<p></p>';
+    };
 
     return (
         <NavbarLayout>
@@ -71,18 +79,42 @@ export default function Contact({ settings }: ContactProps) {
                                     <p className={`text-gray-600 mb-8 ${isRTL ? 'text-right font-arabic' : 'text-left'}`}>
                                         {t('contact.formDescription')}
                                     </p>
-                                    <Form
-                                        action="/contact"
-                                        method="post"
-                                        resetOnSuccess={true}
-                                    >
-                                        {({
-                                            errors,
-                                            hasErrors,
-                                            processing,
-                                            wasSuccessful,
-                                            recentlySuccessful
-                                        }) => (
+
+                                    {/* Form Disabled Message */}
+                                    {!settings.is_active && (
+                                        <div className="p-6 bg-yellow-50 border-l-4 border-yellow-400 rounded-r-lg">
+                                            <div className="flex items-start">
+                                                <div className="flex-shrink-0">
+                                                    <svg className="h-5 w-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                                                        <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                                                    </svg>
+                                                </div>
+                                                <div className={`${isRTL ? 'mr-3' : 'ml-3'}`}>
+                                                    <h3 className={`text-sm font-medium text-yellow-800 ${isRTL ? 'text-right font-arabic' : 'text-left'}`}>
+                                                        {t('contact.formDisabledTitle')}
+                                                    </h3>
+                                                    <p className={`mt-2 text-sm text-yellow-700 ${isRTL ? 'text-right font-arabic' : 'text-left'}`}>
+                                                        {t('contact.formDisabledMessage')}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {/* Contact Form - Only show when active */}
+                                    {settings.is_active && (
+                                        <Form
+                                            action="/contact"
+                                            method="post"
+                                            resetOnSuccess={true}
+                                        >
+                                            {({
+                                                errors,
+                                                hasErrors,
+                                                processing,
+                                                wasSuccessful,
+                                                recentlySuccessful
+                                            }) => (
                                             <>
                                                 {recentlySuccessful && (
                                                     <div className="mb-6 p-4 bg-green-50 border-l-4 border-green-400 rounded-r-lg">
@@ -214,6 +246,7 @@ export default function Contact({ settings }: ContactProps) {
                                             </>
                                         )}
                                     </Form>
+                                    )}
                                 </div>
                             </div>
                         </div>
@@ -221,7 +254,7 @@ export default function Contact({ settings }: ContactProps) {
                         {/* Essential Contact Information */}
                         <div className="space-y-6">
                             {/* Office Address */}
-                            {settings?.office_address && (
+                            {hasContent(settings?.office_address) && (
                                 <div className="bg-white rounded-xl border border-gray-100 p-6">
                                     <div className={`flex items-start ${isRTL ? 'space-x-reverse' : ''} space-x-4`}>
                                         <div className="flex-shrink-0">
@@ -236,7 +269,7 @@ export default function Contact({ settings }: ContactProps) {
                                             <div
                                                 className={`prose prose-sm max-w-none text-gray-600 leading-relaxed ${isRTL ? 'prose-rtl [&>*]:text-right font-arabic' : ''}`}
                                                 dangerouslySetInnerHTML={{
-                                                    __html: (settings.office_address as any)[i18n.language] || settings.office_address.en || settings.office_address.ar || ''
+                                                    __html: settings.office_address ? ((settings.office_address as any)[i18n.language] || settings.office_address.en || settings.office_address.ar || '') : ''
                                                 }}
                                             />
                                         </div>
@@ -245,7 +278,7 @@ export default function Contact({ settings }: ContactProps) {
                             )}
 
                             {/* Phone Numbers */}
-                            {settings?.phone_numbers && (
+                            {hasContent(settings?.phone_numbers) && (
                                 <div className="bg-white rounded-xl border border-gray-100 p-6">
                                     <div className={`flex items-start ${isRTL ? 'space-x-reverse' : ''} space-x-4`}>
                                         <div className="flex-shrink-0">
@@ -258,7 +291,7 @@ export default function Contact({ settings }: ContactProps) {
                                                 {t('contact.phone')}
                                             </h3>
                                             <p className={`text-gray-600 ${isRTL ? 'text-right font-arabic' : 'text-left'}`}>
-                                                {(settings.phone_numbers as any)[i18n.language] || settings.phone_numbers.en || settings.phone_numbers.ar}
+                                                {settings.phone_numbers ? ((settings.phone_numbers as any)[i18n.language] || settings.phone_numbers.en || settings.phone_numbers.ar) : ''}
                                             </p>
                                         </div>
                                     </div>
@@ -266,7 +299,7 @@ export default function Contact({ settings }: ContactProps) {
                             )}
 
                             {/* Office Hours */}
-                            {settings?.office_hours && (
+                            {hasContent(settings?.office_hours) && (
                                 <div className="bg-white rounded-xl border border-gray-100 p-6">
                                     <div className={`flex items-start ${isRTL ? 'space-x-reverse' : ''} space-x-4`}>
                                         <div className="flex-shrink-0">
@@ -281,7 +314,7 @@ export default function Contact({ settings }: ContactProps) {
                                             <div
                                                 className={`prose prose-sm max-w-none text-gray-600 leading-relaxed ${isRTL ? 'prose-rtl [&>*]:text-right font-arabic' : ''}`}
                                                 dangerouslySetInnerHTML={{
-                                                    __html: (settings.office_hours as any)[i18n.language] || settings.office_hours.en || settings.office_hours.ar || ''
+                                                    __html: settings.office_hours ? ((settings.office_hours as any)[i18n.language] || settings.office_hours.en || settings.office_hours.ar || '') : ''
                                                 }}
                                             />
                                         </div>
@@ -342,7 +375,7 @@ export default function Contact({ settings }: ContactProps) {
             </section>
 
             {/* Additional Information Section */}
-            {settings?.content && (
+            {hasContent(settings?.content) && (
                 <section className="py-16 bg-gray-50/50">
                     <div className={`mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 ${isRTL ? 'rtl' : 'ltr'}`} dir={isRTL ? 'rtl' : 'ltr'}>
                         <div className="bg-white rounded-xl border border-gray-100 overflow-hidden">
@@ -358,7 +391,7 @@ export default function Contact({ settings }: ContactProps) {
                                 <div
                                     className={`prose prose-lg max-w-none text-gray-600 leading-relaxed ${isRTL ? 'prose-rtl [&>*]:text-right font-arabic' : ''}`}
                                     dangerouslySetInnerHTML={{
-                                        __html: (settings.content as any)[i18n.language] || settings.content.en || settings.content.ar || ''
+                                        __html: settings.content ? ((settings.content as any)[i18n.language] || settings.content.en || settings.content.ar || '') : ''
                                     }}
                                 />
                             </div>

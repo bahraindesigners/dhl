@@ -17,7 +17,7 @@ class ContactSettingFactory extends Factory
     public function definition(): array
     {
         return [
-            'notification_email' => $this->faker->safeEmail(),
+            'notification_emails' => [$this->faker->safeEmail(), $this->faker->safeEmail()],
             'instagram_url' => 'https://instagram.com/example',
             'linkedin_url' => 'https://linkedin.com/company/example',
             'x_url' => 'https://x.com/example',
@@ -42,22 +42,22 @@ class ContactSettingFactory extends Factory
     }
 
     /**
-     * Indicate that no notification email should be set.
+     * Indicate that no notification emails should be set.
      */
     public function withoutNotifications(): static
     {
         return $this->state(fn (array $attributes) => [
-            'notification_email' => null,
+            'notification_emails' => [],
         ]);
     }
 
     /**
-     * Indicate that no notification email should be set.
+     * Indicate that no notification emails should be set.
      */
     public function withoutNotificationEmail(): static
     {
         return $this->state(fn (array $attributes) => [
-            'notification_email' => null,
+            'notification_emails' => [],
         ]);
     }
 }

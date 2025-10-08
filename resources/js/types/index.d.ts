@@ -228,15 +228,15 @@ export interface Offer {
 
 export interface FAQ {
     id: number;
-    question: string | Record<string, string>;
-    answer: string | Record<string, string>;
+    question: string;
+    answer: string;
     faq_category_id?: number;
     category?: string;
     sort_order: number;
     is_featured: boolean;
     status: string;
-    meta_title?: string | Record<string, string>;
-    meta_description?: string | Record<string, string>;
+    meta_title?: string;
+    meta_description?: string;
     slug: string;
     published_at?: string;
     created_at: string;
@@ -245,8 +245,8 @@ export interface FAQ {
 
 export interface FAQCategory {
     id: number;
-    name: string | Record<string, string>;
-    description?: string | Record<string, string>;
+    name: string;
+    description?: string;
     slug: string;
     is_active: boolean;
     sort_order: number;

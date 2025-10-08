@@ -45,14 +45,6 @@ export default function QuestionsAndAnswers() {
         setOpenItems(newOpenItems);
     };
 
-    // Helper function to get translated content
-    const getTranslatedContent = (content: string | Record<string, string>): string => {
-        if (typeof content === 'string') {
-            return content;
-        }
-        return content[i18n.language] || content['en'] || Object.values(content)[0] || '';
-    };
-
     // Scroll to category function
     const scrollToCategory = (categoryId: number) => {
         const element = document.getElementById(`category-${categoryId}`);
@@ -65,22 +57,18 @@ export default function QuestionsAndAnswers() {
     const filteredCategories = categories.map(category => ({
         ...category,
         faqs: category.faqs.filter((faq: FAQ) => {
-            const question = getTranslatedContent(faq.question);
-            const answer = getTranslatedContent(faq.answer);
             const matchesSearch = debouncedSearchQuery === '' || 
-                question.toLowerCase().includes(debouncedSearchQuery.toLowerCase()) ||
-                answer.toLowerCase().includes(debouncedSearchQuery.toLowerCase());
+                faq.question.toLowerCase().includes(debouncedSearchQuery.toLowerCase()) ||
+                faq.answer.toLowerCase().includes(debouncedSearchQuery.toLowerCase());
             
             return matchesSearch;
         })
     })).filter(category => category.faqs.length > 0);
 
     const filteredFeaturedFaqs = featuredFaqs.filter((faq: FAQ) => {
-        const question = getTranslatedContent(faq.question);
-        const answer = getTranslatedContent(faq.answer);
         const matchesSearch = debouncedSearchQuery === '' || 
-            question.toLowerCase().includes(debouncedSearchQuery.toLowerCase()) ||
-            answer.toLowerCase().includes(debouncedSearchQuery.toLowerCase());
+            faq.question.toLowerCase().includes(debouncedSearchQuery.toLowerCase()) ||
+            faq.answer.toLowerCase().includes(debouncedSearchQuery.toLowerCase());
         
         return matchesSearch;
     });
@@ -155,7 +143,7 @@ export default function QuestionsAndAnswers() {
                                                     </div>
                                                     <div className="flex-1 min-w-0">
                                                         <h3 className={`text-sm font-semibold text-gray-900 truncate group-hover:text-primary transition-colors ${isRTL ? 'text-right font-arabic' : 'text-left'}`}>
-                                                            {getTranslatedContent(category.name)}
+                                                            {category.name}
                                                         </h3>
                                                         <p className={`text-xs text-gray-500 mt-1 ${isRTL ? 'text-right font-arabic' : 'text-left'}`}>
                                                             {category.faqs.length} {t('common.questions')}
@@ -200,7 +188,7 @@ export default function QuestionsAndAnswers() {
                                                                                 <Star className="h-4 w-4 text-gray-400" />
                                                                             </div>
                                                                             <CardTitle className={`text-base font-medium text-gray-900 leading-snug ${isRTL ? 'text-right font-arabic' : 'text-left'}`}>
-                                                                                {getTranslatedContent(faq.question)}
+                                                                                {faq.question}
                                                                             </CardTitle>
                                                                         </div>
                                                                         <div className="flex h-6 w-6 items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors flex-shrink-0">
@@ -218,7 +206,7 @@ export default function QuestionsAndAnswers() {
                                                                     <div className="h-px bg-gray-200 mb-3"></div>
                                                                     <div 
                                                                         className={`prose prose-sm max-w-none text-gray-600 leading-relaxed ${isRTL ? 'prose-rtl [&>*]:text-right font-arabic' : ''}`}
-                                                                        dangerouslySetInnerHTML={{ __html: getTranslatedContent(faq.answer) }}
+                                                                        dangerouslySetInnerHTML={{ __html: faq.answer }}
                                                                     />
                                                                 </CardContent>
                                                             </CollapsibleContent>
@@ -243,7 +231,7 @@ export default function QuestionsAndAnswers() {
                                                     </div>
                                                     <div className="flex-1">
                                                         <CardTitle className={`text-xl font-semibold text-gray-900 ${isRTL ? 'text-right font-arabic' : 'text-left'}`}>
-                                                            {getTranslatedContent(category.name)}
+                                                            {category.name}
                                                         </CardTitle>
                                                         <p className={`text-sm text-gray-500 ${isRTL ? 'text-right font-arabic' : 'text-left'}`}>
                                                             {category.faqs.length} {t('common.questions')}
@@ -268,7 +256,7 @@ export default function QuestionsAndAnswers() {
                                                                                 </div>
                                                                             )}
                                                                             <CardTitle className={`text-lg font-semibold text-gray-900 leading-tight ${isRTL ? 'text-right font-arabic' : 'text-left'}`}>
-                                                                                {getTranslatedContent(faq.question)}
+                                                                                {faq.question}
                                                                             </CardTitle>
                                                                         </div>
                                                                         <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors">
@@ -286,7 +274,7 @@ export default function QuestionsAndAnswers() {
                                                                     <div className="h-px bg-gray-200 mb-4"></div>
                                                                     <div 
                                                                         className={`prose prose-sm max-w-none text-gray-700 leading-relaxed ${isRTL ? 'prose-rtl [&>*]:text-right font-arabic' : ''}`}
-                                                                        dangerouslySetInnerHTML={{ __html: getTranslatedContent(faq.answer) }}
+                                                                        dangerouslySetInnerHTML={{ __html: faq.answer }}
                                                                     />
                                                                 </CardContent>
                                                             </CollapsibleContent>
@@ -319,7 +307,7 @@ export default function QuestionsAndAnswers() {
                                                                         <Star className="h-4 w-4 text-gray-400" />
                                                                     </div>
                                                                     <CardTitle className={`text-base font-medium text-gray-900 leading-snug ${isRTL ? 'text-right font-arabic' : 'text-left'}`}>
-                                                                        {getTranslatedContent(faq.question)}
+                                                                        {faq.question}
                                                                     </CardTitle>
                                                                 </div>
                                                                 <div className="flex h-6 w-6 items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors flex-shrink-0">
@@ -337,7 +325,7 @@ export default function QuestionsAndAnswers() {
                                                             <div className="h-px bg-gray-200 mb-3"></div>
                                                             <div 
                                                                 className={`prose prose-sm max-w-none text-gray-600 leading-relaxed ${isRTL ? 'prose-rtl [&>*]:text-right font-arabic' : ''}`}
-                                                                dangerouslySetInnerHTML={{ __html: getTranslatedContent(faq.answer) }}
+                                                                dangerouslySetInnerHTML={{ __html: faq.answer }}
                                                             />
                                                         </CardContent>
                                                     </CollapsibleContent>
@@ -351,7 +339,7 @@ export default function QuestionsAndAnswers() {
                             {filteredCategories.map((category) => (
                                 <div key={category.id} id={`category-${category.id}`}>
                                     <h2 className={`text-xl font-semibold text-gray-900 mb-4 ${isRTL ? 'text-right font-arabic' : 'text-left'}`}>
-                                        {getTranslatedContent(category.name)}
+                                        {category.name}
                                     </h2>
                                     <div className="space-y-3">
                                         {category.faqs.map((faq) => (
@@ -361,7 +349,7 @@ export default function QuestionsAndAnswers() {
                                                         <CardHeader className="cursor-pointer hover:bg-gray-50/50 transition-colors p-4">
                                                             <div className="flex items-start justify-between gap-4">
                                                                 <CardTitle className={`text-base font-medium text-gray-900 leading-snug flex-1 ${isRTL ? 'text-right font-arabic' : 'text-left'}`}>
-                                                                    {getTranslatedContent(faq.question)}
+                                                                    {faq.question}
                                                                 </CardTitle>
                                                                 <div className="flex h-6 w-6 items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors flex-shrink-0">
                                                                     {openItems.has(faq.id) ? (
@@ -378,7 +366,7 @@ export default function QuestionsAndAnswers() {
                                                             <div className="h-px bg-gray-200 mb-3"></div>
                                                             <div 
                                                                 className={`prose prose-sm max-w-none text-gray-600 leading-relaxed ${isRTL ? 'prose-rtl [&>*]:text-right font-arabic' : ''}`}
-                                                                dangerouslySetInnerHTML={{ __html: getTranslatedContent(faq.answer) }}
+                                                                dangerouslySetInnerHTML={{ __html: faq.answer }}
                                                             />
                                                         </CardContent>
                                                     </CollapsibleContent>

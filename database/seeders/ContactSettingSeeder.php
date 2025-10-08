@@ -15,7 +15,7 @@ class ContactSettingSeeder extends Seeder
         // Create the singleton contact settings record only if it doesn't exist
         if (ContactSetting::count() === 0) {
             ContactSetting::create([
-                'notification_email' => 'admin@dhlunion.bh',
+                'notification_emails' => ['admin@dhlunion.bh'],
                 'instagram_url' => 'https://instagram.com/dhlunion',
                 'linkedin_url' => 'https://linkedin.com/company/dhlunion',
                 'x_url' => 'https://x.com/dhlunion',

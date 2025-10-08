@@ -20,7 +20,7 @@ class MembershipPage extends Model
         'how_to_join',
         'union_benefits',
         'enable_member_form',
-        'notification_email',
+        'notification_emails',
     ];
 
     protected function casts(): array
@@ -28,6 +28,7 @@ class MembershipPage extends Model
         return [
             'enable_member_form' => 'boolean',
             'is_active' => 'boolean',
+            'notification_emails' => 'array',
         ];
     }
 
@@ -46,7 +47,7 @@ class MembershipPage extends Model
                 'ar' => '<h2>مزايا النقابة</h2><p>كعضو، ستستفيد من مزايا وحماية متنوعة.</p>',
             ],
             'enable_member_form' => true,
-            'notification_email' => null,
+            'notification_emails' => [],
             'is_active' => true,
         ]);
     }

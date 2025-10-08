@@ -26,18 +26,18 @@ class MembershipPageFactory extends Factory
                 'ar' => '<h2>مزايا النقابة</h2><p>كعضو، ستستفيد من مزايا وحماية متنوعة.</p>',
             ],
             'enable_member_form' => true,
-            'notification_email' => $this->faker->safeEmail(),
+            'notification_emails' => [$this->faker->safeEmail(), $this->faker->safeEmail()],
             'is_active' => true,
         ];
     }
 
     /**
-     * Indicate that no notification email should be set.
+     * Indicate that no notification emails should be set.
      */
     public function withoutNotificationEmail(): static
     {
         return $this->state(fn (array $attributes) => [
-            'notification_email' => null,
+            'notification_emails' => [],
         ]);
     }
 }

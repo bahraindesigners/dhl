@@ -29,6 +29,7 @@ class ContactController extends Controller
 
         return Inertia::render('contact', [
             'settings' => [
+                'is_active' => $settings->is_active,
                 'instagram_url' => $settings->instagram_url,
                 'linkedin_url' => $settings->linkedin_url,
                 'x_url' => $settings->x_url,
@@ -42,6 +43,13 @@ class ContactController extends Controller
 
     public function store(ContactFormRequest $request)
     {
+        // Check if contact form is active
+        $settings = ContactSetting::getSingleton();
+        if (! $settings->is_active) {
+            return back()
+                ->withErrors(['general' => 'The contact form is currently unavailable. Please try again later.']);
+        }
+
         try {
             $contact = Contact::create([
                 'name' => $request->validated('name'),

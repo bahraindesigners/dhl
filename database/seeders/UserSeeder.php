@@ -15,11 +15,12 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         // Ensure roles exist first
-        $superAdminRole = Role::where('name', 'super_admin')->first();
-        
-        if (!$superAdminRole) {
+        $superAdminRole = Role::where('name', 'Super Admin')->first();
+
+        if (! $superAdminRole) {
             $this->command->error('Super admin role not found! Please run PermissionSeeder first:');
             $this->command->error('php artisan db:seed --class=PermissionSeeder');
+
             return;
         }
 
@@ -33,13 +34,13 @@ class UserSeeder extends Seeder
             ]
         );
 
-        if (!$adminUser->hasRole($superAdminRole)) {
+        if (! $adminUser->hasRole($superAdminRole)) {
             $adminUser->assignRole($superAdminRole);
         }
-        
+
         $this->command->info('Users seeded successfully!');
         $this->command->info('Login credentials:');
         $this->command->info('Super Admin: admin@dhl.test / password');
-        $this->command->info('Roles assigned: ' . $adminUser->getRoleNames()->implode(', '));
+        $this->command->info('Roles assigned: '.$adminUser->getRoleNames()->implode(', '));
     }
 }

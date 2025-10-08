@@ -113,7 +113,10 @@
     "withdrawalLetters": "خطابات الانسحاب",
     "memberProfileRequired": "ملف العضوية مطلوب",
     "contactAdmin": "يرجى الاتصال بالإدارة لإنشاء ملف العضوية الخاص بك.",
-    "memberProfilesManaged": "ملفات العضوية تُدار من قبل الإدارة."
+    "memberProfilesManaged": "ملفات العضوية تُدار من قبل الإدارة.",
+    "createMemberProfile": "أنشئ ملف العضوية الخاص بك",
+    "fillFormToJoin": "املأ نموذج العضوية للانضمام إلى نقابتنا واستمتع بالمزايا الحصرية.",
+    "createProfile": "إنشاء الملف الشخصي"
   },
   "common": {
     "language": "اللغة",
@@ -157,6 +160,8 @@
     "sendMessage": "أرسل رسالة",
     "formDescription": "املأ النموذج أدناه وسنعاود الاتصال بك في أقرب وقت ممكن",
     "successMessage": "شكراً لك على رسالتك! سنعاود الاتصال بك قريباً.",
+    "formDisabledTitle": "نموذج الاتصال غير متاح مؤقتاً",
+    "formDisabledMessage": "نموذج الاتصال غير متاح حالياً. يرجى التحقق لاحقاً أو استخدام معلومات الاتصال الموجودة في هذه الصفحة للتواصل معنا مباشرة.",
     "namePlaceholder": "اسمك الكامل",
     "emailPlaceholder": "your.email@example.com",
     "phonePlaceholder": "1234 5678 973+",
@@ -360,6 +365,8 @@
   "membership": {
     "alreadyMemberTitle": "أنت بالفعل عضو",
     "alreadyMemberMessage": "شكراً لكونك عضواً قيماً في نقابة DHL البحرينية. إذا كنت بحاجة إلى تحديث معلومات عضويتك أو لديك أي أسئلة، يرجى الاتصال بنا.",
+    "pendingApprovalTitle": "الطلب قيد المراجعة",
+    "pendingApprovalMessage": "تم تقديم طلب عضويتك وهو قيد المراجعة حالياً. سنتواصل معك بمجرد معالجة طلبك.",
     "pageTitle": "العضوية",
     "pageSubtitle": "انضم إلى مجتمعنا المتنامي وكن جزءاً من شيء أعظم",
     "howToJoin": "كيفية الانضمام",
@@ -457,7 +464,12 @@
       "dragDropImage": "اسحب وأفلت صورتك هنا، أو انقر للتصفح",
       "imagePreview": "معاينة الصورة",
       "removeImage": "إزالة الصورة",
-      "imageRequired": "صورة الموظف مطلوبة"
+      "imageRequired": "صورة الموظف مطلوبة",
+      "applyNow": "تقدم للعضوية",
+      "fillFormToJoin": "قم بملء النموذج أدناه للتقدم للعضوية",
+      "readyToJoin": "مستعد للانضمام؟",
+      "loginToApply": "يرجى تسجيل الدخول لتقديم طلب العضوية",
+      "errorsTitle": "يرجى إصلاح الأخطاء التالية:"
     },
     "loginRequired": "يرجى تسجيل الدخول للوصول إلى نموذج طلب العضوية",
     "authRequired": "تسجيل الدخول مطلوب",

@@ -3,7 +3,6 @@
 namespace App\Filament\Resources\MemberProfiles\Tables;
 
 use App\Models\MemberProfile;
-use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -199,71 +198,7 @@ class MemberProfilesTable
             ->recordActions([
                 ViewAction::make(),
                 EditAction::make(),
-                Action::make('download_images')
-                    ->label('Download Images')
-                    ->icon('heroicon-o-arrow-down-tray')
-                    ->color('info')
-                    ->action(function (MemberProfile $record) {
-                        $images = collect();
 
-                        // Get employee image
-                        if ($record->hasMedia('employee_image')) {
-                            $images = $images->merge($record->getMedia('employee_image'));
-                        }
-
-                        // Get signature
-                        if ($record->hasMedia('signature')) {
-                            $images = $images->merge($record->getMedia('signature'));
-                        }
-
-                        // Get withdrawal letters (if any)
-                        if ($record->hasMedia('withdrawal_letters')) {
-                            $images = $images->merge($record->getMedia('withdrawal_letters'));
-                        }
-
-                        if ($images->isEmpty()) {
-                            \Filament\Notifications\Notification::make()
-                                ->title('No images found')
-                                ->body('This member profile has no uploaded images.')
-                                ->warning()
-                                ->send();
-
-                            return;
-                        }
-
-                        // Create a ZIP file
-                        $zip = new \ZipArchive;
-                        $zipFileName = 'member_'.$record->staff_number.'_images_'.now()->format('Y_m_d_H_i_s').'.zip';
-                        $zipPath = storage_path('app/temp/'.$zipFileName);
-
-                        // Ensure temp directory exists
-                        if (! file_exists(dirname($zipPath))) {
-                            mkdir(dirname($zipPath), 0755, true);
-                        }
-
-                        if ($zip->open($zipPath, \ZipArchive::CREATE) === true) {
-                            foreach ($images as $media) {
-                                $filePath = $media->getPath();
-                                if (file_exists($filePath)) {
-                                    $fileName = $media->collection_name.'_'.$media->name;
-                                    $zip->addFile($filePath, $fileName);
-                                }
-                            }
-                            $zip->close();
-
-                            return response()->download($zipPath, $zipFileName)->deleteFileAfterSend();
-                        } else {
-                            \Filament\Notifications\Notification::make()
-                                ->title('Error creating ZIP file')
-                                ->body('Unable to create ZIP file for download.')
-                                ->danger()
-                                ->send();
-                        }
-                    })
-                    ->visible(fn (MemberProfile $record) => $record->hasMedia('employee_image') ||
-                        $record->hasMedia('signature') ||
-                        $record->hasMedia('withdrawal_letters')
-                    ),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

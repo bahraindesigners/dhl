@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\EventCategories\Schemas;
 
+use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -45,11 +46,14 @@ class EventCategoryForm
                 Section::make('Contact & Settings')
                     ->description('Email settings and category configuration')
                     ->schema([
-                        TextInput::make('receiver_email')
-                            ->label('Receiver Email')
-                            ->email()
+                        TagsInput::make('receiver_emails')
+                            ->label('Receiver Emails')
                             ->required()
-                            ->helperText('Email address to receive notifications for events in this category')
+                            ->helperText('Email addresses to receive notifications for events in this category (press Enter after each email)')
+                            ->placeholder('Enter email and press Enter')
+                            ->nestedRecursiveRules([
+                                'email',
+                            ])
                             ->columnSpanFull(),
 
                         Grid::make(2)

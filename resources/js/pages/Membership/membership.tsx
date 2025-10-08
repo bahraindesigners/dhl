@@ -9,11 +9,20 @@ interface MembershipPageProps {
         how_to_join: Record<string, string>;
         union_benefits: Record<string, string>;
     };
+    membershipSettings: {
+        enable_member_form: boolean;
+    };
+    auth?: {
+        user: {
+            name: string;
+            email: string;
+        };
+    };
     [key: string]: any;
 }
 
 export default function Membership() {
-    const { page } = usePage<MembershipPageProps>().props;
+    const { page, membershipSettings, auth } = usePage<MembershipPageProps>().props;
     const { t, i18n } = useTranslation();
     const isRTL = i18n.language === 'ar';
 
@@ -190,6 +199,36 @@ export default function Membership() {
                     </div>
                 </div>
             </div>
+
+            {/* Call to Action Section */}
+            {membershipSettings.enable_member_form && (
+                <div className="bg-gray-50 py-16">
+                    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                        <div className="bg-white rounded-2xl shadow-xl p-8">
+                            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-xl bg-primary text-white">
+                                <UserPlus className="h-8 w-8" />
+                            </div>
+                            <h2 className={`text-3xl font-bold text-gray-900 mb-4 ${isRTL ? 'font-arabic' : ''}`}>
+                                {t('membership.form.readyToJoin')}
+                            </h2>
+                            <p className={`text-lg text-gray-600 mb-6 ${isRTL ? 'font-arabic' : ''}`}>
+                                {auth?.user 
+                                    ? t('membership.form.fillFormToJoin')
+                                    : t('membership.form.loginToApply')
+                                }
+                            </p>
+                            <a
+                                href={auth?.user ? "/profile" : "/login"}
+                                className={`inline-flex items-center px-6 py-3 bg-primary text-white rounded-lg font-medium hover:bg-primary/90 focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-all duration-200 ${
+                                    isRTL ? 'font-arabic' : ''
+                                }`}
+                            >
+                                {auth?.user ? t('membership.form.applyNow') : t('auth.login')}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            )}
         </NavbarLayout>
     );
 }

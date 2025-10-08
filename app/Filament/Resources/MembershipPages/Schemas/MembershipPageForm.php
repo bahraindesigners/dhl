@@ -3,7 +3,7 @@
 namespace App\Filament\Resources\MembershipPages\Schemas;
 
 use Filament\Forms\Components\RichEditor;
-use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
@@ -66,12 +66,14 @@ class MembershipPageForm
                             ->helperText('When enabled, users can submit their profile to join the union')
                             ->default(true),
 
-                        TextInput::make('notification_email')
-                            ->label('Notification Email')
-                            ->email()
-                            ->placeholder('admin@example.com')
-                            ->helperText('Email address to receive notifications when new members submit their profiles')
-                            ->maxLength(255),
+                        TagsInput::make('notification_emails')
+                            ->label('Notification Emails')
+                            ->placeholder('Add email addresses')
+                            ->helperText('Enter email addresses to receive notifications when new members submit their profiles. Press Enter after each email.')
+                            ->nestedRecursiveRules([
+                                'email',
+                            ])
+                            ->columnSpanFull(),
                     ])
                     ->columns(1),
             ]);

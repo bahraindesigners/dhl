@@ -29,41 +29,51 @@ class SendMemberProfileNotification implements ShouldQueue
     public function handle(MemberProfileCreated $event): void
     {
         $memberProfile = $event->memberProfile;
-        
-        // Get the membership page settings for notification email
+
+        // Get the membership page settings for notification emails
         $membershipPage = MembershipPage::getSingleton();
-        
+
         try {
-            // Send notification to admin if notification email is configured
-            if ($membershipPage->notification_email) {
-                Mail::to($membershipPage->notification_email)
-                    ->queue(new NewMemberProfileNotification($memberProfile));
-                    
-                Log::info('Admin notification sent for new member profile', [
-                    'member_profile_id' => $memberProfile->id,
-                    'user_id' => $memberProfile->user_id,
-                    'admin_email' => $membershipPage->notification_email,
-                ]);
+            // Send notification to admins if notification emails are configured
+            $notificationEmails = $membershipPage->notification_emails ?? [];
+
+            if (! empty($notificationEmails)) {
+                // Filter out any invalid emails
+                $validEmails = array_filter($notificationEmails, function ($email) {
+                    return filter_var($email, FILTER_VALIDATE_EMAIL);
+                });
+
+                if (! empty($validEmails)) {
+                    Mail::to($validEmails)
+                        ->queue(new NewMemberProfileNotification($memberProfile));
+
+                    Log::info('Admin notifications sent for new member profile', [
+                        'member_profile_id' => $memberProfile->id,
+                        'user_id' => $memberProfile->user_id,
+                        'admin_emails' => $validEmails,
+                        'email_count' => count($validEmails),
+                    ]);
+                }
             }
-            
+
             // Send confirmation email to the user
             if ($memberProfile->user && $memberProfile->user->email) {
                 Mail::to($memberProfile->user->email)
                     ->queue(new MemberProfileConfirmation($memberProfile));
-                    
+
                 Log::info('User confirmation sent for new member profile', [
                     'member_profile_id' => $memberProfile->id,
                     'user_id' => $memberProfile->user_id,
                     'user_email' => $memberProfile->user->email,
                 ]);
             }
-            
+
         } catch (\Exception $e) {
             // Log the error but don't fail the process
-            Log::error('Failed to send member profile notification emails: ' . $e->getMessage(), [
+            Log::error('Failed to send member profile notification emails: '.$e->getMessage(), [
                 'member_profile_id' => $memberProfile->id,
                 'user_id' => $memberProfile->user_id,
-                'admin_email' => $membershipPage->notification_email,
+                'admin_emails' => $membershipPage->notification_emails ?? [],
                 'user_email' => $memberProfile->user?->email,
                 'exception' => $e->getTraceAsString(),
             ]);

@@ -37,21 +37,37 @@ class EventRegistrationListener implements ShouldQueue
             'trace_id' => $traceId,
         ]);
 
-        // Check if the event category has a receiver email
-        if (!$eventCategory || !$eventCategory->receiver_email) {
-            Log::warning('No receiver email found for event category', [
+        // Check if the event category has receiver emails
+        if (! $eventCategory || empty($eventCategory->receiver_emails)) {
+            Log::warning('No receiver emails found for event category', [
                 'event_id' => $eventModel->id,
                 'event_title' => $eventModel->title,
                 'category_id' => $eventCategory?->id,
                 'category_name' => $eventCategory?->name,
                 'trace_id' => $traceId,
             ]);
+
             return;
         }
 
         try {
-            // Send email notification to the category receiver
-            Mail::to($eventCategory->receiver_email)
+            // Filter out invalid emails and send notifications
+            $validEmails = array_filter($eventCategory->receiver_emails, function ($email) {
+                return filter_var($email, FILTER_VALIDATE_EMAIL);
+            });
+
+            if (empty($validEmails)) {
+                Log::warning('No valid receiver emails found for event category', [
+                    'event_id' => $eventModel->id,
+                    'category_id' => $eventCategory->id,
+                    'trace_id' => $traceId,
+                ]);
+
+                return;
+            }
+
+            // Send email notification to the category receivers
+            Mail::to($validEmails)
                 ->queue(new NewRegistrationNotification($registration));
 
             // Send confirmation email to the registrant
@@ -61,16 +77,16 @@ class EventRegistrationListener implements ShouldQueue
             Log::info('Registration emails queued successfully', [
                 'registration_id' => $registration->id,
                 'event_id' => $eventModel->id,
-                'notification_recipient' => $eventCategory->receiver_email,
+                'notification_recipients' => $validEmails,
                 'confirmation_recipient' => $registration->email,
-                'registrant_name' => $registration->first_name . ' ' . $registration->last_name,
+                'registrant_name' => $registration->first_name.' '.$registration->last_name,
                 'trace_id' => $traceId,
             ]);
         } catch (\Exception $e) {
             Log::error('Failed to send registration emails', [
                 'registration_id' => $registration->id,
                 'event_id' => $eventModel->id,
-                'notification_recipient' => $eventCategory->receiver_email,
+                'notification_recipients' => $validEmails ?? [],
                 'confirmation_recipient' => $registration->email,
                 'error' => $e->getMessage(),
             ]);

@@ -104,13 +104,13 @@ class PermissionSeeder extends Seeder
 
     private function createSuperAdminRole(): void
     {
-        $role = Role::firstOrCreate(['name' => 'super_admin']);
+        $role = Role::firstOrCreate(['name' => 'Super Admin']);
         $role->givePermissionTo(Permission::all());
     }
 
     private function createAdminRole(): void
     {
-        $role = Role::firstOrCreate(['name' => 'admin']);
+        $role = Role::firstOrCreate(['name' => 'Admin']);
 
         $permissions = [
             'view blogs', 'create blogs', 'edit blogs', 'delete blogs',
@@ -129,7 +129,7 @@ class PermissionSeeder extends Seeder
 
     private function createEditorRole(): void
     {
-        $role = Role::firstOrCreate(['name' => 'editor']);
+        $role = Role::firstOrCreate(['name' => 'Editor']);
 
         $permissions = [
             'view blogs', 'create blogs', 'edit blogs',
@@ -147,18 +147,12 @@ class PermissionSeeder extends Seeder
 
     private function createUserRole(): void
     {
-        $role = Role::firstOrCreate(['name' => 'user']);
+        $role = Role::firstOrCreate(['name' => 'User']);
 
-        $permissions = [
-            'view blogs',
-            'view blog categories',
-            'view events',
-            'view event registrations',
-            'view faqs',
-            'view downloads',
-            'view board members',
-        ];
+        // $permissions = [
 
-        $role->givePermissionTo($permissions);
+        // ];
+
+        // $role->givePermissionTo($permissions);
     }
 }
