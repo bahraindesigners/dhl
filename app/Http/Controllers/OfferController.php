@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Offer;
+use Filament\Forms\Components\RichEditor\RichContentRenderer;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -13,17 +14,27 @@ class OfferController extends Controller
      */
     public function index(Request $request)
     {
+        $locale = app()->getLocale();
+
         $offers = Offer::active()
             ->ordered()
             ->get()
-            ->map(function ($offer) {
+            ->map(function ($offer) use ($locale) {
+                // Get the offer_description translation
+                $offerDescription = $offer->getTranslation('offer_description', $locale);
+
+                // Convert TipTap JSON to HTML if it's an array
+                if (is_array($offerDescription)) {
+                    $offerDescription = RichContentRenderer::make($offerDescription)->toHtml();
+                }
+
                 return [
                     'id' => $offer->id,
-                    'title' => $offer->title, // Laravel auto-resolves based on current locale
-                    'description' => $offer->description,
-                    'company_name' => $offer->company_name,
+                    'title' => $offer->getTranslation('title', $locale),
+                    'description' => $offer->getTranslation('description', $locale),
+                    'company_name' => $offer->getTranslation('company_name', $locale),
                     'discount' => $offer->discount,
-                    'offer_description' => $offer->offer_description,
+                    'offer_description' => $offerDescription,
                     'created_at' => $offer->created_at,
                     'updated_at' => $offer->updated_at,
                 ];
@@ -40,18 +51,28 @@ class OfferController extends Controller
     public function show(Offer $offer)
     {
         // Only show active offers to the public
-        if (!$offer->is_active) {
+        if (! $offer->is_active) {
             abort(404);
+        }
+
+        $locale = app()->getLocale();
+
+        // Get the offer_description translation
+        $offerDescription = $offer->getTranslation('offer_description', $locale);
+
+        // Convert TipTap JSON to HTML if it's an array
+        if (is_array($offerDescription)) {
+            $offerDescription = RichContentRenderer::make($offerDescription)->toHtml();
         }
 
         return Inertia::render('Offers/show', [
             'offer' => [
                 'id' => $offer->id,
-                'title' => $offer->title, // Laravel auto-resolves based on current locale
-                'description' => $offer->description,
-                'company_name' => $offer->company_name,
+                'title' => $offer->getTranslation('title', $locale),
+                'description' => $offer->getTranslation('description', $locale),
+                'company_name' => $offer->getTranslation('company_name', $locale),
                 'discount' => $offer->discount,
-                'offer_description' => $offer->offer_description,
+                'offer_description' => $offerDescription,
                 'created_at' => $offer->created_at,
                 'updated_at' => $offer->updated_at,
             ],

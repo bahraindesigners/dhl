@@ -14,31 +14,6 @@ export default function OfferShow() {
     const { t, i18n } = useTranslation();
     const isRTL = i18n.language === 'ar';
 
-    // Helper function to render HTML content safely
-    const renderOfferDescription = () => {
-        const description = typeof offer.offer_description === 'string' ? offer.offer_description : 
-                          typeof offer.description === 'string' ? offer.description : 
-                          t('offers.noDescriptionAvailable');
-        
-        // If it's a JSON string (from TipTap), parse and convert
-        if (typeof description === 'string' && description.startsWith('{')) {
-            try {
-                const parsed = JSON.parse(description);
-                // Simple conversion - for production, you might want a more robust TipTap renderer
-                return { __html: parsed.content?.map((node: any) => {
-                    if (node.type === 'paragraph') {
-                        return `<p>${node.content?.map((text: any) => text.text || '').join('')}</p>`;
-                    }
-                    return '';
-                }).join('') || description };
-            } catch {
-                return { __html: description };
-            }
-        }
-        
-        return { __html: description };
-    };
-
     return (
         <NavbarLayout>
             <Head title={`${typeof offer.title === 'string' ? offer.title : 'Offer'} - ${t('company.name')}`} />
@@ -81,9 +56,9 @@ export default function OfferShow() {
 
                         {/* Discount Badge */}
                         <div className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-primary to-primary/80 text-white rounded-full text-lg font-bold shadow-lg">
-                            <Percent className="h-5 w-5" />
+                            {/* <Percent className="h-5 w-5" /> */}
                             {offer.discount || 'N/A'}
-                            <span className="text-sm font-medium opacity-90">{t('offers.discountLabel')}</span>
+                            {/* <span className="text-sm font-medium opacity-90">{t('offers.discountLabel')}</span> */}
                         </div>
                     </div>
                 </div>
@@ -102,8 +77,8 @@ export default function OfferShow() {
                     {/* Offer Content */}
                     <div className="p-6">
                         {/* Meta Information */}
-                        <div className={`flex flex-wrap gap-6 mb-8 pb-6 border-b border-gray-200 ${isRTL ? 'flex-row-reverse' : ''}`}>
-                            <div className={`flex items-center gap-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
+                        <div className={`flex flex-wrap gap-6 md:gap-12 mb-8 pb-6 border-b border-gray-200 `}>
+                            <div className={`flex items-start gap-2 `}>
                                 <Building2 className="h-5 w-5 text-gray-400" />
                                 <div className={isRTL ? 'text-right' : ''}>
                                     <p className="text-sm text-gray-500">{t('offers.companyLabel')}</p>
@@ -113,7 +88,7 @@ export default function OfferShow() {
                                 </div>
                             </div>
 
-                            <div className={`flex items-center gap-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
+                            <div className={`flex items-start gap-2 `}>
                                 <Tag className="h-5 w-5 text-gray-400" />
                                 <div className={isRTL ? 'text-right' : ''}>
                                     <p className="text-sm text-gray-500">{t('offers.discountLabel')}</p>
@@ -121,7 +96,7 @@ export default function OfferShow() {
                                 </div>
                             </div>
 
-                            <div className={`flex items-center gap-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
+                            <div className={`flex items-start gap-2 `}>
                                 <Calendar className="h-5 w-5 text-gray-400" />
                                 <div className={isRTL ? 'text-right' : ''}>
                                     <p className="text-sm text-gray-500">Published</p>
@@ -153,10 +128,15 @@ export default function OfferShow() {
                                     prose-em:text-gray-700 prose-em:italic
                                     prose-blockquote:border-l-4 prose-blockquote:border-primary prose-blockquote:pl-4 prose-blockquote:italic prose-blockquote:text-gray-700
                                     prose-a:text-primary prose-a:no-underline hover:prose-a:underline
+                                    prose-hr:my-8 prose-hr:border-gray-300
                                     [&>*]:text-left [&>*.text-center]:text-center [&>*.text-right]:text-right [&>*.text-justify]:text-justify
                                     ${isRTL ? '[&>*]:text-right [&>*.text-left]:text-left [&>*.text-center]:text-center [&>*.text-justify]:text-justify' : ''}
                                 `}
-                                dangerouslySetInnerHTML={renderOfferDescription()}
+                                dangerouslySetInnerHTML={{ 
+                                    __html: typeof offer.offer_description === 'string' 
+                                        ? offer.offer_description 
+                                        : t('offers.noDescriptionAvailable')
+                                }}
                             />
                         </div>
                     </div>
@@ -168,7 +148,7 @@ export default function OfferShow() {
                         href="/offers"
                         className={`inline-flex items-center gap-2 px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors duration-200 ${isRTL ? 'flex-row-reverse font-arabic' : ''}`}
                     >
-                        {isRTL ? <ArrowRight className="h-5 w-5" /> : <ArrowLeft className="h-5 w-5" />}
+                        {!isRTL ? <ArrowRight className="h-5 w-5" /> : <ArrowLeft className="h-5 w-5" />}
                         {t('offers.backToOffers')}
                     </Link>
                 </div>
