@@ -1,6 +1,6 @@
 @component('emails.layouts.base', [
-    'title' => 'New Loan Application',
-    'subtitle' => 'A member has submitted a union loan application'
+'title' => 'New Loan Application',
+'subtitle' => 'A member has submitted a union loan application'
 ])
 
 <!-- Alert -->
@@ -18,32 +18,32 @@
 <!-- Loan Application Details -->
 <div style="background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 12px; padding: 24px; margin-bottom: 32px;">
     <h3 style="color: #111827; font-size: 18px; font-weight: 600; margin: 0 0 16px 0;">Application Details</h3>
-    
+
     <div>
         <!-- Application ID -->
         <div style="margin-bottom: 16px;">
             <div style="color: #6b7280; font-size: 14px; font-weight: 500; margin-bottom: 4px;">Application ID</div>
             <div style="color: #111827; font-size: 16px; font-weight: 600; font-family: mono;">#{{ $unionLoan->id }}</div>
         </div>
-        
+
         <!-- Amount -->
         <div style="margin-bottom: 16px;">
             <div style="color: #6b7280; font-size: 14px; font-weight: 500; margin-bottom: 4px;">Amount Requested</div>
             <div style="color: #059669; font-size: 20px; font-weight: 700;">BD {{ number_format($unionLoan->amount, 2) }}</div>
         </div>
-        
+
         <!-- Duration -->
         <div style="margin-bottom: 16px;">
             <div style="color: #6b7280; font-size: 14px; font-weight: 500; margin-bottom: 4px;">Duration</div>
             <div style="color: #111827; font-size: 16px;">{{ $unionLoan->months }} months</div>
         </div>
-        
+
         <!-- Status -->
         <div style="margin-bottom: 16px;">
             <div style="color: #6b7280; font-size: 14px; font-weight: 500; margin-bottom: 4px;">Status</div>
-            <span style="background: #fef3c7; color: #92400e; padding: 4px 12px; border-radius: 20px; font-size: 14px; font-weight: 500;">{{ ucfirst($unionLoan->status) }}</span>
+            <span style="background: #fef3c7; color: #92400e; padding: 4px 12px; border-radius: 20px; font-size: 14px; font-weight: 500;">{{ $unionLoan->status->label() }}</span>
         </div>
-        
+
         <!-- Application Date -->
         <div style="margin-bottom: 0;">
             <div style="color: #6b7280; font-size: 14px; font-weight: 500; margin-bottom: 4px;">Submitted</div>
@@ -62,14 +62,14 @@
 <!-- Applicant Information -->
 <div style="background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 12px; padding: 24px; margin-bottom: 32px;">
     <h3 style="color: #111827; font-size: 18px; font-weight: 600; margin: 0 0 16px 0;">Applicant Information</h3>
-    
+
     <div>
         <!-- Name -->
         <div style="margin-bottom: 16px;">
             <div style="color: #6b7280; font-size: 14px; font-weight: 500; margin-bottom: 4px;">Name</div>
             <div style="color: #111827; font-size: 16px; font-weight: 500;">{{ $unionLoan->user->name }}</div>
         </div>
-        
+
         <!-- Email -->
         <div style="margin-bottom: 16px;">
             <div style="color: #6b7280; font-size: 14px; font-weight: 500; margin-bottom: 4px;">Email</div>
@@ -77,20 +77,20 @@
                 <a href="mailto:{{ $unionLoan->user->email }}" style="color: #3b82f6; text-decoration: none;">{{ $unionLoan->user->email }}</a>
             </div>
         </div>
-        
+
         @if($unionLoan->user->memberProfile)
         <!-- Staff Number -->
         <div style="margin-bottom: 16px;">
             <div style="color: #6b7280; font-size: 14px; font-weight: 500; margin-bottom: 4px;">Staff Number</div>
             <div style="color: #111827; font-size: 16px;">{{ $unionLoan->user->memberProfile->staff_number ?? 'N/A' }}</div>
         </div>
-        
+
         <!-- Department -->
         <div style="margin-bottom: 16px;">
             <div style="color: #6b7280; font-size: 14px; font-weight: 500; margin-bottom: 4px;">Department</div>
             <div style="color: #111827; font-size: 16px;">{{ $unionLoan->user->memberProfile->department ?? 'N/A' }}</div>
         </div>
-        
+
         @if($unionLoan->user->memberProfile->mobile_number)
         <!-- Mobile -->
         <div style="margin-bottom: 0;">
@@ -119,45 +119,46 @@
 </div>
 
 @endcomponent
-            font-weight: 600;
-            text-transform: uppercase;
-            background-color: #fef3c7;
-            color: #92400e;
-        }
-        .member-info {
-            background-color: #f0f9ff;
-            padding: 20px;
-            border-radius: 8px;
-            margin: 20px 0;
-            border-left: 4px solid #0ea5e9;
-        }
-        .action-section {
-            text-align: center;
-            margin: 30px 0;
-        }
-        .btn {
-            display: inline-block;
-            padding: 12px 24px;
-            background-color: #3b82f6;
-            color: white;
-            text-decoration: none;
-            border-radius: 6px;
-            font-weight: 600;
-            transition: background-color 0.3s;
-        }
-        .btn:hover {
-            background-color: #2563eb;
-        }
-        .footer {
-            text-align: center;
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid #e5e7eb;
-            color: #6b7280;
-            font-size: 14px;
-        }
-    </style>
+font-weight: 600;
+text-transform: uppercase;
+background-color: #fef3c7;
+color: #92400e;
+}
+.member-info {
+background-color: #f0f9ff;
+padding: 20px;
+border-radius: 8px;
+margin: 20px 0;
+border-left: 4px solid #0ea5e9;
+}
+.action-section {
+text-align: center;
+margin: 30px 0;
+}
+.btn {
+display: inline-block;
+padding: 12px 24px;
+background-color: #3b82f6;
+color: white;
+text-decoration: none;
+border-radius: 6px;
+font-weight: 600;
+transition: background-color 0.3s;
+}
+.btn:hover {
+background-color: #2563eb;
+}
+.footer {
+text-align: center;
+margin-top: 30px;
+padding-top: 20px;
+border-top: 1px solid #e5e7eb;
+color: #6b7280;
+font-size: 14px;
+}
+</style>
 </head>
+
 <body>
     <div class="container">
         <div class="header">
@@ -166,7 +167,7 @@
         </div>
 
         <p>Dear Administrator,</p>
-        
+
         <p>A new union loan application has been submitted and requires your attention for review and processing.</p>
 
         <div class="loan-details">
@@ -249,4 +250,5 @@
         </div>
     </div>
 </body>
+
 </html>

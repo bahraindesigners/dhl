@@ -1,6 +1,6 @@
 @component('emails.layouts.base', [
-    'title' => 'New Al Hasala Application',
-    'subtitle' => 'A member has submitted an Al Hasala application'
+'title' => 'New Al Hasala Application',
+'subtitle' => 'A member has submitted an Al Hasala application'
 ])
 
 <!-- Alert -->
@@ -18,32 +18,32 @@
 <!-- Application Details -->
 <div style="background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 12px; padding: 24px; margin-bottom: 32px;">
     <h3 style="color: #111827; font-size: 18px; font-weight: 600; margin: 0 0 16px 0;">Application Details</h3>
-    
+
     <div>
         <!-- Application ID -->
         <div style="margin-bottom: 16px;">
             <div style="color: #6b7280; font-size: 14px; font-weight: 500; margin-bottom: 4px;">Application ID</div>
             <div style="color: #111827; font-size: 16px; font-weight: 600; font-family: mono;">#{{ $alHasala->id }}</div>
         </div>
-        
+
         <!-- Amount -->
         <div style="margin-bottom: 16px;">
             <div style="color: #6b7280; font-size: 14px; font-weight: 500; margin-bottom: 4px;">Amount Requested</div>
             <div style="color: #059669; font-size: 20px; font-weight: 700;">BD {{ number_format($alHasala->amount, 2) }}</div>
         </div>
-        
+
         <!-- Duration -->
         <div style="margin-bottom: 16px;">
             <div style="color: #6b7280; font-size: 14px; font-weight: 500; margin-bottom: 4px;">Duration</div>
             <div style="color: #111827; font-size: 16px;">{{ $alHasala->months }} months</div>
         </div>
-        
+
         <!-- Status -->
         <div style="margin-bottom: 16px;">
             <div style="color: #6b7280; font-size: 14px; font-weight: 500; margin-bottom: 4px;">Status</div>
-            <span style="background: #fef3c7; color: #92400e; padding: 4px 12px; border-radius: 20px; font-size: 14px; font-weight: 500;">{{ ucfirst($alHasala->status) }}</span>
+            <span style="background: #fef3c7; color: #92400e; padding: 4px 12px; border-radius: 20px; font-size: 14px; font-weight: 500;">{{ $alHasala->status->label() }}</span>
         </div>
-        
+
         <!-- Application Date -->
         <div style="margin-bottom: 0;">
             <div style="color: #6b7280; font-size: 14px; font-weight: 500; margin-bottom: 4px;">Submitted</div>
@@ -63,14 +63,14 @@
 <!-- Applicant Information -->
 <div style="background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 12px; padding: 24px; margin-bottom: 32px;">
     <h3 style="color: #111827; font-size: 18px; font-weight: 600; margin: 0 0 16px 0;">Applicant Information</h3>
-    
+
     <div>
         <!-- Name -->
         <div style="margin-bottom: 16px;">
             <div style="color: #6b7280; font-size: 14px; font-weight: 500; margin-bottom: 4px;">Name</div>
             <div style="color: #111827; font-size: 16px; font-weight: 500;">{{ $alHasala->user->name }}</div>
         </div>
-        
+
         <!-- Email -->
         <div style="margin-bottom: 16px;">
             <div style="color: #6b7280; font-size: 14px; font-weight: 500; margin-bottom: 4px;">Email</div>
@@ -78,20 +78,20 @@
                 <a href="mailto:{{ $alHasala->user->email }}" style="color: #3b82f6; text-decoration: none;">{{ $alHasala->user->email }}</a>
             </div>
         </div>
-        
+
         @if($alHasala->user->memberProfile)
         <!-- Staff Number -->
         <div style="margin-bottom: 16px;">
             <div style="color: #6b7280; font-size: 14px; font-weight: 500; margin-bottom: 4px;">Staff Number</div>
             <div style="color: #111827; font-size: 16px;">{{ $alHasala->user->memberProfile->staff_number ?? 'N/A' }}</div>
         </div>
-        
+
         <!-- Department -->
         <div style="margin-bottom: 16px;">
             <div style="color: #6b7280; font-size: 14px; font-weight: 500; margin-bottom: 4px;">Department</div>
             <div style="color: #111827; font-size: 16px;">{{ $alHasala->user->memberProfile->department ?? 'N/A' }}</div>
         </div>
-        
+
         @if($alHasala->user->memberProfile->mobile_number)
         <!-- Mobile -->
         <div style="margin-bottom: 0;">
@@ -120,58 +120,59 @@
 </div>
 
 @endcomponent
-        }
-        .member-info {
-            background-color: #fefce8;
-            padding: 20px;
-            border-radius: 8px;
-            margin: 20px 0;
-            border-left: 4px solid #eab308;
-        }
-        .status-badge {
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            text-transform: uppercase;
-            background-color: #fbbf24;
-            color: #92400e;
-        }
-        .btn {
-            display: inline-block;
-            padding: 12px 24px;
-            background-color: #059669;
-            color: white;
-            text-decoration: none;
-            border-radius: 6px;
-            font-weight: 600;
-            margin: 10px 0;
-        }
-        .btn:hover {
-            background-color: #047857;
-        }
-        .action-section {
-            text-align: center;
-            margin: 30px 0;
-            padding: 20px;
-            background-color: #f0fdf4;
-            border-radius: 8px;
-        }
-        .footer {
-            text-align: center;
-            margin-top: 40px;
-            padding-top: 20px;
-            border-top: 1px solid #e5e7eb;
-            color: #6b7280;
-            font-size: 14px;
-        }
-        .icon {
-            font-size: 18px;
-            margin-right: 8px;
-        }
-    </style>
+}
+.member-info {
+background-color: #fefce8;
+padding: 20px;
+border-radius: 8px;
+margin: 20px 0;
+border-left: 4px solid #eab308;
+}
+.status-badge {
+display: inline-block;
+padding: 4px 12px;
+border-radius: 20px;
+font-size: 12px;
+font-weight: 600;
+text-transform: uppercase;
+background-color: #fbbf24;
+color: #92400e;
+}
+.btn {
+display: inline-block;
+padding: 12px 24px;
+background-color: #059669;
+color: white;
+text-decoration: none;
+border-radius: 6px;
+font-weight: 600;
+margin: 10px 0;
+}
+.btn:hover {
+background-color: #047857;
+}
+.action-section {
+text-align: center;
+margin: 30px 0;
+padding: 20px;
+background-color: #f0fdf4;
+border-radius: 8px;
+}
+.footer {
+text-align: center;
+margin-top: 40px;
+padding-top: 20px;
+border-top: 1px solid #e5e7eb;
+color: #6b7280;
+font-size: 14px;
+}
+.icon {
+font-size: 18px;
+margin-right: 8px;
+}
+</style>
 </head>
+
 <body>
     <div class="container">
         <div class="header">
@@ -180,32 +181,32 @@
         </div>
 
         <p><strong>Dear Al Hasala Administrator,</strong></p>
-        
+
         <p>A new Al Hasala application has been submitted and requires your review.</p>
 
         <div class="hasala-details">
             <h3 style="margin-top: 0; color: #047857;">📋 Al Hasala Application Details</h3>
-            
+
             <div class="detail-row">
                 <span class="label">Application ID:</span>
                 <span class="value"><strong>#{{ $alHasala->id }}</strong></span>
             </div>
-            
+
             <div class="detail-row">
                 <span class="label">Amount Requested:</span>
                 <span class="value"><strong>BHD {{ number_format($alHasala->amount, 2) }}</strong></span>
             </div>
-            
+
             <div class="detail-row">
                 <span class="label">Duration:</span>
                 <span class="value">{{ $alHasala->months }} months</span>
             </div>
-            
+
             <div class="detail-row">
                 <span class="label">Status:</span>
-                <span class="value"><span class="status-badge">{{ $alHasala->status->value }}</span></span>
+                <span class="value"><span class="status-badge">{{ $alHasala->status->label() }}</span></span>
             </div>
-            
+
             <div class="detail-row">
                 <span class="label">Applied On:</span>
                 <span class="value">{{ $alHasala->created_at->format('M d, Y H:i') }}</span>
@@ -214,38 +215,38 @@
 
         <div class="member-info">
             <h3 style="margin-top: 0; color: #92400e;">👤 Applicant Information</h3>
-            
+
             <div class="detail-row">
                 <span class="label">Name:</span>
                 <span class="value">{{ $alHasala->user->name }}</span>
             </div>
-            
+
             <div class="detail-row">
                 <span class="label">Email:</span>
                 <span class="value">{{ $alHasala->user->email }}</span>
             </div>
-            
+
             @if($alHasala->memberProfile)
             <div class="detail-row">
                 <span class="label">Staff Number:</span>
                 <span class="value">EMP-{{ $alHasala->memberProfile->staff_number }}</span>
             </div>
-            
+
             <div class="detail-row">
                 <span class="label">Position:</span>
                 <span class="value">{{ $alHasala->memberProfile->position }}</span>
             </div>
-            
+
             <div class="detail-row">
                 <span class="label">Department:</span>
                 <span class="value">{{ $alHasala->memberProfile->department }}</span>
             </div>
-            
+
             <div class="detail-row">
                 <span class="label">Mobile:</span>
                 <span class="value">{{ $alHasala->memberProfile->mobile_number }}</span>
             </div>
-            
+
             @if($alHasala->memberProfile->office_phone)
             <div class="detail-row">
                 <span class="label">Office Phone:</span>
@@ -281,4 +282,5 @@
         </div>
     </div>
 </body>
+
 </html>
