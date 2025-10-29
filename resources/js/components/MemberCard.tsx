@@ -115,7 +115,7 @@ export default function MemberCard({ user, memberProfile, isRTL = false }: Membe
                             {/* DHL Logo */}
                             <img
                                 src="/uinuon-logo.jpeg"
-                                alt="DHL Logo"
+                                alt="DHL Bahrain Trade Union Logo"
                                 className="shadow w-12 h-12 sm:w-16 sm:h-16 object-contain rounded-full"
                             />
                         </div>
@@ -128,11 +128,11 @@ export default function MemberCard({ user, memberProfile, isRTL = false }: Membe
                     <div
                         className="absolute bottom-0 left-0 right-0 h-32 sm:h-40"
                         style={{
-                            backgroundImage: 'url(/cardbackground.png)',
+                            backgroundImage: 'url(/cardbackground.jpg)',
                             backgroundSize: '100% auto',
                             backgroundPosition: 'top center',
                             backgroundRepeat: 'no-repeat',
-                            filter: isMale ? 'hue-rotate(30deg) saturate(1.2)' : 'hue-rotate(-10deg) saturate(1.1)'
+
                         }}
                     />
 

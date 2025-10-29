@@ -19,25 +19,25 @@ export default function HomeSlider({
     const sliderRef = useRef<Slider>(null);
     const { t, i18n } = useTranslation();
     const page = usePage();
-    
+
     // Get current locale from backend for dynamic content
     const currentLocale = (page.props as any).locale || 'en';
     const isRTL = i18n.language === 'ar' || currentLocale === 'ar';
-    
+
     // Helper function to get content - works with both old and new format
     const getContent = (content: string | Record<string, string>): string => {
         if (typeof content === 'string') {
             return content;
         }
-        
+
         if (typeof content === 'object' && content !== null) {
             // Use current backend locale, fallback to English, then first available
-            return content[currentLocale] || 
-                   content['en'] || 
-                   Object.values(content)[0] || 
-                   '';
+            return content[currentLocale] ||
+                content['en'] ||
+                Object.values(content)[0] ||
+                '';
         }
-        
+
         return '';
     };
 
@@ -102,14 +102,14 @@ export default function HomeSlider({
                                             <h1 className={`mb-2 text-xl font-bold text-gray-900 sm:mb-4 sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl ${isRTL ? 'text-right font-arabic' : 'text-left'}`}>
                                                 {getContent(slider.title)}
                                             </h1>
-                                            
+
                                             {/* Subtitle */}
                                             {slider.subtitle && (
                                                 <h2 className={`mb-2 text-base font-semibold text-gray-700 sm:mb-3 sm:text-lg md:text-xl lg:text-2xl ${isRTL ? 'text-right font-arabic' : 'text-left'}`}>
                                                     {getContent(slider.subtitle)}
                                                 </h2>
                                             )}
-                                            
+
                                             {/* Description */}
                                             {slider.description && (
                                                 <p className={`mb-3 text-sm text-gray-600 sm:mb-4 sm:text-base md:text-lg lg:text-xl ${isRTL ? 'text-right leading-relaxed font-arabic' : 'text-left'}`}>
@@ -154,7 +154,7 @@ export default function HomeSlider({
                                                 <div className="text-center px-4">
                                                     {/* DHL Logo Placeholder */}
                                                     <div className="mb-4 inline-flex h-16 w-32 items-center justify-center rounded-lg bg-primary sm:mb-6 sm:h-20 sm:w-40">
-                                                        <span className="text-xl font-bold text-red-600 sm:text-2xl">DHL</span>
+                                                        <span className="text-xl font-bold text-red-600 sm:text-2xl">DHL Bahrain Trade Union</span>
                                                     </div>
                                                     {/* Content Overlay */}
                                                     <div className="rounded-lg bg-white/90 p-4 shadow-lg backdrop-blur-sm sm:p-6">

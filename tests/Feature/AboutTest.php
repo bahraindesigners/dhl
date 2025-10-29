@@ -11,8 +11,8 @@ beforeEach(function () {
 
     $this->about = About::factory()->create([
         'title' => [
-            'en' => 'About DHL',
-            'ar' => 'حول دي إتش إل',
+            'en' => 'About DHL Bahrain Trade Union',
+            'ar' => 'حول اتحاد دي إتش إل البحرين',
         ],
         'content' => [
             'en' => '<p>DHL is a global logistics company.</p>',

@@ -22,9 +22,9 @@ return [
     |
     */
     'admin_notification_emails' => [
-        env('LOANS_ADMIN_EMAIL_1', 'admin@dhl.com'),
-        env('LOANS_ADMIN_EMAIL_2', 'finance@dhl.com'),
-        env('LOANS_ADMIN_EMAIL_3', 'hr@dhl.com'),
+        env('LOANS_ADMIN_EMAIL_1', 'admin@dhl.test'),
+        env('LOANS_ADMIN_EMAIL_2', 'finance@dhl.test'),
+        env('LOANS_ADMIN_EMAIL_3', 'hr@dhl.test'),
     ],
 
     /*

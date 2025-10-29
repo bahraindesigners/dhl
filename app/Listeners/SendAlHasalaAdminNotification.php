@@ -10,8 +10,10 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
-class SendAlHasalaAdminNotification
+class SendAlHasalaAdminNotification implements ShouldQueue
 {
+    use InteractsWithQueue;
+
     /**
      * Create the event listener.
      */
@@ -27,17 +29,19 @@ class SendAlHasalaAdminNotification
     {
         // Get settings using singleton pattern
         $settings = AlHasalaSettings::getSingleton();
-        
-        if (!$settings || !$settings->is_active) {
+
+        if (! $settings || ! $settings->is_active) {
             Log::info('Al Hasala admin notification skipped - settings not active');
+
             return;
         }
 
         // Get notification recipients from settings
         $recipients = $settings->receivers ?? [];
-        
+
         if (empty($recipients)) {
             Log::warning('Al Hasala admin notification skipped - no recipients configured');
+
             return;
         }
 
@@ -47,21 +51,21 @@ class SendAlHasalaAdminNotification
                 try {
                     Mail::to($recipient['email'])
                         ->send(new NewAlHasalaNotification($event->alHasala));
-                    
+
                     Log::info('Al Hasala admin notification sent', [
                         'al_hasala_id' => $event->alHasala->id,
-                        'recipient' => $recipient['email']
+                        'recipient' => $recipient['email'],
                     ]);
                 } catch (\Exception $e) {
                     Log::error('Failed to send Al Hasala admin notification', [
                         'al_hasala_id' => $event->alHasala->id,
                         'recipient' => $recipient['email'],
-                        'error' => $e->getMessage()
+                        'error' => $e->getMessage(),
                     ]);
                 }
             } else {
                 Log::warning('Invalid email address in Al Hasala settings', [
-                    'recipient' => $recipient
+                    'recipient' => $recipient,
                 ]);
             }
         }
