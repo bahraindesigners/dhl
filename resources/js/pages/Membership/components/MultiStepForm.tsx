@@ -66,71 +66,65 @@ export default function MultiStepForm({ steps, onSubmit, isSubmitting, isRTL, da
             <div className="mb-6 sm:mb-8">
                 <div className="overflow-x-auto pb-2">
                     <div
-                        className={`flex items-center gap-4 sm:gap-6 min-w-max ${
-                            isRTL ? 'flex-row-reverse' : ''
-                        }`}
+                        className={`flex items-center gap-4 sm:gap-6 min-w-max ${isRTL ? 'flex-row-reverse' : ''
+                            }`}
                     >
                         {steps.map((step, index) => (
                             <div
                                 key={step.id}
-                                className={`flex items-start sm:items-center sm:flex-1 gap-3 ${
-                                    isRTL ? 'flex-row-reverse' : ''
-                                }`}
+                                className={`flex items-start sm:items-center sm:flex-1 gap-3 ${isRTL ? 'flex-row-reverse' : ''
+                                    }`}
                             >
-                            {/* Step Circle */}
-                            <div
-                                className={`relative flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-full border-2 transition-all duration-200 ${
-                                    index === currentStep
-                                        ? 'bg-primary border-primary text-white'
-                                        : index < currentStep || (index === currentStep && validateStep(index))
-                                        ? 'bg-green-500 border-green-500 text-white cursor-pointer hover:bg-green-600'
-                                        : 'border-gray-300 text-gray-500 cursor-not-allowed'
-                                } ${
-                                    index <= currentStep || validateStep(currentStep) 
-                                        ? 'cursor-pointer hover:border-gray-400' 
-                                        : 'cursor-not-allowed opacity-50'
-                                }`}
-                                onClick={() => goToStep(index)}
-                            >
-                                {index < currentStep || (index === currentStep && validateStep(index)) ? (
-                                    <Check className="w-5 h-5" />
-                                ) : (
-                                    <span className="text-sm font-medium">{index + 1}</span>
-                                )}
-                            </div>
-
-                            {/* Step Label */}
-                            <div className={`flex-1 ${isRTL ? 'text-right' : ''}`}>
-                                <p className={`text-xs sm:text-sm font-medium ${
-                                    index === currentStep 
-                                        ? 'text-primary' 
-                                        : index < currentStep 
-                                        ? 'text-green-600' 
-                                        : 'text-gray-500'
-                                } ${isRTL ? 'font-arabic text-right' : ''}`}>
-                                    {step.title}
-                                </p>
-                                {/* Add validation indicator */}
-                                {index === currentStep && !isCurrentStepValid() && (
-                                    <p className={`text-xs text-red-500 mt-1 ${isRTL ? 'font-arabic text-right' : ''}`}>
-                                        {t('membership.form.fillRequiredFields')}
-                                    </p>
-                                )}
-                            </div>
-
-                            {/* Progress Line */}
-                            {index < steps.length - 1 && (
-                                <div className="hidden sm:block flex-1">
-                                    <div className="h-0.5 bg-gray-200 relative">
-                                        <div 
-                                            className={`h-full transition-all duration-300 ${
-                                                index < currentStep ? 'bg-green-500' : 'bg-gray-200'
-                                            }`}
-                                        />
-                                    </div>
+                                {/* Step Circle */}
+                                <div
+                                    className={`relative flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-full border-2 transition-all duration-200 ${index === currentStep
+                                            ? 'bg-primary border-primary text-white'
+                                            : index < currentStep || (index === currentStep && validateStep(index))
+                                                ? 'bg-green-500 border-green-500 text-white cursor-pointer hover:bg-green-600'
+                                                : 'border-gray-300 text-gray-500 cursor-not-allowed'
+                                        } ${index <= currentStep || validateStep(currentStep)
+                                            ? 'cursor-pointer hover:border-gray-400'
+                                            : 'cursor-not-allowed opacity-50'
+                                        }`}
+                                    onClick={() => goToStep(index)}
+                                >
+                                    {index < currentStep || (index === currentStep && validateStep(index)) ? (
+                                        <Check className="w-5 h-5" />
+                                    ) : (
+                                        <span className="text-sm font-medium">{index + 1}</span>
+                                    )}
                                 </div>
-                            )}
-                        </div>
+
+                                {/* Step Label */}
+                                <div className={`flex-1 ${isRTL ? 'text-right' : ''}`}>
+                                    <p className={`text-xs sm:text-sm font-medium ${index === currentStep
+                                            ? 'text-primary'
+                                            : index < currentStep
+                                                ? 'text-green-600'
+                                                : 'text-gray-500'
+                                        } ${isRTL ? 'font-arabic text-right' : ''}`}>
+                                        {step.title}
+                                    </p>
+                                    {/* Add validation indicator */}
+                                    {index === currentStep && !isCurrentStepValid() && (
+                                        <p className={`text-xs text-red-500 mt-1 ${isRTL ? 'font-arabic text-right' : ''}`}>
+                                            {t('membership.form.fillRequiredFields')}
+                                        </p>
+                                    )}
+                                </div>
+
+                                {/* Progress Line */}
+                                {index < steps.length - 1 && (
+                                    <div className="hidden sm:block flex-1">
+                                        <div className="h-0.5 bg-gray-200 relative">
+                                            <div
+                                                className={`h-full transition-all duration-300 ${index < currentStep ? 'bg-green-500' : 'bg-gray-200'
+                                                    }`}
+                                            />
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
                         ))}
                     </div>
                 </div>
@@ -155,18 +149,16 @@ export default function MultiStepForm({ steps, onSubmit, isSubmitting, isRTL, da
 
             {/* Navigation Buttons */}
             <div
-                className={`flex flex-col-reverse sm:flex-row justify-between items-stretch sm:items-center gap-4 ${
-                    isRTL ? 'sm:flex-row-reverse' : ''
-                }`}
+                className={`flex flex-col-reverse sm:flex-row justify-between items-stretch sm:items-center gap-4 ${isRTL ? 'sm:flex-row-reverse' : ''
+                    }`}
             >
                 {/* Previous Button */}
                 <button
                     type="button"
                     onClick={goToPreviousStep}
                     disabled={isFirstStep}
-                    className={`flex items-center justify-center px-4 sm:px-6 py-3 border border-gray-300 rounded-lg text-gray-700 font-medium hover:bg-gray-50 focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed ${
-                        isRTL ? 'font-arabic flex-row-reverse' : ''
-                    } w-full sm:w-auto`}
+                    className={`flex items-center justify-center px-4 sm:px-6 py-3 border border-gray-300 rounded-lg text-gray-700 font-medium hover:bg-gray-50 focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed ${isRTL ? 'font-arabic flex-row-reverse' : ''
+                        } w-full sm:w-auto`}
                 >
                     {!isRTL ? <ChevronLeft className="w-5 h-5 mr-2" /> : null}
                     {t('membership.form.previous')}
@@ -184,9 +176,8 @@ export default function MultiStepForm({ steps, onSubmit, isSubmitting, isRTL, da
                         type="button"
                         onClick={onSubmit}
                         disabled={isSubmitting || !isCurrentStepValid()}
-                        className={`flex items-center justify-center px-6 sm:px-8 py-3 bg-primary text-white rounded-lg font-medium hover:bg-primary/90 focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-all duration-200 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none ${
-                            isRTL ? 'font-arabic' : ''
-                        } w-full sm:w-auto`}
+                        className={`flex items-center justify-center px-6 sm:px-8 py-3 bg-primary text-white rounded-lg font-medium hover:bg-primary/90 focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-all duration-200 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none ${isRTL ? 'font-arabic' : ''
+                            } w-full sm:w-auto`}
                     >
                         {isSubmitting ? t('membership.form.submitting') : t('membership.form.submit')}
                     </button>
@@ -195,9 +186,8 @@ export default function MultiStepForm({ steps, onSubmit, isSubmitting, isRTL, da
                         type="button"
                         onClick={goToNextStep}
                         disabled={!isCurrentStepValid()}
-                        className={`flex items-center justify-center px-6 py-3 bg-primary text-white rounded-lg font-medium hover:bg-primary/90 focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-all duration-200 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none disabled:hover:bg-primary ${
-                            isRTL ? 'font-arabic flex-row-reverse' : ''
-                        } w-full sm:w-auto`}
+                        className={`flex items-center justify-center px-6 py-3 bg-primary text-white rounded-lg font-medium hover:bg-primary/90 focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-all duration-200 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none disabled:hover:bg-primary ${isRTL ? 'font-arabic flex-row-reverse' : ''
+                            } w-full sm:w-auto`}
                     >
                         {t('membership.form.next')}
                         {!isRTL ? <ChevronRight className="w-5 h-5 ml-2" /> : null}

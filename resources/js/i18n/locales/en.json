@@ -448,7 +448,14 @@
       "fillFormToJoin": "Fill out the form below to apply for membership",
       "readyToJoin": "Ready to Join?",
       "loginToApply": "Please log in to submit your membership application",
-      "errorsTitle": "Please fix the following errors:"
+      "errorsTitle": "Please fix the following errors:",
+      "importantNote": "Important Note",
+      "withdrawalLetterNote": "If you were previously a member of another union, you must provide a withdrawal letter from that union.",
+      "signatureNote": "Signature Declaration",
+      "signatureNoteText": "By providing my digital signature below, I hereby declare that all information provided in this membership application is true and accurate to the best of my knowledge.",
+      "digitalSignature": "Digital Signature",
+      "signatureLabel": "Your Signature",
+      "nationalityPlaceholder": "e.g. Bahraini"
     },
     "loginRequired": "Please login to access the membership application form",
     "authRequired": "Login Required",

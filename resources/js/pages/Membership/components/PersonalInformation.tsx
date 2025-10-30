@@ -27,7 +27,7 @@ export default function PersonalInformation({ data, setData, errors, isRTL, user
     const handleImageDrop = (e: React.DragEvent<HTMLDivElement>) => {
         e.preventDefault();
         setIsDragOver(false);
-        
+
         const file = e.dataTransfer.files[0];
         if (file && file.type.startsWith('image/')) {
             setData('employee_image', file);
@@ -61,7 +61,7 @@ export default function PersonalInformation({ data, setData, errors, isRTL, user
             <h3 className={`text-xl font-semibold text-gray-900 border-b border-gray-200 pb-3 ${isRTL ? 'font-arabic text-right' : ''}`}>
                 {t('membership.form.personalInformation')}
             </h3>
-            
+
             {/* Display authenticated user info as read-only */}
             <div className="bg-gray-50 p-4 rounded-lg border">
                 <h4 className={`text-sm font-medium text-gray-700 mb-3 ${isRTL ? 'font-arabic text-right' : ''}`}>
@@ -70,7 +70,7 @@ export default function PersonalInformation({ data, setData, errors, isRTL, user
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <span className={`text-sm text-gray-600 ${isRTL ? 'font-arabic' : ''}`}>
-                            {t('membership.form.fullName')}: 
+                            {t('membership.form.fullName')}:
                         </span>
                         <span className={`ml-2 font-medium text-gray-900 ${isRTL ? 'font-arabic mr-2 ml-0' : ''}`}>
                             {user?.name}
@@ -78,7 +78,7 @@ export default function PersonalInformation({ data, setData, errors, isRTL, user
                     </div>
                     <div>
                         <span className={`text-sm text-gray-600 ${isRTL ? 'font-arabic' : ''}`}>
-                            {t('membership.form.email')}: 
+                            {t('membership.form.email')}:
                         </span>
                         <span className={`ml-2 font-medium text-gray-900 ${isRTL ? 'font-arabic mr-2 ml-0' : ''}`}>
                             {user?.email}
@@ -86,7 +86,7 @@ export default function PersonalInformation({ data, setData, errors, isRTL, user
                     </div>
                 </div>
             </div>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                     <label htmlFor="mobile_number" className={`block text-sm font-medium text-gray-700 mb-2 ${isRTL ? 'font-arabic text-right' : ''}`}>
@@ -127,23 +127,17 @@ export default function PersonalInformation({ data, setData, errors, isRTL, user
                     <label htmlFor="nationality" className={`block text-sm font-medium text-gray-700 mb-2 ${isRTL ? 'font-arabic text-right' : ''}`}>
                         {t('membership.form.nationality')} <span className="text-red-500">*</span>
                     </label>
-                    <select
+                    <input
+                        type="text"
                         id="nationality"
                         name="nationality"
                         value={data.nationality}
                         onChange={(e) => setData('nationality', e.target.value)}
                         required
+                        maxLength={50}
                         className={`w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors ${isRTL ? 'text-right font-arabic' : ''} ${errors.nationality ? 'border-red-500' : ''}`}
-                    >
-                        <option value="">{t('membership.form.selectNationality')}</option>
-                        <option value="Bahraini">Bahraini</option>
-                        <option value="Saudi Arabian">Saudi Arabian</option>
-                        <option value="Emirati">Emirati</option>
-                        <option value="Kuwaiti">Kuwaiti</option>
-                        <option value="Qatari">Qatari</option>
-                        <option value="Omani">Omani</option>
-                        <option value="Other">Other</option>
-                    </select>
+                        placeholder={t('membership.form.nationalityPlaceholder')}
+                    />
                     {errors.nationality && <p className="mt-1 text-sm text-red-600">{errors.nationality}</p>}
                 </div>
 
@@ -199,11 +193,10 @@ export default function PersonalInformation({ data, setData, errors, isRTL, user
 
                 {!data.employee_image ? (
                     <div
-                        className={`relative border-2 border-dashed rounded-lg p-6 transition-colors ${
-                            isDragOver 
-                                ? 'border-primary bg-primary/5' 
-                                : 'border-gray-300 hover:border-gray-400'
-                        } ${errors.employee_image ? 'border-red-500' : ''}`}
+                        className={`relative border-2 border-dashed rounded-lg p-6 transition-colors ${isDragOver
+                            ? 'border-primary bg-primary/5'
+                            : 'border-gray-300 hover:border-gray-400'
+                            } ${errors.employee_image ? 'border-red-500' : ''}`}
                         onDrop={handleImageDrop}
                         onDragOver={handleDragOver}
                         onDragLeave={handleDragLeave}

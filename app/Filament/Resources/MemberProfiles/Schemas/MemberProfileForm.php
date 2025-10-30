@@ -123,11 +123,10 @@ class MemberProfileForm
                                     ->schema([
                                         Grid::make(4)
                                             ->schema([
-                                                Select::make('nationality')
+                                                TextInput::make('nationality')
                                                     ->label('Nationality')
                                                     ->required()
-                                                    ->options(MemberProfile::getNationalityOptions())
-                                                    ->searchable()
+                                                    ->maxLength(50)
                                                     ->prefixIcon('heroicon-o-flag')
                                                     ->columnSpan(2),
 
@@ -286,7 +285,6 @@ class MemberProfileForm
                                     ])
                                     ->collapsible(),
 
-                                
                             ]),
 
                         Tab::make('Settings')
