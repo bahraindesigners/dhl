@@ -9,17 +9,17 @@ use App\Models\User;
 use Illuminate\Support\Facades\Event as EventFacade;
 
 it('dispatches event registration created event when registration is created', function () {
+    EventFacade::fake([EventRegistrationCreated::class]);
+
     $user = User::factory()->create();
     $eventCategory = EventCategory::factory()->create([
-        'receiver_email' => 'admin@example.com',
+        'receiver_emails' => ['admin@example.com'],
     ]);
     $event = Event::factory()->create([
         'event_category_id' => $eventCategory->id,
         'status' => 'published',
         'registration_enabled' => true,
     ]);
-
-    EventFacade::fake();
 
     $registration = EventRegistration::factory()->create([
         'event_id' => $event->id,
@@ -33,9 +33,11 @@ it('dispatches event registration created event when registration is created', f
 });
 
 it('dispatches event registration updated event when status changes', function () {
+    EventFacade::fake([EventRegistrationUpdated::class]);
+
     $user = User::factory()->create();
     $eventCategory = EventCategory::factory()->create([
-        'receiver_email' => 'admin@example.com',
+        'receiver_emails' => ['admin@example.com'],
     ]);
     $event = Event::factory()->create([
         'event_category_id' => $eventCategory->id,
@@ -49,22 +51,20 @@ it('dispatches event registration updated event when status changes', function (
         'status' => 'pending',
     ]);
 
-    EventFacade::fake();
-
     // Update the registration status
     $registration->update(['status' => 'confirmed']);
 
     EventFacade::assertDispatched(EventRegistrationUpdated::class, function ($event) use ($registration) {
         return $event->registration->id === $registration->id &&
-               $event->oldStatus === 'pending' &&
-               $event->newStatus === 'confirmed';
+            $event->oldStatus === 'pending' &&
+            $event->newStatus === 'confirmed';
     });
 });
 
 it('does not dispatch event registration updated event when non-status fields change', function () {
     $user = User::factory()->create();
     $eventCategory = EventCategory::factory()->create([
-        'receiver_email' => 'admin@example.com',
+        'receiver_emails' => ['admin@example.com'],
     ]);
     $event = Event::factory()->create([
         'event_category_id' => $eventCategory->id,
@@ -89,7 +89,7 @@ it('does not dispatch event registration updated event when non-status fields ch
 it('can change registration status from pending to confirmed', function () {
     $user = User::factory()->create();
     $eventCategory = EventCategory::factory()->create([
-        'receiver_email' => 'admin@example.com',
+        'receiver_emails' => ['admin@example.com'],
     ]);
     $event = Event::factory()->create([
         'event_category_id' => $eventCategory->id,

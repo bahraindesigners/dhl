@@ -20,7 +20,7 @@ it('completes full registration workflow with proper status and emails', functio
     ]);
 
     $eventCategory = EventCategory::factory()->create([
-        'receiver_email' => 'admin@example.com',
+        'receiver_emails' => ['admin@example.com'],
     ]);
     $event = Event::factory()->create([
         'event_category_id' => $eventCategory->id,
@@ -55,7 +55,7 @@ it('completes full registration workflow with proper status and emails', functio
 
     // Check that emails were queued for registration creation
     Mail::assertQueued(NewRegistrationNotification::class, function ($mail) use ($eventCategory) {
-        return $mail->hasTo($eventCategory->receiver_email);
+        return $mail->hasTo($eventCategory->receiver_emails[0]);
     });
 
     Mail::assertQueued(EventRegistrationConfirmation::class, function ($mail) {

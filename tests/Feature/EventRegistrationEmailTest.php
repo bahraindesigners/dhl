@@ -13,7 +13,7 @@ it('sends emails when new registration is created', function () {
 
     $user = User::factory()->create();
     $eventCategory = EventCategory::factory()->create([
-        'receiver_email' => 'admin@example.com',
+        'receiver_emails' => ['admin@example.com', 'admin2@example.com'],
     ]);
     $event = Event::factory()->create([
         'event_category_id' => $eventCategory->id,
@@ -33,7 +33,7 @@ it('sends emails when new registration is created', function () {
 
     // Check that admin notification was queued
     Mail::assertQueued(NewRegistrationNotification::class, function ($mail) use ($eventCategory) {
-        return $mail->hasTo($eventCategory->receiver_email);
+        return $mail->hasTo($eventCategory->receiver_emails[0]);
     });
 
     // Check that user confirmation was queued
@@ -47,7 +47,7 @@ it('sends confirmation email when registration status changes to confirmed', fun
 
     $user = User::factory()->create();
     $eventCategory = EventCategory::factory()->create([
-        'receiver_email' => 'admin@example.com',
+        'receiver_emails' => ['admin@example.com'],
     ]);
     $event = Event::factory()->create([
         'event_category_id' => $eventCategory->id,
@@ -84,7 +84,7 @@ it('does not send email when status changes to something other than confirmed', 
 
     $user = User::factory()->create();
     $eventCategory = EventCategory::factory()->create([
-        'receiver_email' => 'admin@example.com',
+        'receiver_emails' => ['admin@example.com'],
     ]);
     $event = Event::factory()->create([
         'event_category_id' => $eventCategory->id,
