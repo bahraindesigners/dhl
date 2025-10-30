@@ -20,20 +20,43 @@ class AlHasalaForm
                     ->searchable()
                     ->preload()
                     ->label('Member'),
-                TextInput::make('amount')
+                TextInput::make('monthly_amount')
                     ->required()
                     ->numeric()
                     ->prefix('BD')
                     ->minValue(0)
                     ->maxValue(10000)
-                    ->label('Al Hasala Amount'),
+                    ->label('Monthly Savings Amount')
+                    ->helperText('The amount to be saved monthly')
+                    ->live(onBlur: true)
+                    ->afterStateUpdated(function ($state, callable $set, callable $get) {
+                        $months = $get('months');
+                        if ($state && $months) {
+                            $set('total_amount', $state * $months);
+                        }
+                    }),
+                TextInput::make('total_amount')
+                    ->numeric()
+                    ->prefix('BD')
+                    ->disabled()
+                    ->dehydrated(false)
+                    ->label('Total Amount at End')
+                    ->helperText('Calculated as: Monthly Amount × Duration')
+                    ->default(fn(callable $get) => ($get('monthly_amount') ?? 0) * ($get('months') ?? 0)),
                 TextInput::make('months')
                     ->required()
                     ->numeric()
                     ->minValue(1)
                     ->maxValue(60)
                     ->suffix('months')
-                    ->label('Al Hasala Duration'),
+                    ->label('Savings Duration')
+                    ->live(onBlur: true)
+                    ->afterStateUpdated(function ($state, callable $set, callable $get) {
+                        $monthlyAmount = $get('monthly_amount');
+                        if ($state && $monthlyAmount) {
+                            $set('total_amount', $monthlyAmount * $state);
+                        }
+                    }),
                 Select::make('status')
                     ->options(LoanStatus::class)
                     ->default('pending')

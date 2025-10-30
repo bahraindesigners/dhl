@@ -33,7 +33,7 @@ class AlHasalaResource extends Resource
 
     protected static ?int $navigationSort = 2;
 
-    protected static ?string $recordTitleAttribute = 'amount';
+    protected static ?string $recordTitleAttribute = 'monthly_amount';
 
     public static function form(Schema $schema): Schema
     {

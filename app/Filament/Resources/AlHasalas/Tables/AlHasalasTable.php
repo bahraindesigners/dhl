@@ -21,8 +21,12 @@ class AlHasalasTable
                     ->label('Member')
                     ->searchable()
                     ->sortable(),
-                TextColumn::make('amount')
-                    ->label('Amount')
+                TextColumn::make('monthly_amount')
+                    ->label('Monthly Savings')
+                    ->money('BHD')
+                    ->sortable(),
+                TextColumn::make('total_amount')
+                    ->label('Total Amount')
                     ->money('BHD')
                     ->sortable(),
                 TextColumn::make('months')
@@ -33,8 +37,8 @@ class AlHasalasTable
                 TextColumn::make('status')
                     ->label('Status')
                     ->badge()
-                    ->color(fn (LoanStatus $state): string => $state->color())
-                    ->formatStateUsing(fn (LoanStatus $state): string => $state->label())
+                    ->color(fn(LoanStatus $state): string => $state->color())
+                    ->formatStateUsing(fn(LoanStatus $state): string => $state->label())
                     ->sortable(),
                 TextColumn::make('created_at')
                     ->label('Applied On')

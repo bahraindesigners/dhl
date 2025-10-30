@@ -26,10 +26,16 @@ class AlHasalaInfolist
                                             ->icon('heroicon-o-banknotes')
                                             ->description('Al Hasala application information')
                                             ->schema([
-                                                TextEntry::make('amount')
-                                                    ->label('Al Hasala Amount')
+                                                TextEntry::make('monthly_amount')
+                                                    ->label('Monthly Savings Amount')
                                                     ->money('BHD', divideBy: 1)
                                                     ->icon('heroicon-o-banknotes')
+                                                    ->color('info'),
+
+                                                TextEntry::make('total_amount')
+                                                    ->label('Total Amount at End')
+                                                    ->money('BHD', divideBy: 1)
+                                                    ->icon('heroicon-o-currency-dollar')
                                                     ->color('success'),
 
                                                 TextEntry::make('months')
@@ -42,7 +48,7 @@ class AlHasalaInfolist
                                                     ->label('Status')
                                                     ->badge()
                                                     ->icon('heroicon-o-flag')
-                                                    ->color(fn ($record): string => match ($record->status) {
+                                                    ->color(fn($record): string => match ($record->status) {
                                                         \App\LoanStatus::Pending => 'warning',
                                                         \App\LoanStatus::Approved => 'success',
                                                         \App\LoanStatus::Rejected => 'danger',
@@ -85,11 +91,11 @@ class AlHasalaInfolist
                                             ->placeholder('N/A')
                                             ->icon('heroicon-o-x-circle')
                                             ->color('danger')
-                                            ->visible(fn ($record) => $record->status === \App\LoanStatus::Rejected)
+                                            ->visible(fn($record) => $record->status === \App\LoanStatus::Rejected)
                                             ->columnSpanFull(),
                                     ])
                                     ->collapsible()
-                                    ->collapsed(fn ($record) => empty($record->note) && empty($record->rejected_reason)),
+                                    ->collapsed(fn($record) => empty($record->note) && empty($record->rejected_reason)),
                             ]),
 
                         Tab::make('Member Information')

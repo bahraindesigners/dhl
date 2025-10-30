@@ -124,7 +124,7 @@ export default function CreateLoan({ settings }: CreateLoanProps) {
                                                 type="number"
                                                 min={settings.min_amount}
                                                 max={settings.max_amount}
-                                                step="50"
+                                                step="1"
                                                 value={data.amount}
                                                 onChange={(e) => setData('amount', e.target.value)}
                                                 placeholder={settings.min_amount.toString()}
