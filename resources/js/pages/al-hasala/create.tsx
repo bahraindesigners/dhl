@@ -20,6 +20,7 @@ import {
 
 interface AlHasalaSettings {
     max_months: number;
+    min_monthly_payment: number;
 }
 
 interface CreateAlHasalaProps {
@@ -31,10 +32,24 @@ export default function CreateAlHasala({ settings }: CreateAlHasalaProps) {
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const { data, setData, post, processing, errors, reset } = useForm({
-        amount: '',
+        monthly_amount: '',
         months: '',
         note: '',
     });
+
+    // Calculate total amount
+    const totalAmount = data.monthly_amount && data.months ?
+        Math.round((parseFloat(data.monthly_amount) * parseInt(data.months)) * 100) / 100 : 0;
+
+    // Check if monthly amount meets minimum requirement
+    const isValidMonthlyAmount = data.monthly_amount && parseFloat(data.monthly_amount) >= settings.min_monthly_payment;
+
+    // Check if months is valid
+    const isValidMonths = data.months &&
+        parseInt(data.months) >= 1 &&
+        parseInt(data.months) <= settings.max_months;
+
+    const isFormValid = isValidMonthlyAmount && isValidMonths;
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -85,31 +100,35 @@ export default function CreateAlHasala({ settings }: CreateAlHasalaProps) {
                             </CardHeader>
                             <CardContent>
                                 <form onSubmit={handleSubmit} className="space-y-6">
-                                    {/* Amount */}
+                                    {/* Monthly Amount */}
                                     <div className="space-y-2">
-                                        <Label htmlFor="amount">{t('alHasala.amount')}</Label>
+                                        <Label htmlFor="monthly_amount">{t('alHasala.monthlyAmount')}</Label>
                                         <div className="relative">
                                             <Input
-                                                id="amount"
+                                                id="monthly_amount"
                                                 type="number"
-                                                min="100"
-                                                max="10000"
-                                                step="50"
-                                                value={data.amount}
-                                                onChange={(e) => setData('amount', e.target.value)}
-                                                placeholder="1000"
-                                                className="pl-12"
+                                                min={settings.min_monthly_payment}
+                                                step="10"
+                                                value={data.monthly_amount}
+                                                onChange={(e) => setData('monthly_amount', e.target.value)}
+                                                placeholder={settings.min_monthly_payment.toString()}
+                                                className={`pl-12 ${!isValidMonthlyAmount && data.monthly_amount ? 'border-red-500' : ''}`}
                                                 required
                                             />
                                             <div className="absolute inset-y-0 left-0 flex items-center pl-3">
                                                 <span className="text-gray-500 text-sm">BD</span>
                                             </div>
                                         </div>
-                                        {errors.amount && (
-                                            <p className="text-sm text-red-600">{errors.amount}</p>
+                                        {errors.monthly_amount && (
+                                            <p className="text-sm text-red-600">{errors.monthly_amount}</p>
+                                        )}
+                                        {!isValidMonthlyAmount && data.monthly_amount && !errors.monthly_amount && (
+                                            <p className="text-sm text-red-600">
+                                                {t('alHasala.monthlyPaymentMinimum', { minPayment: settings.min_monthly_payment })}
+                                            </p>
                                         )}
                                         <p className="text-sm text-muted-foreground">
-                                            {t('alHasala.amountRange')}
+                                            {t('alHasala.minMonthlyPayment', { minPayment: settings.min_monthly_payment })}
                                         </p>
                                     </div>
 
@@ -124,8 +143,8 @@ export default function CreateAlHasala({ settings }: CreateAlHasalaProps) {
                                                 max={settings.max_months}
                                                 value={data.months}
                                                 onChange={(e) => setData('months', e.target.value)}
-                                                placeholder="12"
-                                                className="pr-16"
+                                                placeholder="1"
+                                                className={`pr-16 ${!isValidMonths && data.months ? 'border-red-500' : ''}`}
                                                 required
                                             />
                                             <div className="absolute inset-y-0 right-0 flex items-center pr-3">
@@ -135,8 +154,13 @@ export default function CreateAlHasala({ settings }: CreateAlHasalaProps) {
                                         {errors.months && (
                                             <p className="text-sm text-red-600">{errors.months}</p>
                                         )}
+                                        {!isValidMonths && data.months && !errors.months && (
+                                            <p className="text-sm text-red-600">
+                                                {t('alHasala.monthsMaximum', { max: settings.max_months })}
+                                            </p>
+                                        )}
                                         <p className="text-sm text-muted-foreground">
-                                            {t('alHasala.maxDuration')}: {settings.max_months} {t('alHasala.months')}
+                                            {t('alHasala.maxMonths', { max: settings.max_months })}
                                         </p>
                                     </div>
 
@@ -163,7 +187,7 @@ export default function CreateAlHasala({ settings }: CreateAlHasalaProps) {
                                     <div className="flex items-center space-x-4 pt-6">
                                         <Button
                                             type="submit"
-                                            disabled={processing || isSubmitting}
+                                            disabled={processing || isSubmitting || !isFormValid}
                                             className="flex-1 sm:flex-none"
                                         >
                                             {(processing || isSubmitting) ? (
@@ -192,28 +216,33 @@ export default function CreateAlHasala({ settings }: CreateAlHasalaProps) {
                     {/* Sidebar Information */}
                     <div className="space-y-6">
                         {/* Al Hasala Calculator Preview */}
-                        {data.amount && data.months && (
+                        {data.monthly_amount && data.months && (
                             <Card>
                                 <CardHeader>
                                     <CardTitle className="text-lg">{t('alHasala.preview')}</CardTitle>
                                 </CardHeader>
                                 <CardContent className="space-y-4">
                                     <div className="flex justify-between">
-                                        <span className="text-sm text-muted-foreground">{t('alHasala.alHasalaAmount')}:</span>
-                                        <span className="font-medium">BD {data.amount}</span>
+                                        <span className="text-sm text-muted-foreground">{t('alHasala.monthlyAmount')}:</span>
+                                        <span className="font-medium">BD {data.monthly_amount}</span>
                                     </div>
                                     <div className="flex justify-between">
                                         <span className="text-sm text-muted-foreground">{t('alHasala.duration')}:</span>
                                         <span className="font-medium">{data.months} {t('alHasala.months')}</span>
                                     </div>
-                                    <div className="flex justify-between">
-                                        <span className="text-sm text-muted-foreground">{t('alHasala.monthlyAmount')}:</span>
-                                        <span className="font-medium">
-                                            BD {data.amount && data.months ?
-                                                Math.round((parseFloat(data.amount) / parseInt(data.months)) * 100) / 100
-                                                : '0'}
+                                    <div className="flex justify-between border-t pt-2">
+                                        <span className="text-sm text-muted-foreground">{t('alHasala.totalAmount')}:</span>
+                                        <span className="font-medium text-green-600">
+                                            BD {totalAmount.toFixed(2)}
                                         </span>
                                     </div>
+                                    {isValidMonthlyAmount && isValidMonths && (
+                                        <div className="bg-green-50 border border-green-200 rounded-lg p-3">
+                                            <p className="text-sm text-green-700">
+                                                {t('alHasala.validSavingsPlan')}
+                                            </p>
+                                        </div>
+                                    )}
                                 </CardContent>
                             </Card>
                         )}
@@ -233,17 +262,23 @@ export default function CreateAlHasala({ settings }: CreateAlHasalaProps) {
                                 </div>
                                 <div className="flex items-start space-x-2">
                                     <CheckCircle2 className="h-4 w-4 text-green-600 mt-0.5" />
-                                    <span className="text-sm">{t('alHasala.reviewProcess')}</span>
+                                    <span className="text-sm">
+                                        {t('alHasala.minMonthlyPayment', { minPayment: settings.min_monthly_payment })}
+                                    </span>
                                 </div>
                                 <div className="flex items-start space-x-2">
                                     <CheckCircle2 className="h-4 w-4 text-green-600 mt-0.5" />
                                     <span className="text-sm">
-                                        {t('alHasala.maxDuration')}: {settings.max_months} {t('alHasala.months')}
+                                        {t('alHasala.maxMonths', { max: settings.max_months })}
                                     </span>
                                 </div>
                                 <div className="flex items-start space-x-2">
                                     <CheckCircle2 className="h-4 w-4 text-green-600 mt-0.5" />
                                     <span className="text-sm">{t('alHasala.noInterest')}</span>
+                                </div>
+                                <div className="flex items-start space-x-2">
+                                    <CheckCircle2 className="h-4 w-4 text-green-600 mt-0.5" />
+                                    <span className="text-sm">{t('alHasala.reviewProcess')}</span>
                                 </div>
                             </CardContent>
                         </Card>

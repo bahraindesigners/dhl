@@ -16,7 +16,8 @@ class AlHasala extends Model
 
     protected $fillable = [
         'user_id',
-        'amount',
+        'monthly_amount',
+        'total_amount',
         'months',
         'status',
         'note',
@@ -25,6 +26,11 @@ class AlHasala extends Model
 
     protected static function booted(): void
     {
+        static::creating(function (AlHasala $alHasala) {
+            // Calculate total amount before saving
+            $alHasala->total_amount = $alHasala->monthly_amount * $alHasala->months;
+        });
+
         static::created(function (AlHasala $alHasala) {
             AlHasalaCreated::dispatch($alHasala);
         });
@@ -40,7 +46,8 @@ class AlHasala extends Model
     protected function casts(): array
     {
         return [
-            'amount' => 'decimal:2',
+            'monthly_amount' => 'decimal:2',
+            'total_amount' => 'decimal:2',
             'months' => 'integer',
             'status' => LoanStatus::class,
         ];

@@ -1,6 +1,6 @@
 @component('emails.layouts.base', [
-    'title' => 'Al Hasala Application Update',
-    'subtitle' => 'Your Al Hasala application status has been updated'
+'title' => 'Al Hasala Application Update',
+'subtitle' => 'Your Al Hasala application status has been updated'
 ])
 
 <!-- Greeting -->
@@ -9,40 +9,46 @@
         <strong>Dear {{ $alHasala->user->name }},</strong>
     </p>
     <p style="margin: 10px 0 0 0; color: #6b7280; font-size: 15px; line-height: 1.6;">
-        Your Al Hasala application status has been updated. Please find the details below:
+        Your Al Hasala savings plan application status has been updated. Please find the details below:
     </p>
 </div>
 
 <!-- Status Update Section -->
 <div style="background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 8px; padding: 20px; margin-bottom: 30px; text-align: center;">
     <h2 style="color: #0c4a6e; font-size: 20px; font-weight: 600; margin-bottom: 10px;">🔄 Status Update</h2>
-    <p style="color: #075985; margin: 10px 0; font-size: 16px;">Your Al Hasala application is now:</p>
+    <p style="color: #075985; margin: 10px 0; font-size: 16px;">Your Al Hasala savings plan application is now:</p>
     @if($alHasala->status->value === 'approved')
-        <span style="display: inline-block; padding: 8px 20px; border-radius: 20px; font-size: 16px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; background: #10b981; color: white;">APPROVED</span>
+    <span style="display: inline-block; padding: 8px 20px; border-radius: 20px; font-size: 16px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; background: #10b981; color: white;">APPROVED</span>
     @elseif($alHasala->status->value === 'rejected')
-        <span style="display: inline-block; padding: 8px 20px; border-radius: 20px; font-size: 16px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; background: #ef4444; color: white;">REJECTED</span>
+    <span style="display: inline-block; padding: 8px 20px; border-radius: 20px; font-size: 16px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; background: #ef4444; color: white;">REJECTED</span>
     @else
-        <span style="display: inline-block; padding: 8px 20px; border-radius: 20px; font-size: 16px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; background: #f59e0b; color: white;">{{ strtoupper($alHasala->status->value) }}</span>
+    <span style="display: inline-block; padding: 8px 20px; border-radius: 20px; font-size: 16px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; background: #f59e0b; color: white;">{{ strtoupper($alHasala->status->value) }}</span>
     @endif
 </div>
 
 <!-- Application Details Section -->
 <div style="margin-bottom: 30px;">
-    <h2 style="color: #1a1a1a; font-size: 20px; font-weight: 600; margin-bottom: 15px; padding-bottom: 8px; border-bottom: 2px solid #ffcb00; display: inline-block;">📋 Application Details</h2>
+    <h2 style="color: #1a1a1a; font-size: 20px; font-weight: 600; margin-bottom: 15px; padding-bottom: 8px; border-bottom: 2px solid #ffcb00; display: inline-block;">📋 Savings Plan Details</h2>
     <div style="background: #f8f9fb; border-radius: 8px; padding: 20px; margin-bottom: 20px; border-left: 4px solid #ffcb00;">
         <div style="margin-bottom: 15px;">
             <div style="font-weight: 600; color: #374151; margin-bottom: 5px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px;">Application ID</div>
             <div style="background: #fff8e1; padding: 8px 12px; border-radius: 6px; border-left: 3px solid #ffcb00; font-weight: 500; color: #1f2937; font-size: 16px; line-height: 1.5;">#{{ $alHasala->id }}</div>
         </div>
         <div style="margin-bottom: 15px;">
-            <div style="font-weight: 600; color: #374151; margin-bottom: 5px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px;">Amount Requested</div>
+            <div style="font-weight: 600; color: #374151; margin-bottom: 5px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px;">Monthly Savings</div>
             <div style="background: #fff8e1; padding: 8px 12px; border-radius: 6px; border-left: 3px solid #ffcb00; font-weight: 700; color: #059669; font-size: 18px; line-height: 1.5;">
-                BD {{ number_format($alHasala->amount, 2) }}
+                BD {{ number_format($alHasala->monthly_amount, 2) }}
             </div>
         </div>
         <div style="margin-bottom: 15px;">
             <div style="font-weight: 600; color: #374151; margin-bottom: 5px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px;">Duration</div>
             <div style="color: #1f2937; font-size: 16px; line-height: 1.5;">{{ $alHasala->months }} months</div>
+        </div>
+        <div style="margin-bottom: 15px;">
+            <div style="font-weight: 600; color: #374151; margin-bottom: 5px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px;">Total Amount at End</div>
+            <div style="background: #f0fdf4; padding: 8px 12px; border-radius: 6px; border-left: 3px solid #10b981; font-weight: 700; color: #047857; font-size: 20px; line-height: 1.5;">
+                BD {{ number_format($alHasala->total_amount, 2) }}
+            </div>
         </div>
         <div style="margin-bottom: 15px;">
             <div style="font-weight: 600; color: #374151; margin-bottom: 5px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px;">Applied On</div>
@@ -62,7 +68,7 @@
         <span style="margin-right: 8px;">🎉</span> Congratulations!
     </h2>
     <p style="margin: 0; color: #047857; line-height: 1.6;">
-        Your Al Hasala application has been <strong>approved</strong>! Please contact the Al Hasala department to proceed with the next steps.
+        Your Al Hasala savings plan application has been <strong>approved</strong>! Please contact the Al Hasala department to proceed with the next steps.
     </p>
 </div>
 @endif
@@ -87,7 +93,7 @@
         <span style="margin-right: 8px;">⏳</span> Under Review
     </h2>
     <p style="margin: 0; color: #92400e; line-height: 1.6;">
-        Your Al Hasala application is currently under review. We will notify you once a decision has been made.
+        Your Al Hasala savings plan application is currently under review. We will notify you once a decision has been made.
     </p>
 </div>
 @endif

@@ -14,6 +14,8 @@ class AlHasalaSettingsSeeder extends Seeder
     {
         AlHasalaSettings::create([
             'max_months' => 24,
+            'min_amount' => 100.00,
+            'min_monthly_payment' => 50.00,
             'receivers' => [
                 [
                     'name' => 'Al Hasala Admin',

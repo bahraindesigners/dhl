@@ -18,10 +18,14 @@ class AlHasalaFactory extends Factory
      */
     public function definition(): array
     {
+        $monthlyAmount = $this->faker->randomFloat(2, 50, 500);
+        $months = $this->faker->numberBetween(6, 24);
+
         return [
             'user_id' => User::factory(),
-            'amount' => $this->faker->randomFloat(2, 100, 10000),
-            'months' => $this->faker->numberBetween(6, 24),
+            'monthly_amount' => $monthlyAmount,
+            'months' => $months,
+            'total_amount' => $monthlyAmount * $months,
             'status' => $this->faker->randomElement([
                 LoanStatus::Pending,
                 LoanStatus::Approved,
@@ -37,7 +41,7 @@ class AlHasalaFactory extends Factory
      */
     public function pending(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'status' => LoanStatus::Pending,
             'rejected_reason' => null,
         ]);
@@ -48,7 +52,7 @@ class AlHasalaFactory extends Factory
      */
     public function approved(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'status' => LoanStatus::Approved,
             'rejected_reason' => null,
         ]);
@@ -59,7 +63,7 @@ class AlHasalaFactory extends Factory
      */
     public function rejected(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'status' => LoanStatus::Rejected,
             'rejected_reason' => $this->faker->sentence(),
         ]);

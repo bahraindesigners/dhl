@@ -11,6 +11,7 @@ class AlHasalaSettings extends Model
 
     protected $fillable = [
         'max_months',
+        'min_monthly_payment',
         'receivers',
         'is_active',
     ];
@@ -19,6 +20,7 @@ class AlHasalaSettings extends Model
     {
         return [
             'max_months' => 'integer',
+            'min_monthly_payment' => 'decimal:2',
             'receivers' => 'array',
             'is_active' => 'boolean',
         ];
@@ -33,6 +35,7 @@ class AlHasalaSettings extends Model
     {
         return self::first() ?? self::create([
             'max_months' => 24,
+            'min_monthly_payment' => 50.00,
             'receivers' => [
                 [
                     'name' => 'Al Hasala Admin',
@@ -41,5 +44,28 @@ class AlHasalaSettings extends Model
             ],
             'is_active' => true,
         ]);
+    }
+
+    public function calculateTotalAmount(float $monthlyAmount, int $months): float
+    {
+        return round($monthlyAmount * $months, 2);
+    }
+
+    public function isValidMonthlyAmount(float $monthlyAmount): bool
+    {
+        return $monthlyAmount >= $this->min_monthly_payment;
+    }
+
+    public function getValidationError(float $monthlyAmount, int $months): ?string
+    {
+        if ($monthlyAmount < $this->min_monthly_payment) {
+            return "Monthly payment must be at least BD {$this->min_monthly_payment}";
+        }
+
+        if ($months > $this->max_months) {
+            return "Maximum duration is {$this->max_months} months";
+        }
+
+        return null;
     }
 }

@@ -1,6 +1,6 @@
 @component('emails.layouts.base', [
-    'title' => 'Union Loan Application Update',
-    'subtitle' => 'Your union loan application status has been updated'
+'title' => 'Union Loan Application Update',
+'subtitle' => 'Your union loan application status has been updated'
 ])
 
 <!-- Greeting -->
@@ -18,11 +18,11 @@
     <h2 style="color: #0c4a6e; font-size: 20px; font-weight: 600; margin-bottom: 10px;">🔄 Status Update</h2>
     <p style="color: #075985; margin: 10px 0; font-size: 16px;">Your union loan application is now:</p>
     @if($unionLoan->status->value === 'approved')
-        <span style="display: inline-block; padding: 8px 20px; border-radius: 20px; font-size: 16px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; background: #10b981; color: white;">APPROVED</span>
+    <span style="display: inline-block; padding: 8px 20px; border-radius: 20px; font-size: 16px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; background: #10b981; color: white;">APPROVED</span>
     @elseif($unionLoan->status->value === 'rejected')
-        <span style="display: inline-block; padding: 8px 20px; border-radius: 20px; font-size: 16px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; background: #ef4444; color: white;">REJECTED</span>
+    <span style="display: inline-block; padding: 8px 20px; border-radius: 20px; font-size: 16px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; background: #ef4444; color: white;">REJECTED</span>
     @else
-        <span style="display: inline-block; padding: 8px 20px; border-radius: 20px; font-size: 16px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; background: #f59e0b; color: white;">{{ strtoupper($unionLoan->status->value) }}</span>
+    <span style="display: inline-block; padding: 8px 20px; border-radius: 20px; font-size: 16px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; background: #f59e0b; color: white;">{{ strtoupper($unionLoan->status->value) }}</span>
     @endif
 </div>
 
@@ -46,12 +46,14 @@
         </div>
         <div style="margin-bottom: 15px;">
             <div style="font-weight: 600; color: #374151; margin-bottom: 5px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px;">Duration</div>
-            <div style="color: #1f2937; font-size: 16px; line-height: 1.5;">{{ $unionLoan->duration_months }} months</div>
+            <div style="color: #1f2937; font-size: 16px; line-height: 1.5;">{{ $unionLoan->months }} months</div>
         </div>
+        @if($unionLoan->note)
         <div style="margin-bottom: 15px;">
-            <div style="font-weight: 600; color: #374151; margin-bottom: 5px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px;">Purpose</div>
-            <div style="color: #1f2937; font-size: 16px; line-height: 1.5;">{{ $unionLoan->purpose }}</div>
+            <div style="font-weight: 600; color: #374151; margin-bottom: 5px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px;">Note</div>
+            <div style="color: #1f2937; font-size: 16px; line-height: 1.5;">{{ $unionLoan->note }}</div>
         </div>
+        @endif
         <div style="margin-bottom: 15px;">
             <div style="font-weight: 600; color: #374151; margin-bottom: 5px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px;">Applied On</div>
             <div style="color: #1f2937; font-size: 16px; line-height: 1.5;">{{ $unionLoan->created_at->format('F j, Y') }}</div>

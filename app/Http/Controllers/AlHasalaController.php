@@ -25,7 +25,8 @@ class AlHasalaController extends Controller
             ->map(function ($alHasala) {
                 return [
                     'id' => $alHasala->id,
-                    'amount' => $alHasala->amount,
+                    'monthly_amount' => $alHasala->monthly_amount,
+                    'total_amount' => $alHasala->total_amount,
                     'months' => $alHasala->months,
                     'status' => $alHasala->status->value,
                     'status_label' => $alHasala->status->label(),
@@ -43,6 +44,7 @@ class AlHasalaController extends Controller
             'alHasalas' => $alHasalas,
             'settings' => $settings ? [
                 'max_months' => $settings->max_months,
+                'min_monthly_payment' => $settings->min_monthly_payment,
                 'is_active' => $settings->is_active,
             ] : null,
             'memberProfile' => $memberProfile ? [
@@ -64,6 +66,7 @@ class AlHasalaController extends Controller
         return Inertia::render('al-hasala/create', [
             'settings' => [
                 'max_months' => $settings->max_months,
+                'min_monthly_payment' => $settings->min_monthly_payment,
             ],
         ]);
     }
@@ -77,14 +80,14 @@ class AlHasalaController extends Controller
         }
 
         $validated = $request->validate([
-            'amount' => 'required|numeric|min:100|max:10000',
+            'monthly_amount' => "required|numeric|min:{$settings->min_monthly_payment}",
             'months' => "required|integer|min:1|max:{$settings->max_months}",
             'note' => 'nullable|string|max:1000',
         ]);
 
         $alHasala = AlHasala::create([
             'user_id' => Auth::id(),
-            'amount' => $validated['amount'],
+            'monthly_amount' => $validated['monthly_amount'],
             'months' => $validated['months'],
             'status' => LoanStatus::Pending,
             'note' => $validated['note'],
@@ -110,7 +113,8 @@ class AlHasalaController extends Controller
             'alHasala' => [
                 'id' => $alHasala->id,
                 'user_id' => $alHasala->user_id,
-                'amount' => $alHasala->amount,
+                'monthly_amount' => $alHasala->monthly_amount,
+                'total_amount' => $alHasala->total_amount,
                 'months' => $alHasala->months,
                 'status' => $alHasala->status->value,
                 'note' => $alHasala->note,

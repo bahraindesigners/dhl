@@ -18,6 +18,7 @@ class AlHasalaSettingsFactory extends Factory
     {
         return [
             'max_months' => 24,
+            'min_monthly_payment' => 50.00,
             'receivers' => ['admin@example.com'],
             'is_active' => true,
         ];

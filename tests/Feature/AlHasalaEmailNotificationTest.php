@@ -16,10 +16,11 @@ uses(RefreshDatabase::class);
 
 it('sends email notification when new al hasala is created', function () {
     Mail::fake();
-    
+
     // Create settings with email recipients
     AlHasalaSettings::create([
         'max_months' => 24,
+        'min_monthly_payment' => 50.00,
         'receivers' => [
             [
                 'name' => 'Al Hasala Admin',
@@ -35,18 +36,19 @@ it('sends email notification when new al hasala is created', function () {
 
     $user = User::factory()->create();
     MemberProfile::factory()->create(['user_id' => $user->id]);
-    
+
     $alHasala = AlHasala::create([
         'user_id' => $user->id,
-        'amount' => 2000,
+        'monthly_amount' => 100,
         'months' => 12,
+        'total_amount' => 1200,
         'status' => 'pending',
         'note' => 'Test Al Hasala application',
     ]);
 
     // Assert that emails were sent to the configured recipients
     Mail::assertSent(NewAlHasalaNotification::class);
-    
+
     Mail::assertSent(NewAlHasalaNotification::class, function ($mail) use ($alHasala) {
         return $mail->alHasala->id === $alHasala->id;
     });
@@ -58,17 +60,19 @@ it('sends email notification when al hasala status is updated', function () {
     // Create settings for consistency
     AlHasalaSettings::create([
         'max_months' => 24,
+        'min_monthly_payment' => 50.00,
         'receivers' => [['name' => 'Admin', 'email' => 'admin@test.com']],
         'is_active' => true,
     ]);
 
     $user = User::factory()->create();
     MemberProfile::factory()->create(['user_id' => $user->id]);
-    
+
     $alHasala = AlHasala::create([
         'user_id' => $user->id,
-        'amount' => 1500,
+        'monthly_amount' => 150,
         'months' => 10,
+        'total_amount' => 1500,
         'status' => 'pending',
     ]);
 
@@ -77,7 +81,7 @@ it('sends email notification when al hasala status is updated', function () {
 
     // Assert that status update email was sent to the user
     Mail::assertSent(AlHasalaStatusUpdated::class);
-    
+
     Mail::assertSent(AlHasalaStatusUpdated::class, function ($mail) use ($alHasala, $user) {
         return $mail->alHasala->id === $alHasala->id && $mail->hasTo($user->email);
     });
@@ -85,10 +89,11 @@ it('sends email notification when al hasala status is updated', function () {
 
 it('does not send new al hasala notification when disabled in config', function () {
     Mail::fake();
-    
+
     // Create settings with notifications disabled
     AlHasalaSettings::create([
         'max_months' => 24,
+        'min_monthly_payment' => 50.00,
         'receivers' => [
             [
                 'name' => 'Al Hasala Admin',
@@ -100,11 +105,12 @@ it('does not send new al hasala notification when disabled in config', function 
 
     $user = User::factory()->create();
     MemberProfile::factory()->create(['user_id' => $user->id]);
-    
+
     AlHasala::create([
         'user_id' => $user->id,
-        'amount' => 2000,
+        'monthly_amount' => 100,
         'months' => 12,
+        'total_amount' => 1200,
         'status' => 'pending',
     ]);
 
@@ -114,10 +120,11 @@ it('does not send new al hasala notification when disabled in config', function 
 
 it('filters out invalid email addresses in admin notifications', function () {
     Mail::fake();
-    
+
     // Create settings with mix of valid and invalid email addresses
     AlHasalaSettings::create([
         'max_months' => 24,
+        'min_monthly_payment' => 50.00,
         'receivers' => [
             [
                 'name' => 'Valid Admin',
@@ -137,17 +144,18 @@ it('filters out invalid email addresses in admin notifications', function () {
 
     $user = User::factory()->create();
     MemberProfile::factory()->create(['user_id' => $user->id]);
-    
+
     AlHasala::create([
         'user_id' => $user->id,
-        'amount' => 2000,
+        'monthly_amount' => 100,
         'months' => 12,
+        'total_amount' => 1200,
         'status' => 'pending',
     ]);
 
     // Assert that emails were sent (to valid addresses only)
     Mail::assertSent(NewAlHasalaNotification::class);
-    
+
     // We should expect at least 2 emails for the 2 valid addresses
     $sentMails = Mail::sent(NewAlHasalaNotification::class);
     expect($sentMails->count())->toBeGreaterThanOrEqual(2);

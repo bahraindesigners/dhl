@@ -20,7 +20,15 @@ class AlHasalaSettingsForm
                     ->maxValue(120)
                     ->suffix('months')
                     ->label('Maximum Al Hasala Duration')
-                    ->helperText('Maximum number of months allowed for Al Hasala repayment'),
+                    ->helperText('Maximum number of months allowed for Al Hasala savings plan'),
+                TextInput::make('min_monthly_payment')
+                    ->required()
+                    ->numeric()
+                    ->minValue(1)
+                    ->step(0.01)
+                    ->prefix('BD')
+                    ->label('Minimum Monthly Payment')
+                    ->helperText('Minimum amount that must be saved monthly'),
                 Repeater::make('receivers')
                     ->label('Notification Recipients')
                     ->schema([

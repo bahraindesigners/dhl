@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { 
+import {
     Plus,
     Banknote,
     Calendar,
@@ -31,6 +31,8 @@ interface AlHasalaApplication {
 
 interface AlHasalaSettings {
     max_months: number;
+    min_amount: number;
+    min_monthly_payment: number;
     is_active: boolean;
 }
 
@@ -79,7 +81,7 @@ export default function AlHasalaIndex({ alHasalas, settings, memberProfile }: Al
     return (
         <NavbarLayout>
             <Head title={t('alHasala.title')} />
-            
+
             <div className="container mx-auto px-4 py-8 space-y-8" dir={isRtl ? 'rtl' : 'ltr'}>
                 {/* Flash Messages */}
                 {flash?.success && (
@@ -88,7 +90,7 @@ export default function AlHasalaIndex({ alHasalas, settings, memberProfile }: Al
                         <AlertDescription>{flash.success}</AlertDescription>
                     </Alert>
                 )}
-                
+
                 {flash?.error && (
                     <Alert className="bg-red-50 border-red-200 text-red-800">
                         <XCircle className="h-4 w-4" />
@@ -103,7 +105,7 @@ export default function AlHasalaIndex({ alHasalas, settings, memberProfile }: Al
                             <h1 className="text-3xl font-bold tracking-tight">{t('alHasala.title')}</h1>
                             <p className="text-muted-foreground">{t('alHasala.description')}</p>
                         </div>
-                        
+
                         {settings?.is_active ? (
                             <Button asChild size="lg">
                                 <Link href="/al-hasala/create">
@@ -181,8 +183,8 @@ export default function AlHasalaIndex({ alHasalas, settings, memberProfile }: Al
                                             <CardTitle className="text-lg">
                                                 {t('alHasala.application')} #{alHasala.id}
                                             </CardTitle>
-                                            <Badge 
-                                                variant="outline" 
+                                            <Badge
+                                                variant="outline"
                                                 className={getStatusColor(alHasala.status)}
                                             >
                                                 {getStatusIcon(alHasala.status)}
@@ -262,7 +264,15 @@ export default function AlHasalaIndex({ alHasalas, settings, memberProfile }: Al
                             <div className="space-y-3 text-sm">
                                 <div className="flex items-center space-x-2">
                                     <CheckCircle2 className="h-4 w-4 text-green-600" />
-                                    <span>{t('alHasala.maxDuration')}: {settings.max_months} {t('alHasala.months')}</span>
+                                    <span>{t('alHasala.amountRangeGuideline', { min: settings.min_amount })}</span>
+                                </div>
+                                <div className="flex items-center space-x-2">
+                                    <CheckCircle2 className="h-4 w-4 text-green-600" />
+                                    <span>{t('alHasala.durationRange', { max: settings.max_months })}</span>
+                                </div>
+                                <div className="flex items-center space-x-2">
+                                    <CheckCircle2 className="h-4 w-4 text-green-600" />
+                                    <span>{t('alHasala.minMonthlyPayment', { minPayment: settings.min_monthly_payment })}</span>
                                 </div>
                                 <div className="flex items-center space-x-2">
                                     <CheckCircle2 className="h-4 w-4 text-green-600" />
