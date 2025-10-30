@@ -42,6 +42,9 @@ class UnionLoanController extends Controller
             'loans' => $loans,
             'settings' => $settings ? [
                 'max_months' => $settings->max_months,
+                'min_amount' => $settings->min_amount,
+                'max_amount' => $settings->max_amount,
+                'min_monthly_payment' => $settings->min_monthly_payment,
                 'is_active' => $settings->is_active,
             ] : null,
             'memberProfile' => $memberProfile ? [
@@ -63,6 +66,9 @@ class UnionLoanController extends Controller
         return Inertia::render('loans/create', [
             'settings' => [
                 'max_months' => $settings->max_months,
+                'min_amount' => $settings->min_amount,
+                'max_amount' => $settings->max_amount,
+                'min_monthly_payment' => $settings->min_monthly_payment,
             ],
         ]);
     }
@@ -76,10 +82,26 @@ class UnionLoanController extends Controller
         }
 
         $validated = $request->validate([
-            'amount' => 'required|numeric|min:100|max:10000',
-            'months' => "required|integer|min:1|max:{$settings->max_months}",
+            'amount' => [
+                'required',
+                'numeric',
+                "min:{$settings->min_amount}",
+                "max:{$settings->max_amount}",
+            ],
+            'months' => [
+                'required',
+                'integer',
+                'min:1',
+                "max:{$settings->max_months}",
+            ],
             'note' => 'nullable|string|max:1000',
         ]);
+
+        // Additional validation for minimum monthly payment
+        if (! $settings->isValidLoanCombination($validated['amount'], $validated['months'])) {
+            $error = $settings->getValidationError($validated['amount'], $validated['months']);
+            return back()->withErrors(['amount' => $error])->withInput();
+        }
 
         $loan = UnionLoan::create([
             'user_id' => Auth::id(),

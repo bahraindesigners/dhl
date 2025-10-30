@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { 
+import {
     Plus,
     Banknote,
     Calendar,
@@ -31,6 +31,9 @@ interface LoanApplication {
 
 interface LoanSettings {
     max_months: number;
+    min_amount: number;
+    max_amount: number;
+    min_monthly_payment: number;
     is_active: boolean;
 }
 
@@ -79,7 +82,7 @@ export default function LoansIndex({ loans, settings, memberProfile }: LoansInde
     return (
         <NavbarLayout>
             <Head title={t('loans.title')} />
-            
+
             <div className="container mx-auto px-4 py-8 space-y-8">
                 {/* Flash Messages */}
                 {flash?.success && (
@@ -88,7 +91,7 @@ export default function LoansIndex({ loans, settings, memberProfile }: LoansInde
                         <AlertDescription>{flash.success}</AlertDescription>
                     </Alert>
                 )}
-                
+
                 {flash?.error && (
                     <Alert className="bg-red-50 border-red-200 text-red-800">
                         <XCircle className="h-4 w-4" />
@@ -103,7 +106,7 @@ export default function LoansIndex({ loans, settings, memberProfile }: LoansInde
                             <h1 className="text-3xl font-bold tracking-tight">{t('loans.title')}</h1>
                             <p className="text-muted-foreground">{t('loans.description')}</p>
                         </div>
-                        
+
                         {settings?.is_active ? (
                             <Button asChild size="lg">
                                 <Link href="/loans/create">
@@ -181,8 +184,8 @@ export default function LoansIndex({ loans, settings, memberProfile }: LoansInde
                                             <CardTitle className="text-lg">
                                                 {t('loans.application')} #{loan.id}
                                             </CardTitle>
-                                            <Badge 
-                                                variant="outline" 
+                                            <Badge
+                                                variant="outline"
                                                 className={getStatusColor(loan.status)}
                                             >
                                                 {getStatusIcon(loan.status)}
@@ -262,7 +265,15 @@ export default function LoansIndex({ loans, settings, memberProfile }: LoansInde
                             <div className="space-y-3 text-sm">
                                 <div className="flex items-center space-x-2">
                                     <CheckCircle2 className="h-4 w-4 text-green-600" />
-                                    <span>{t('loans.maxDuration')}: {settings.max_months} {t('loans.months')}</span>
+                                    <span>{t('loans.amountRangeGuideline', { min: settings.min_amount, max: settings.max_amount })}</span>
+                                </div>
+                                <div className="flex items-center space-x-2">
+                                    <CheckCircle2 className="h-4 w-4 text-green-600" />
+                                    <span>{t('loans.durationRange', { max: settings.max_months })}</span>
+                                </div>
+                                <div className="flex items-center space-x-2">
+                                    <CheckCircle2 className="h-4 w-4 text-green-600" />
+                                    <span>{t('loans.minMonthlyPayment', { minPayment: settings.min_monthly_payment })}</span>
                                 </div>
                                 <div className="flex items-center space-x-2">
                                     <CheckCircle2 className="h-4 w-4 text-green-600" />

@@ -14,6 +14,9 @@ class UnionLoanSettingsSeeder extends Seeder
     {
         UnionLoanSettings::create([
             'max_months' => 36, // 3 years maximum
+            'min_amount' => 100.00, // Minimum loan amount
+            'max_amount' => 10000.00, // Maximum loan amount
+            'min_monthly_payment' => 75.00, // Minimum monthly payment requirement
             'receivers' => [
                 [
                     'email' => 'admin@dhl.test',

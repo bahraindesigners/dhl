@@ -9,7 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { 
+import {
     ArrowLeft,
     Banknote,
     Calendar,
@@ -20,6 +20,9 @@ import {
 
 interface LoanSettings {
     max_months: number;
+    min_amount: number;
+    max_amount: number;
+    min_monthly_payment: number;
 }
 
 interface CreateLoanProps {
@@ -35,6 +38,33 @@ export default function CreateLoan({ settings }: CreateLoanProps) {
         months: '',
         note: '',
     });
+
+    // Calculate monthly payment
+    const monthlyPayment = data.amount && data.months ?
+        Math.round((parseFloat(data.amount) / parseInt(data.months)) * 100) / 100 : 0;
+
+    // Check if monthly payment meets minimum requirement
+    const isValidMonthlyPayment = monthlyPayment >= settings.min_monthly_payment;
+
+    // Calculate maximum duration for current amount
+    const maxDurationForAmount = data.amount ?
+        Math.floor(parseFloat(data.amount) / settings.min_monthly_payment) : 0;
+
+    // Calculate suggested duration for minimum payment
+    const suggestedDuration = data.amount ?
+        Math.ceil(parseFloat(data.amount) / settings.min_monthly_payment) : 0;
+
+    // Validation states
+    const isValidAmount = data.amount &&
+        parseFloat(data.amount) >= settings.min_amount &&
+        parseFloat(data.amount) <= settings.max_amount;
+
+    const isValidDuration = data.months &&
+        parseInt(data.months) >= 1 &&
+        parseInt(data.months) <= settings.max_months &&
+        parseInt(data.months) <= maxDurationForAmount;
+
+    const isFormValid = isValidAmount && isValidDuration && isValidMonthlyPayment;
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -54,7 +84,7 @@ export default function CreateLoan({ settings }: CreateLoanProps) {
     return (
         <NavbarLayout>
             <Head title={t('loans.applyForLoan')} />
-            
+
             <div className="container mx-auto px-4 py-8">
                 {/* Header */}
                 <div className="mb-8">
@@ -92,13 +122,13 @@ export default function CreateLoan({ settings }: CreateLoanProps) {
                                             <Input
                                                 id="amount"
                                                 type="number"
-                                                min="100"
-                                                max="10000"
+                                                min={settings.min_amount}
+                                                max={settings.max_amount}
                                                 step="50"
                                                 value={data.amount}
                                                 onChange={(e) => setData('amount', e.target.value)}
-                                                placeholder="1000"
-                                                className="pl-12"
+                                                placeholder={settings.min_amount.toString()}
+                                                className={`pl-12 ${!isValidAmount && data.amount ? 'border-red-500' : ''}`}
                                                 required
                                             />
                                             <div className="absolute inset-y-0 left-0 flex items-center pl-3">
@@ -108,8 +138,13 @@ export default function CreateLoan({ settings }: CreateLoanProps) {
                                         {errors.amount && (
                                             <p className="text-sm text-red-600">{errors.amount}</p>
                                         )}
+                                        {!isValidAmount && data.amount && !errors.amount && (
+                                            <p className="text-sm text-red-600">
+                                                {t('loans.amountMustBeBetween', { min: settings.min_amount, max: settings.max_amount })}
+                                            </p>
+                                        )}
                                         <p className="text-sm text-muted-foreground">
-                                            {t('loans.amountRange')}
+                                            {t('loans.amountRange', { min: settings.min_amount, max: settings.max_amount })}
                                         </p>
                                     </div>
 
@@ -121,11 +156,11 @@ export default function CreateLoan({ settings }: CreateLoanProps) {
                                                 id="months"
                                                 type="number"
                                                 min="1"
-                                                max={settings.max_months}
+                                                max={Math.min(settings.max_months, maxDurationForAmount || settings.max_months)}
                                                 value={data.months}
                                                 onChange={(e) => setData('months', e.target.value)}
-                                                placeholder="12"
-                                                className="pr-16"
+                                                placeholder={suggestedDuration.toString()}
+                                                className={`pr-16 ${!isValidDuration && data.months ? 'border-red-500' : ''}`}
                                                 required
                                             />
                                             <div className="absolute inset-y-0 right-0 flex items-center pr-3">
@@ -135,9 +170,25 @@ export default function CreateLoan({ settings }: CreateLoanProps) {
                                         {errors.months && (
                                             <p className="text-sm text-red-600">{errors.months}</p>
                                         )}
-                                        <p className="text-sm text-muted-foreground">
-                                            {t('loans.maxDuration')}: {settings.max_months} {t('loans.months')}
-                                        </p>
+                                        {!isValidDuration && data.months && !errors.months && (
+                                            <p className="text-sm text-red-600">
+                                                {t('loans.maxDurationForAmount', { duration: maxDurationForAmount })}
+                                            </p>
+                                        )}
+                                        <div className="space-y-1">
+                                            <p className="text-sm text-muted-foreground">
+                                                {t('loans.maxDuration', { max: settings.max_months })}
+                                            </p>
+                                            {data.amount && maxDurationForAmount < settings.max_months && (
+                                                <p className="text-sm text-amber-600">
+                                                    {t('loans.maxDurationWarning', {
+                                                        amount: data.amount,
+                                                        duration: maxDurationForAmount,
+                                                        minPayment: settings.min_monthly_payment
+                                                    })}
+                                                </p>
+                                            )}
+                                        </div>
                                     </div>
 
                                     {/* Note */}
@@ -161,9 +212,9 @@ export default function CreateLoan({ settings }: CreateLoanProps) {
 
                                     {/* Submit Button */}
                                     <div className="flex items-center space-x-4 pt-6">
-                                        <Button 
-                                            type="submit" 
-                                            disabled={processing || isSubmitting}
+                                        <Button
+                                            type="submit"
+                                            disabled={processing || isSubmitting || !isFormValid}
                                             className="flex-1 sm:flex-none"
                                         >
                                             {(processing || isSubmitting) ? (
@@ -206,14 +257,29 @@ export default function CreateLoan({ settings }: CreateLoanProps) {
                                         <span className="text-sm text-muted-foreground">{t('loans.duration')}:</span>
                                         <span className="font-medium">{data.months} {t('loans.months')}</span>
                                     </div>
-                                    <div className="flex justify-between">
+                                    <div className="flex justify-between border-t pt-2">
                                         <span className="text-sm text-muted-foreground">{t('loans.monthlyAmount')}:</span>
-                                        <span className="font-medium">
-                                            BD {data.amount && data.months ? 
-                                                Math.round((parseFloat(data.amount) / parseInt(data.months)) * 100) / 100 
-                                                : '0'}
+                                        <span className={`font-medium ${isValidMonthlyPayment ? 'text-green-600' : 'text-red-600'}`}>
+                                            BD {monthlyPayment}
                                         </span>
                                     </div>
+                                    {!isValidMonthlyPayment && monthlyPayment > 0 && (
+                                        <div className="bg-red-50 border border-red-200 rounded-lg p-3">
+                                            <p className="text-sm text-red-700">
+                                                {t('loans.monthlyPaymentMinimum', { minPayment: settings.min_monthly_payment })}
+                                            </p>
+                                            <p className="text-xs text-red-600 mt-1">
+                                                {t('loans.suggestedDuration', { duration: suggestedDuration })}
+                                            </p>
+                                        </div>
+                                    )}
+                                    {isValidMonthlyPayment && monthlyPayment > 0 && (
+                                        <div className="bg-green-50 border border-green-200 rounded-lg p-3">
+                                            <p className="text-sm text-green-700">
+                                                {t('loans.monthlyPaymentValid')}
+                                            </p>
+                                        </div>
+                                    )}
                                 </CardContent>
                             </Card>
                         )}
@@ -233,17 +299,29 @@ export default function CreateLoan({ settings }: CreateLoanProps) {
                                 </div>
                                 <div className="flex items-start space-x-2">
                                     <CheckCircle2 className="h-4 w-4 text-green-600 mt-0.5" />
-                                    <span className="text-sm">{t('loans.reviewProcess')}</span>
+                                    <span className="text-sm">
+                                        {t('loans.amountRangeGuideline', { min: settings.min_amount, max: settings.max_amount })}
+                                    </span>
                                 </div>
                                 <div className="flex items-start space-x-2">
                                     <CheckCircle2 className="h-4 w-4 text-green-600 mt-0.5" />
                                     <span className="text-sm">
-                                        {t('loans.maxDuration')}: {settings.max_months} {t('loans.months')}
+                                        {t('loans.durationRange', { max: settings.max_months })}
+                                    </span>
+                                </div>
+                                <div className="flex items-start space-x-2">
+                                    <CheckCircle2 className="h-4 w-4 text-green-600 mt-0.5" />
+                                    <span className="text-sm">
+                                        {t('loans.minMonthlyPayment', { minPayment: settings.min_monthly_payment })}
                                     </span>
                                 </div>
                                 <div className="flex items-start space-x-2">
                                     <CheckCircle2 className="h-4 w-4 text-green-600 mt-0.5" />
                                     <span className="text-sm">{t('loans.noInterest')}</span>
+                                </div>
+                                <div className="flex items-start space-x-2">
+                                    <CheckCircle2 className="h-4 w-4 text-green-600 mt-0.5" />
+                                    <span className="text-sm">{t('loans.reviewProcess')}</span>
                                 </div>
                             </CardContent>
                         </Card>

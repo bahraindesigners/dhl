@@ -9,7 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { 
+import {
     ArrowLeft,
     Banknote,
     Calendar,
@@ -54,7 +54,7 @@ export default function CreateAlHasala({ settings }: CreateAlHasalaProps) {
     return (
         <NavbarLayout>
             <Head title={t('alHasala.applyForAlHasala')} />
-            
+
             <div className="container mx-auto px-4 py-8">
                 {/* Header */}
                 <div className="mb-8">
@@ -161,8 +161,8 @@ export default function CreateAlHasala({ settings }: CreateAlHasalaProps) {
 
                                     {/* Submit Button */}
                                     <div className="flex items-center space-x-4 pt-6">
-                                        <Button 
-                                            type="submit" 
+                                        <Button
+                                            type="submit"
                                             disabled={processing || isSubmitting}
                                             className="flex-1 sm:flex-none"
                                         >
@@ -209,8 +209,8 @@ export default function CreateAlHasala({ settings }: CreateAlHasalaProps) {
                                     <div className="flex justify-between">
                                         <span className="text-sm text-muted-foreground">{t('alHasala.monthlyAmount')}:</span>
                                         <span className="font-medium">
-                                            BD {data.amount && data.months ? 
-                                                Math.round((parseFloat(data.amount) / parseInt(data.months)) * 100) / 100 
+                                            BD {data.amount && data.months ?
+                                                Math.round((parseFloat(data.amount) / parseInt(data.months)) * 100) / 100
                                                 : '0'}
                                         </span>
                                     </div>
